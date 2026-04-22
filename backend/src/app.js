@@ -34,6 +34,11 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // ==================== RUTAS ====================
 
+// Raíz - para UptimeRobot y verificación de disponibilidad
+app.get('/', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
 // Health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
