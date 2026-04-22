@@ -146,8 +146,8 @@ function CustomerDashboard() {
   // Cargar talleres reales desde el backend
   const { data: workshopCatalog, loading: loadingWorkshops, error: errorWorkshops } = useFetch(() => getWorkshops())
 
-  // Cargar obras reales desde el backend
-  const { data: obrasCatalog, loading: loadingObras, error: errorObras } = useFetch(() => getArtworks())
+  // Cargar obras reales desde el backend (solo visibles)
+  const { data: obrasCatalog, loading: loadingObras, error: errorObras } = useFetch(() => getArtworks({ visibleOnly: true }))
 
   const catalogCategories = CATEGORIAS_CON_TODOS
 

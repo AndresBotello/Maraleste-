@@ -42,6 +42,8 @@ export async function createArtwork(formData, imagenFile = null) {
   payload.append('procesoObra', formData.procesoObra || '')
   payload.append('historiaObra', formData.historiaObra || '')
   payload.append('videoURL', formData.videoURL || '')
+  // Enviar visible como string explícitamente
+  payload.append('visible', String(formData.visible !== undefined ? formData.visible : true))
 
   // Imagen — archivo real, se sube a Cloudinary en el backend
   if (imagenFile) {
@@ -57,13 +59,26 @@ export async function createArtwork(formData, imagenFile = null) {
 /**
  * Obtiene todas las obras desde el backend.
  * Ruta pública — no requiere token.
- * @param {string|null} modalidad - Filtro opcional
+ * @param {Object} options - Opciones de filtrado
+ * @param {string|null} options.modalidad - Filtro opcional
+ * @param {boolean} options.visibleOnly - Si true, devuelve solo obras visibles (default: false)
  * @returns {Promise<Array>}
  */
-export async function getArtworks(modalidad = null) {
-  const query = modalidad ? `?modalidad=${modalidad}` : ''
+export async function getArtworks(options = {}) {
+  const { modalidad = null, visibleOnly = false } = options;
+  const params = new URLSearchParams();
+  
+  if (modalidad) params.append('modalidad', modalidad);
+  if (visibleOnly) params.append('visibleOnly', 'true');
+  
+  const query = params.toString() ? `?${params.toString()}` : '';
   const response = await api.get(`/artworks${query}`)
-  return response.data
+  
+  // Normalizar: obras sin visible son consideradas visibles
+  return (response.data || []).map(obra => ({
+    ...obra,
+    visible: obra.visible !== false
+  }));
 }
 
 // ==================== OBTENER OBRA POR ID ====================
@@ -103,6 +118,10 @@ export async function updateArtwork(artworkId, formData, imagenFile = null) {
   payload.append('procesoObra', formData.procesoObra || '')
   payload.append('historiaObra', formData.historiaObra || '')
   payload.append('videoURL', formData.videoURL || '')
+  // Enviar visible como string explícitamente si está definido
+  if (formData.visible !== undefined) {
+    payload.append('visible', String(formData.visible))
+  }
 
   if (imagenFile) {
     payload.append('imagen', imagenFile)
@@ -125,4 +144,20 @@ export async function deleteArtwork(artworkId) {
 
   const response = await api.delete(`/artworks/${artworkId}`, { token })
   return response
+}
+
+// ==================== CAMBIAR VISIBILIDAD ====================
+
+/**
+ * Cambia la visibilidad de una obra.
+ * @param {string} artworkId - ID de la obra
+ * @param {boolean} visible - Estado de visibilidad
+ * @returns {Promise<Object>} Obra actualizada
+ */
+export async function toggleArtworkVisibility(artworkId, visible) {
+  const token = await getToken()
+  if (!token) throw new Error('Debes iniciar sesión para cambiar la visibilidad')
+
+  const response = await api.patch(`/artworks/${artworkId}/visibility`, { visible }, { token })
+  return response.data
 }

@@ -56,6 +56,16 @@ function validateArtwork(data) {
  * @returns {Object} Obra lista para Firestore
  */
 function buildArtworkData(data, imagenUrl, imagenPublicId, uid) {
+  // Convertir 'visible' correctamente (puede venir como string desde FormData)
+  let visible = true;
+  if (data.visible !== undefined) {
+    if (typeof data.visible === 'string') {
+      visible = data.visible === 'true';
+    } else {
+      visible = Boolean(data.visible);
+    }
+  }
+
   return {
     titulo: data.titulo.trim(),
     autor: data.autor.trim(),
@@ -71,6 +81,7 @@ function buildArtworkData(data, imagenUrl, imagenPublicId, uid) {
     imagenPublicId: imagenPublicId,
     estado: data.estado || "disponible",
     precio: data.precio ? Number(data.precio) : null,
+    visible: visible,
     creadoPor: uid,
   };
 }

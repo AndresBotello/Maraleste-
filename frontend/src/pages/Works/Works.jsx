@@ -10,8 +10,8 @@ function Works() {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false)
   const categoryMenuRef = useRef(null)
 
-  // Cargar obras reales desde el backend
-  const { data: obras, loading, error } = useFetch(() => getArtworks())
+  // Cargar obras reales desde el backend (solo visibles)
+  const { data: obras, loading, error } = useFetch(() => getArtworks({ visibleOnly: true }))
 
   const categorias = [
     { id: 'todos', nombre: 'Todas las Obras' },

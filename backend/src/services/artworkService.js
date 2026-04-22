@@ -49,23 +49,38 @@ async function createArtwork(data, file = null, uid) {
 // ==================== OBTENER TODAS LAS OBRAS ====================
 
 /**
- * Obtiene todas las obras, opcionalmente filtradas por modalidad.
+ * Obtiene todas las obras, opcionalmente filtradas por modalidad y visibilidad.
  * @param {string|null} modalidad - Filtro por modalidad (opcional)
+ * @param {boolean|null} visibleOnly - Si es true, solo devuelve obras visibles (opcional)
  * @returns {Promise<Array>}
  */
-async function getArtworks(modalidad = null) {
+async function getArtworks(modalidad = null, visibleOnly = false) {
   let query = db.collection(ARTWORK_COLLECTION).orderBy("creadoEn", "desc");
 
+  // Solo aplicar filtro de modalidad en el query
   if (modalidad) {
     query = query.where("modalidad", "==", modalidad);
   }
 
   const snapshot = await query.get();
 
-  return snapshot.docs.map((doc) => ({
+  let artworks = snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
+
+  // Filtrar por visibilidad en memoria (evita problemas con índices compuestos)
+  if (visibleOnly) {
+    artworks = artworks.filter(art => art.visible !== false);
+  }
+
+  // Normalizar: obras sin visible son consideradas visibles
+  artworks = artworks.map(art => ({
+    ...art,
+    visible: art.visible !== false ? true : false
+  }));
+
+  return artworks;
 }
 
 // ==================== OBTENER OBRA POR ID ====================
@@ -122,6 +137,10 @@ async function updateArtwork(id, data, file = null, uid) {
   updatedData.actualizadoEn = admin.firestore.FieldValue.serverTimestamp();
   // Mantener la fecha de creación original
   updatedData.creadoEn = existing.data().creadoEn;
+  // Mantener la visibilidad original si no se especifica
+  if (data.visible === undefined) {
+    updatedData.visible = existing.data().visible !== undefined ? existing.data().visible : true;
+  }
 
   await docRef.update(updatedData);
 
@@ -158,10 +177,41 @@ async function deleteArtwork(id, uid) {
   await docRef.delete();
 }
 
+// ==================== ACTUALIZAR VISIBILIDAD ====================
+
+/**
+ * Actualiza la visibilidad de una obra.
+ * @param {string} id - ID de la obra
+ * @param {boolean} visible - Estado de visibilidad
+ * @returns {Promise<Object>} Obra actualizada
+ */
+async function updateArtworkVisibility(id, visible) {
+  const docRef = db.collection(ARTWORK_COLLECTION).doc(id);
+  const existing = await docRef.get();
+
+  if (!existing.exists) {
+    const error = new Error("Obra no encontrada");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  await docRef.update({
+    visible: Boolean(visible),
+    actualizadoEn: admin.firestore.FieldValue.serverTimestamp(),
+  });
+
+  const updated = await docRef.get();
+  return {
+    id,
+    ...updated.data(),
+  };
+}
+
 module.exports = {
   createArtwork,
   getArtworks,
   getArtworkById,
   updateArtwork,
   deleteArtwork,
+  updateArtworkVisibility,
 };

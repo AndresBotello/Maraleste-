@@ -63,6 +63,9 @@ const api = {
   put: (endpoint, body, options = {}) =>
     apiFetch(endpoint, { method: "PUT", body, ...options }),
 
+  patch: (endpoint, body, options = {}) =>
+    apiFetch(endpoint, { method: "PATCH", body, ...options }),
+
   delete: (endpoint, options = {}) =>
     apiFetch(endpoint, { method: "DELETE", ...options }),
 };

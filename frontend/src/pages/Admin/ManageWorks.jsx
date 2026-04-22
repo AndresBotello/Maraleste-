@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import AdminLayout from '../../components/layouts/AdminLayout'
-import { createArtwork, getArtworks, deleteArtwork } from '../../services/artworkService'
+import { createArtwork, getArtworks, deleteArtwork, toggleArtworkVisibility } from '../../services/artworkService'
 
 const INITIAL_FORM = {
   titulo: '',
@@ -14,6 +14,7 @@ const INITIAL_FORM = {
   procesoObra: '',
   historiaObra: '',
   videoURL: '',
+  visible: true,
 }
 
 function ManageWorks() {
@@ -25,6 +26,7 @@ function ManageWorks() {
   const [loading, setLoading] = useState(false)
   const [loadingObras, setLoadingObras] = useState(true)
   const [message, setMessage] = useState({ text: '', type: '' })
+  const [loadingVisibility, setLoadingVisibility] = useState({})
   const fileInputRef = useRef(null)
 
   // Cargar obras al montar
@@ -110,6 +112,27 @@ function ManageWorks() {
       setMessage({ text: err.message || 'Error al eliminar la obra', type: 'error' })
     }
   }
+
+  const handleToggleVisibility = async (id, currentVisible) => {
+    setLoadingVisibility((prev) => ({ ...prev, [id]: true }))
+    try {
+      const updatedObra = await toggleArtworkVisibility(id, !currentVisible)
+      setObras((prevObras) =>
+        prevObras.map((obra) => (obra.id === id ? updatedObra : obra))
+      )
+      setMessage({
+        text: `Obra ${updatedObra.visible ? 'visible' : 'oculta'} correctamente.`,
+        type: 'success',
+      })
+    } catch (err) {
+      setMessage({ text: err.message || 'Error al cambiar visibilidad', type: 'error' })
+    } finally {
+      setLoadingVisibility((prev) => ({ ...prev, [id]: false }))
+    }
+  }
+
+  // Helper para normalizar visibilidad (obras sin el campo son visibles por defecto)
+  const isObraVisible = (obra) => obra.visible !== false
 
   // Limpiar URL de preview al desmontar
   useEffect(() => {
@@ -302,6 +325,22 @@ function ManageWorks() {
               />
             </div>
 
+            {/* Visibilidad */}
+            <div className="md:col-span-2">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="visible"
+                  checked={formData.visible}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, visible: e.target.checked }))}
+                  className="w-4 h-4 accent-black"
+                />
+                <span className="text-sm text-gray-700 font-light">
+                  Mostrar esta obra en la galería (hacerla visible para los clientes)
+                </span>
+              </label>
+            </div>
+
             {/* Subida de Imagen */}
             <div className="md:col-span-2">
               <label className="block text-[11px] uppercase tracking-[0.5em] text-gray-500 font-semibold mb-4">
@@ -423,7 +462,16 @@ function ManageWorks() {
                     </div>
                   )}
                   <div className="p-6">
-                    <h4 className="font-light text-lg text-black mb-1">{obra.titulo}</h4>
+                    <div className="flex items-start justify-between gap-2 mb-3">
+                      <h4 className="font-light text-lg text-black">{obra.titulo}</h4>
+                      <span className={`px-3 py-1 text-[10px] uppercase tracking-wider font-semibold rounded-full whitespace-nowrap ${
+                        isObraVisible(obra)
+                          ? 'bg-green-50 text-green-700'
+                          : 'bg-gray-100 text-gray-600'
+                      }`}>
+                        {isObraVisible(obra) ? 'Visible' : 'Oculta'}
+                      </span>
+                    </div>
                     <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">
                       {obra.autor} · {obra.anio} · {obra.modalidad}
                     </p>
@@ -436,6 +484,28 @@ function ManageWorks() {
                       >
                         Editar
                       </Link>
+                      <button
+                        onClick={() => handleToggleVisibility(obra.id, isObraVisible(obra))}
+                        disabled={loadingVisibility[obra.id]}
+                        className={`flex-1 px-4 py-2 border text-[10px] uppercase tracking-wider font-medium transition ${
+                          isObraVisible(obra)
+                            ? 'border-yellow-300 text-yellow-600 hover:bg-yellow-50 disabled:bg-yellow-100'
+                            : 'border-green-300 text-green-600 hover:bg-green-50 disabled:bg-green-100'
+                        }`}
+                      >
+                        {loadingVisibility[obra.id] ? (
+                          <span className="flex items-center justify-center gap-1">
+                            <svg className="animate-spin h-3 w-3" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                            </svg>
+                          </span>
+                        ) : isObraVisible(obra) ? (
+                          'Ocultar'
+                        ) : (
+                          'Mostrar'
+                        )}
+                      </button>
                       <button
                         onClick={() => handleDelete(obra.id)}
                         className="flex-1 px-4 py-2 border border-red-300 text-red-600 text-[10px] uppercase tracking-wider font-medium hover:bg-red-50 transition"

@@ -33,8 +33,9 @@ const create = asyncHandler(async (req, res) => {
 // ==================== OBTENER TODAS ====================
 
 const getAll = asyncHandler(async (req, res) => {
-  const { modalidad } = req.query;
-  const artworks = await artworkService.getArtworks(modalidad || null);
+  const { modalidad, visibleOnly } = req.query;
+  const visibleOnlyBool = visibleOnly === 'true';
+  const artworks = await artworkService.getArtworks(modalidad || null, visibleOnlyBool);
 
   res.json({
     message: "Obras obtenidas",
@@ -85,10 +86,31 @@ const remove = asyncHandler(async (req, res) => {
   res.json({ message: "Obra eliminada exitosamente" });
 });
 
+// ==================== CAMBIAR VISIBILIDAD ====================
+
+const toggleVisibility = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { visible } = req.body;
+
+  if (visible === undefined || visible === null) {
+    return res.status(400).json({
+      error: "El campo 'visible' es obligatorio",
+    });
+  }
+
+  const artwork = await artworkService.updateArtworkVisibility(id, visible);
+
+  res.json({
+    message: "Visibilidad de la obra actualizada exitosamente",
+    data: artwork,
+  });
+});
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
   remove,
+  toggleVisibility,
 };

@@ -20,9 +20,11 @@ router.get("/:id", artworkController.getById);
 // ---- Rutas protegidas (requieren autenticación) ----
 // POST   /api/artworks          → Crear una nueva obra (con imagen)
 // PUT    /api/artworks/:id      → Actualizar una obra
+// PATCH  /api/artworks/:id/visibility → Cambiar visibilidad de una obra
 // DELETE /api/artworks/:id      → Eliminar una obra
 router.post("/", authMiddleware, upload.single("imagen"), artworkController.create);
 router.put("/:id", authMiddleware, upload.single("imagen"), artworkController.update);
+router.patch("/:id/visibility", authMiddleware, artworkController.toggleVisibility);
 router.delete("/:id", authMiddleware, artworkController.remove);
 
 module.exports = router;
