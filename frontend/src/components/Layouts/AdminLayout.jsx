@@ -9,6 +9,7 @@ function AdminLayout({ children, activeSection }) {
   const navigate = useNavigate()
   const [profileModalOpen, setProfileModalOpen] = useState(false)
   const [notificationsModalOpen, setNotificationsModalOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [unreadMessageNotifications, setUnreadMessageNotifications] = useState(0)
   const [messageNotifications, setMessageNotifications] = useState([])
   const [loadingNotifications, setLoadingNotifications] = useState(false)
@@ -120,18 +121,21 @@ function AdminLayout({ children, activeSection }) {
     <div className="bg-[#f2f2f0] text-[#1a1a1a] min-h-screen selection:bg-gray-200">
       {/* Header */}
       <header className="border-b border-black/5 sticky top-0 bg-[#f2f2f0]/95 backdrop-blur-md z-40">
-        <div className="px-8 py-6 flex justify-between items-center">
-          <Link to="/admin/dashboard" className="text-xl font-light tracking-[0.4em] text-black hover:opacity-75 transition">
-            MARALESTE ADMIN
+        <div className="px-4 md:px-8 py-4 md:py-6 flex justify-between items-center">
+          <Link to="/admin/dashboard" className="text-lg md:text-xl font-light tracking-[0.3em] md:tracking-[0.4em] text-black hover:opacity-75 transition">
+            MARALESTE
           </Link>
           
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 md:gap-6">
+            {/* Desktop Navigation */}
             <Link 
               to="/" 
-              className="text-[11px] uppercase tracking-[0.5em] text-gray-500 hover:text-black transition font-medium"
+              className="hidden md:block text-[11px] uppercase tracking-[0.5em] text-gray-500 hover:text-black transition font-medium"
             >
               Inicio
             </Link>
+
+            {/* Notifications Button */}
             <button
               type="button"
               onClick={handleOpenNotificationsModal}
@@ -148,9 +152,10 @@ function AdminLayout({ children, activeSection }) {
               )}
             </button>
             
+            {/* Profile Button */}
             <button
               onClick={() => setProfileModalOpen(!profileModalOpen)}
-              className="relative w-12 h-12 rounded-full border-2 border-black/10 hover:border-black transition overflow-hidden"
+              className="relative w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-black/10 hover:border-black transition overflow-hidden"
             >
               <img 
                 src={userData.imagen} 
@@ -158,19 +163,41 @@ function AdminLayout({ children, activeSection }) {
                 className="w-full h-full object-cover"
               />
             </button>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg border border-black/10 bg-white/70 text-black hover:border-black/20 transition"
+              aria-label="Menú"
+            >
+              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+              </svg>
+            </button>
           </div>
         </div>
       </header>
 
       {/* Main Container */}
-      <div className="flex min-h-[calc(100vh-180px)]">
+      <div className="flex min-h-[calc(100vh-120px)] md:min-h-[calc(100vh-180px)] relative">
+        {/* Mobile Menu Overlay */}
+        {mobileMenuOpen && (
+          <div
+            className="fixed inset-0 bg-black/20 z-30 md:hidden"
+            onClick={() => setMobileMenuOpen(false)}
+          ></div>
+        )}
+
         {/* Sidebar Navigation */}
-        <aside className="w-64 border-r border-black/5 bg-white/50 backdrop-blur-sm sticky top-[81px] h-[calc(100vh-81px)] overflow-y-auto">
-          <nav className="p-8 space-y-4 pr-6">
+        <aside className={`fixed md:relative w-64 border-r border-black/5 bg-white/50 backdrop-blur-sm top-[73px] md:top-auto md:sticky md:h-auto h-[calc(100vh-73px)] overflow-y-auto z-40 transition-transform duration-300 ${
+          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+        }`}>
+          <nav className="p-6 md:p-8 space-y-4 pr-6">
             <h3 className="text-[11px] uppercase tracking-[0.3em] text-gray-400 font-semibold mb-6">Gestión</h3>
             
             <Link
               to="/admin/dashboard"
+              onClick={() => setMobileMenuOpen(false)}
               className={`block w-full text-left px-6 py-4 rounded-sm transition-all duration-300 text-[12px] uppercase tracking-[0.2em] font-medium ${
                 activeSection === 'dashboard'
                   ? 'bg-black text-white shadow-lg shadow-black/10'
@@ -184,6 +211,7 @@ function AdminLayout({ children, activeSection }) {
               <Link
                 key={section.id}
                 to={section.path}
+                onClick={() => setMobileMenuOpen(false)}
                 className={`block w-full text-left px-6 py-4 rounded-sm transition-all duration-300 text-[12px] uppercase tracking-[0.2em] font-medium ${
                   activeSection === section.id
                     ? 'bg-black text-white shadow-lg shadow-black/10'
@@ -204,7 +232,7 @@ function AdminLayout({ children, activeSection }) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-12">
+        <main className="flex-1 p-4 md:p-12 w-full md:w-auto">
           {children}
         </main>
       </div>
@@ -219,7 +247,7 @@ function AdminLayout({ children, activeSection }) {
           ></div>
 
           {/* Modal */}
-          <div className="fixed right-0 top-0 h-screen w-96 bg-white shadow-2xl shadow-black/10 z-50 overflow-y-auto">
+          <div className="fixed right-0 top-0 h-screen w-full md:w-96 bg-white shadow-2xl shadow-black/10 z-50 overflow-y-auto">
             {/* Close Button */}
             <button
               onClick={() => setProfileModalOpen(false)}
@@ -229,17 +257,17 @@ function AdminLayout({ children, activeSection }) {
             </button>
 
             {/* Modal Content */}
-            <div className="p-12 pt-16">
+            <div className="p-6 md:p-12 pt-16">
               {/* Profile Header */}
               <div className="text-center mb-12">
-                <div className="w-24 h-24 rounded-full border-4 border-black/10 mx-auto mb-6 overflow-hidden">
+                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-black/10 mx-auto mb-6 overflow-hidden">
                   <img
                     src={userData.imagen}
                     alt="Perfil"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <h2 className="text-2xl font-light text-black mb-2">{userData.nombre}</h2>
+                <h2 className="text-xl md:text-2xl font-light text-black mb-2">{userData.nombre}</h2>
                 <p className="text-[11px] uppercase tracking-[0.3em] text-gray-400 font-semibold">
                   {userData.rol}
                 </p>
@@ -256,7 +284,7 @@ function AdminLayout({ children, activeSection }) {
                       <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-2">
                         Correo
                       </p>
-                      <p className="text-sm text-gray-600 font-light">{userData.email}</p>
+                      <p className="text-sm text-gray-600 font-light break-all">{userData.email}</p>
                     </div>
                     <div>
                       <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-semibold mb-2">
@@ -301,12 +329,12 @@ function AdminLayout({ children, activeSection }) {
             onClick={() => setNotificationsModalOpen(false)}
           ></div>
 
-          <div className="fixed inset-0 z-50 flex items-start justify-center p-6 pt-24">
+          <div className="fixed inset-0 z-50 flex items-start justify-center p-4 md:p-6 pt-20 md:pt-24">
             <section className="w-full max-w-2xl rounded-3xl border border-black/10 bg-white shadow-2xl shadow-black/10">
-              <header className="flex items-center justify-between border-b border-black/10 px-6 py-5">
+              <header className="flex items-center justify-between border-b border-black/10 px-4 md:px-6 py-5">
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500">Notificaciones</p>
-                  <h3 className="mt-1 text-xl font-medium text-black">Mensajes nuevos</h3>
+                  <h3 className="mt-1 text-lg md:text-xl font-medium text-black">Mensajes nuevos</h3>
                 </div>
                 <button
                   type="button"
@@ -317,7 +345,7 @@ function AdminLayout({ children, activeSection }) {
                 </button>
               </header>
 
-              <div className="max-h-[65vh] overflow-y-auto p-6 space-y-4">
+              <div className="max-h-[65vh] overflow-y-auto p-4 md:p-6 space-y-4">
                 {notificationError && (
                   <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">{notificationError}</p>
                 )}
@@ -333,20 +361,20 @@ function AdminLayout({ children, activeSection }) {
                       className={`rounded-2xl border p-4 ${notification.read ? 'border-black/10 bg-white' : 'border-blue-200 bg-blue-50/60'}`}
                     >
                       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                        <div>
+                        <div className="flex-1">
                           <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-1">Mensaje nuevo</p>
                           <h4 className="text-base font-medium text-black">{notification.title || 'Tienes un nuevo mensaje'}</h4>
-                          <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
+                          <p className="text-sm text-gray-600 mt-1 break-words">{notification.message}</p>
                           <p className="text-xs text-gray-500 mt-2">{formatNotificationDate(notification.createdAt)}</p>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-shrink-0">
                           {!notification.read && (
                             <button
                               type="button"
                               onClick={() => handleMarkMessageNotificationAsRead(notification.id)}
                               disabled={markingNotificationId === notification.id}
-                              className="rounded-lg border border-blue-200 px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-blue-700 hover:bg-blue-700 hover:text-white disabled:opacity-60"
+                              className="rounded-lg border border-blue-200 px-2 md:px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-blue-700 hover:bg-blue-700 hover:text-white disabled:opacity-60 whitespace-nowrap"
                             >
                               {markingNotificationId === notification.id ? 'Marcando...' : 'Marcar leida'}
                             </button>
@@ -354,7 +382,7 @@ function AdminLayout({ children, activeSection }) {
                           <button
                             type="button"
                             onClick={handleGoToMessages}
-                            className="rounded-lg border border-black/10 px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white"
+                            className="rounded-lg border border-black/10 px-2 md:px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white whitespace-nowrap"
                           >
                             Ir a mensajes
                           </button>

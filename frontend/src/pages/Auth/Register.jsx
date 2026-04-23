@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import Footer from '../../components/layouts/Footer'
 
@@ -99,7 +99,9 @@ function Register() {
     <div className="bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#1a1a1a] min-h-screen selection:bg-gray-200/70">
       <nav className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
-          <div className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black">MARALESTE</div>
+          <Link to="/" className="text-xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition-colors">
+            MARALESTE <br/> Arte y Expansión
+          </Link>
           <div className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.4em] text-gray-500">
             <a href="/" className="hover:text-black transition font-medium">Inicio</a>
             <a href="#programas" className="hover:text-black transition font-medium">Programas</a>
@@ -145,27 +147,6 @@ function Register() {
                 </article>
               </div>
             </header>
-
-            <section className="space-y-8" id="programas">
-              <h2 className="text-[11px] uppercase tracking-[0.5em] text-gray-500">Por qué elegirnos</h2>
-              <div className="grid gap-6 sm:grid-cols-2">
-                {sellingPoints.map(({ title, description }) => (
-                  <article key={title} className="rounded-2xl border border-black/10 bg-white/60 backdrop-blur-sm px-6 py-7 shadow-sm shadow-black/5">
-                    <h3 className="text-lg font-medium text-black mb-3">{title}</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">{description}</p>
-                  </article>
-                ))}
-              </div>
-            </section>
-
-            <section className="rounded-2xl border border-black/10 bg-white/70 backdrop-blur-sm px-6 py-7" id="contacto">
-              <h2 className="text-[11px] uppercase tracking-[0.5em] text-gray-500 mb-4">Necesitas ayuda</h2>
-              <p className="text-sm text-gray-600 mb-2">Escríbenos y agenda una videollamada orientativa con nuestro equipo de admisiones.</p>
-              <div className="text-sm text-gray-700">
-                <p className="font-medium">{contactInfo.email}</p>
-                <p className="text-gray-500">{contactInfo.schedule}</p>
-              </div>
-            </section>
           </div>
 
           <div className="w-full">

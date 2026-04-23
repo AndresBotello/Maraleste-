@@ -75,7 +75,9 @@ function Login() {
     <div className="bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#1a1a1a] min-h-screen selection:bg-gray-200/70">
       <nav className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
-          <div className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black">MARALESTE</div>
+          <Link to="/" className="text-xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition-colors">
+            MARALESTE <br/> Arte y Expansión
+          </Link>
           <div className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.4em] text-gray-500">
             <a href="/" className="hover:text-black transition font-medium">Inicio</a>
           </div>

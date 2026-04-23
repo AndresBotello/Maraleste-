@@ -225,6 +225,16 @@ const saveProgress = asyncHandler(async (req, res) => {
   });
 });
 
+const submitQuizResult = asyncHandler(async (req, res) => {
+  const { id, moduleId } = req.params;
+  const result = await courseService.submitQuizResult(id, moduleId, req.user.uid, req.body || {});
+
+  res.json({
+    message: "Resultado de quiz guardado exitosamente",
+    data: result,
+  });
+});
+
 // ==================== ACTUALIZAR ====================
 
 const update = asyncHandler(async (req, res) => {
@@ -280,6 +290,7 @@ module.exports = {
   submitChallenge,
   reviewChallengeSubmission,
   saveProgress,
+  submitQuizResult,
   update,
   updateStatus,
   remove,

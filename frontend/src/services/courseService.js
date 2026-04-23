@@ -372,3 +372,18 @@ export async function reviewChallengeSubmission(courseId, moduleId, studentUid, 
 
   return response.data
 }
+
+/**
+ * Envía el resultado del quiz del usuario.
+ * @param {string} courseId
+ * @param {string} moduleId
+ * @param {{score: number, answers: Object, totalPreguntas: number}} data
+ * @returns {Promise<Object>} Resultado guardado
+ */
+export async function submitQuizResult(courseId, moduleId, data) {
+  const token = await getToken()
+  if (!token) throw new Error('Debes iniciar sesión para guardar resultado del quiz')
+
+  const response = await api.post(`/courses/${courseId}/modules/${moduleId}/quiz-result`, data, { token })
+  return response.data
+}

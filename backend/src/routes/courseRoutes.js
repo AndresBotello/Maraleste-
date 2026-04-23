@@ -31,6 +31,7 @@ router.get("/:id/modules/:moduleId/challenge-submission/me", authMiddleware, cou
 router.post("/", authMiddleware, upload.single("imagenPortada"), courseController.create);
 router.post("/:id/access", authMiddleware, courseController.registerAccess);
 router.post("/:id/modules/:moduleId/challenge-submission", authMiddleware, upload.single("evidencia"), courseController.submitChallenge);
+router.post("/:id/modules/:moduleId/quiz-result", authMiddleware, courseController.submitQuizResult);
 router.put("/:id/progress", authMiddleware, courseController.saveProgress);
 router.put("/:id", authMiddleware, upload.single("imagenPortada"), courseController.update);
 router.patch("/:id/modules/:moduleId/challenge-submissions/:studentUid", authMiddleware, courseController.reviewChallengeSubmission);

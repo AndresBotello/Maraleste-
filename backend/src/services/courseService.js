@@ -1040,6 +1040,80 @@ async function saveCourseProgress(courseId, uid, data = {}) {
   return getCourseProgress(courseId, uid);
 }
 
+/**
+ * Guarda el resultado de un quiz realizado por el usuario en un módulo.
+ * @param {string} courseId
+ * @param {string} moduleId
+ * @param {string} uid
+ * @param {Object} data - {score: number, answers: Object, aprobado: boolean, etc.}
+ * @returns {Promise<Object>}
+ */
+async function submitQuizResult(courseId, moduleId, uid, data) {
+  const course = await getCourseByIdWithAccess(courseId, {
+    requesterUid: uid,
+    includeProtectedContent: true,
+  });
+
+  if (!course) {
+    const error = new Error("Curso no encontrado");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (!course.acceso?.disponible) {
+    const error = new Error("No tienes acceso a este curso");
+    error.statusCode = 403;
+    throw error;
+  }
+
+  const progressRef = db
+    .collection(USER_COLLECTION)
+    .doc(uid)
+    .collection(USER_COURSE_PROGRESS_SUBCOLLECTION)
+    .doc(courseId);
+
+  const existingProgress = await progressRef.get();
+  const current = existingProgress.exists ? existingProgress.data() : { progresoPorModulo: {} };
+  const currentModuleProgress = current.progresoPorModulo?.[moduleId] || {};
+
+  // Opcional: Podrías hacer un array de resultados si permites múltiples intentos,
+  // Aquí guardaremos el resultado más reciente.
+  const quizResults = Array.isArray(currentModuleProgress.quizResults) 
+    ? currentModuleProgress.quizResults 
+    : [];
+    
+  quizResults.push({
+    ...data,
+    fecha: admin.firestore.Timestamp.now()
+  });
+
+  // Determinar si ya había aprobado anteriormente o ahora aprueba
+  const aprobadoHistorico = quizResults.some(r => r.aprobado === true);
+
+  const newProgress = {
+    courseId,
+    uid,
+    progresoPorModulo: {
+      ...(current.progresoPorModulo || {}),
+      [moduleId]: {
+        ...currentModuleProgress,
+        quizResults,
+        quizAprobado: aprobadoHistorico,
+        actualizadoEn: admin.firestore.FieldValue.serverTimestamp(),
+      },
+    },
+    actualizadoEn: admin.firestore.FieldValue.serverTimestamp(),
+  };
+
+  if (!existingProgress.exists) {
+    newProgress.creadoEn = admin.firestore.FieldValue.serverTimestamp();
+  }
+
+  await progressRef.set(newProgress, { merge: true });
+
+  return newProgress;
+}
+
 // ==================== ACTUALIZAR ====================
 
 /**
@@ -1232,6 +1306,7 @@ module.exports = {
   submitModuleChallenge,
   reviewModuleChallengeSubmission,
   saveCourseProgress,
+  submitQuizResult,
   updateCourse,
   updateCourseStatus,
   deleteCourse,

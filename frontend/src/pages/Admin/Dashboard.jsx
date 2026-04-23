@@ -186,22 +186,22 @@ function Dashboard() {
 
         <section className="grid gap-6 lg:grid-cols-[1.8fr_1fr]">
           {/* Actividad reciente */}
-          <article className="rounded-3xl border border-black/5 bg-white px-6 py-7 shadow-sm shadow-black/5">
-            <header className="mb-6 flex items-center justify-between">
+          <article className="rounded-3xl border border-black/5 bg-white px-4 md:px-6 py-6 md:py-7 shadow-sm shadow-black/5">
+            <header className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] text-gray-400">Actividad reciente</p>
-                <h2 className="text-xl font-medium text-gray-900">Últimos registros</h2>
+                <h2 className="text-lg md:text-xl font-medium text-gray-900">Últimos registros</h2>
               </div>
             </header>
 
             {isLoading ? (
               <div className="space-y-4">
                 {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="flex items-start gap-4 rounded-2xl border border-black/5 px-4 py-4 animate-pulse">
-                    <div className="h-10 w-10 rounded-xl bg-gray-200" />
-                    <div className="flex-1 space-y-2">
-                      <div className="h-4 w-48 bg-gray-200 rounded" />
-                      <div className="h-3 w-24 bg-gray-100 rounded" />
+                  <div key={i} className="flex items-start gap-3 md:gap-4 rounded-2xl border border-black/5 px-3 md:px-4 py-4 animate-pulse">
+                    <div className="h-10 w-10 rounded-xl bg-gray-200 flex-shrink-0" />
+                    <div className="flex-1 space-y-2 min-w-0">
+                      <div className="h-4 w-32 md:w-48 bg-gray-200 rounded" />
+                      <div className="h-3 w-20 md:w-24 bg-gray-100 rounded" />
                     </div>
                   </div>
                 ))}
@@ -211,25 +211,26 @@ function Dashboard() {
                 <p className="text-gray-400 text-sm">No hay registros aún. Crea tu primer curso o taller.</p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 {activityFeed.map(({ title, type, owner, categoria, createdAt, link }) => (
                   <Link
                     key={`${title}-${type}`}
                     to={link}
-                    className="flex items-start gap-4 rounded-2xl border border-black/5 px-4 py-4 transition hover:bg-black/5"
+                    className="flex flex-col sm:flex-row sm:items-start gap-3 md:gap-4 rounded-2xl border border-black/5 px-3 md:px-4 py-3 md:py-4 transition hover:bg-black/5"
                   >
-                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl text-sm font-medium text-white ${
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl text-sm font-medium text-white flex-shrink-0 ${
                       type === 'Curso' ? 'bg-indigo-500' : type === 'Taller virtual' ? 'bg-blue-500' : type === 'Obra' ? 'bg-rose-500' : 'bg-amber-500'
                     }`}>
                       {type === 'Curso' ? '📚' : type === 'Taller virtual' ? '📹' : type === 'Obra' ? '🖼️' : '🎨'}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{title}</p>
-                      <p className="text-xs text-gray-500">{type} · {categoria}</p>
+                      <p className="text-sm font-medium text-gray-900 break-words">{title}</p>
+                      <p className="text-xs text-gray-500 truncate">{type} · {categoria}</p>
+                      <p className="text-xs text-gray-500 truncate sm:hidden mt-1">{owner}</p>
                     </div>
-                    <div className="text-right text-xs text-gray-400 shrink-0">
+                    <div className="text-right text-xs text-gray-400 flex-shrink-0 hidden sm:block">
                       <p>{formatRelativeDate(createdAt)}</p>
-                      <p className="text-gray-500">{owner}</p>
+                      <p className="text-gray-500 truncate max-w-[100px]">{owner}</p>
                     </div>
                   </Link>
                 ))}
@@ -239,28 +240,28 @@ function Dashboard() {
 
           <aside className="space-y-6">
             {/* Próximos talleres */}
-            <article className="rounded-3xl border border-black/5 bg-white px-6 py-7 shadow-sm shadow-black/5">
-              <p className="text-xs uppercase tracking-[0.3em] text-gray-400 mb-4">Agenda</p>
+            <article className="rounded-3xl border border-black/5 bg-white px-4 md:px-6 py-6 md:py-7 shadow-sm shadow-black/5">
+              <p className="text-xs uppercase tracking-[0.3em] text-gray-400 mb-3 md:mb-4">Agenda</p>
               <h3 className="text-lg font-medium text-gray-900 mb-4">Próximos talleres</h3>
 
               {isLoading ? (
-                <div className="space-y-4">
+                <div className="space-y-3 md:space-y-4">
                   {Array.from({ length: 2 }).map((_, i) => (
-                    <div key={i} className="rounded-2xl border border-black/5 px-4 py-4 animate-pulse">
-                      <div className="h-4 w-40 bg-gray-200 rounded mb-2" />
-                      <div className="h-3 w-28 bg-gray-100 rounded" />
+                    <div key={i} className="rounded-2xl border border-black/5 px-3 md:px-4 py-3 md:py-4 animate-pulse">
+                      <div className="h-4 w-32 md:w-40 bg-gray-200 rounded mb-2" />
+                      <div className="h-3 w-24 md:w-28 bg-gray-100 rounded" />
                     </div>
                   ))}
                 </div>
               ) : upcomingWorkshops.length === 0 ? (
                 <p className="text-sm text-gray-400 py-4">No hay talleres programados próximamente.</p>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 md:space-y-4">
                   {upcomingWorkshops.map((t) => (
-                    <div key={t.id} className="rounded-2xl border border-black/5 px-4 py-4">
-                      <p className="text-sm font-medium text-gray-900">{t.titulo}</p>
-                      <p className="text-xs text-gray-500">📅 {t.fecha} {t.hora && `· ${t.hora}`}</p>
-                      <div className="flex items-center gap-3 mt-2">
+                    <div key={t.id} className="rounded-2xl border border-black/5 px-3 md:px-4 py-3 md:py-4">
+                      <p className="text-sm font-medium text-gray-900 break-words">{t.titulo}</p>
+                      <p className="text-xs text-gray-500 mt-1">📅 {t.fecha} {t.hora && `· ${t.hora}`}</p>
+                      <div className="flex flex-wrap items-center gap-2 md:gap-3 mt-2">
                         <p className="text-xs font-medium text-gray-600">
                           👥 {t.cuposDisponibles ?? t.cuposTotal} / {t.cuposTotal} cupos
                         </p>

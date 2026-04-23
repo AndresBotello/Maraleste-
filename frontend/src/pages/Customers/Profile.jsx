@@ -118,36 +118,36 @@ function Profile() {
 	return (
 		<div className="bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#1a1a1a] min-h-screen">
 			<header className="border-b border-black/5 sticky top-0 z-40 bg-white/70 backdrop-blur-xl">
-				<div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between gap-4">
-					<Link to="/" className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black">
+				<div className="px-4 md:px-8 lg:px-12 py-4 md:py-5 flex items-center justify-between gap-3 md:gap-4">
+					<Link to="/" className="text-lg md:text-xl lg:text-2xl font-light tracking-[0.3em] md:tracking-[0.4em] text-black">
 						MARALESTE
 					</Link>
 					<button
 						type="button"
 						onClick={() => navigate('/customer/dashboard')}
-						className="rounded-xl border border-black px-5 py-2 text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white"
+						className="rounded-xl border border-black px-3 md:px-5 py-2 md:py-2 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
 					>
 						Volver
 					</button>
 				</div>
 			</header>
 
-			<main className="max-w-6xl mx-auto px-6 lg:px-12 py-14 lg:py-20">
-				<section className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] items-start">
-					<aside className="rounded-3xl border border-black/10 bg-white/80 p-8 shadow-lg shadow-black/5 backdrop-blur-sm">
-						<div className="mb-6 flex items-center gap-4">
-							<div className="h-16 w-16 rounded-full border border-black/10 bg-black/5 overflow-hidden flex items-center justify-center">
+			<main className="px-4 md:px-8 lg:px-12 py-10 md:py-14 lg:py-20">
+				<section className="grid gap-6 md:gap-8 lg:grid-cols-[0.9fr_1.1fr] items-start">
+					<aside className="rounded-3xl border border-black/10 bg-white/80 p-6 md:p-8 shadow-lg shadow-black/5 backdrop-blur-sm">
+						<div className="mb-6 flex flex-col md:flex-row items-center md:items-start gap-4">
+							<div className="h-16 w-16 flex-shrink-0 rounded-full border border-black/10 bg-black/5 overflow-hidden flex items-center justify-center">
 								{avatarSrc ? (
 									<img src={avatarSrc} alt="Foto de perfil" className="h-full w-full object-cover" />
 								) : (
 									<span className="text-lg font-semibold tracking-wide text-black">{initials || 'U'}</span>
 								)}
 							</div>
-							<div>
+							<div className="text-center md:text-left">
 								<button
 									type="button"
 									onClick={() => fileInputRef.current?.click()}
-									className="rounded-lg border border-black/15 px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-black hover:bg-black hover:text-white"
+									className="rounded-lg border border-black/15 px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-black hover:bg-black hover:text-white transition"
 								>
 									Cambiar foto
 								</button>
@@ -163,75 +163,75 @@ function Profile() {
 						</div>
 
 						<p className="text-[10px] uppercase tracking-[0.5em] text-gray-500">Perfil de usuario</p>
-						<h1 className="mt-4 text-3xl font-light text-black leading-tight">Edita tu información personal</h1>
-						<p className="mt-4 text-sm text-gray-600 leading-relaxed">
+						<h1 className="mt-4 text-2xl md:text-3xl font-light text-black leading-tight">Edita tu información personal</h1>
+						<p className="mt-4 text-xs md:text-sm text-gray-600 leading-relaxed">
 							Puedes actualizar tus datos de contacto para mantener tu cuenta al día y sincronizar tu cuenta con la plataforma.
 						</p>
 					</aside>
 
-					<section className="rounded-3xl border border-black/10 bg-white/90 p-8 lg:p-10 shadow-xl shadow-black/10">
-						<form onSubmit={handleSubmit} className="space-y-6">
-							<div className="grid gap-5 md:grid-cols-2">
+					<section className="rounded-3xl border border-black/10 bg-white/90 p-6 md:p-8 lg:p-10 shadow-xl shadow-black/10">
+						<form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
+							<div className="grid gap-4 md:gap-5 md:grid-cols-2">
 								<label className="space-y-2">
-									<span className="text-[10px] uppercase tracking-[0.3em] text-gray-500">Nombre</span>
+									<span className="text-[10px] md:text-[10px] uppercase tracking-[0.3em] text-gray-500">Nombre</span>
 									<input
 										type="text"
 										name="firstName"
 										value={formData.firstName}
 										onChange={handleChange}
 										required
-										className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
+										className="w-full rounded-xl border border-black/10 bg-white px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
 										placeholder="Tu nombre"
 									/>
 								</label>
 
 								<label className="space-y-2">
-									<span className="text-[10px] uppercase tracking-[0.3em] text-gray-500">Apellido</span>
+									<span className="text-[10px] md:text-[10px] uppercase tracking-[0.3em] text-gray-500">Apellido</span>
 									<input
 										type="text"
 										name="lastName"
 										value={formData.lastName}
 										onChange={handleChange}
 										required
-										className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
+										className="w-full rounded-xl border border-black/10 bg-white px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
 										placeholder="Tu apellido"
 									/>
 								</label>
 							</div>
 
 							<label className="space-y-2 block">
-								<span className="text-[10px] uppercase tracking-[0.3em] text-gray-500">Correo</span>
+								<span className="text-[10px] md:text-[10px] uppercase tracking-[0.3em] text-gray-500">Correo</span>
 								<input
 									type="email"
 									name="email"
 									value={formData.email}
 									onChange={handleChange}
 									required
-									className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
+									className="w-full rounded-xl border border-black/10 bg-white px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
 									placeholder="correo@ejemplo.com"
 								/>
 							</label>
 
 							{errorMessage && (
-								<p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">{errorMessage}</p>
+								<p className="rounded-xl border border-red-200 bg-red-50 px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-red-600">{errorMessage}</p>
 							)}
 
 							{successMessage && (
-								<p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{successMessage}</p>
+								<p className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-emerald-700">{successMessage}</p>
 							)}
 
-							<div className="flex flex-col gap-3 sm:flex-row">
+							<div className="flex flex-col gap-2 md:gap-3 md:flex-row">
 								<button
 									type="submit"
 									disabled={saving || !isDirty}
-									className="inline-flex items-center justify-center rounded-xl bg-black px-6 py-3 text-[11px] uppercase tracking-[0.3em] text-white hover:bg-gray-900 disabled:cursor-not-allowed disabled:opacity-50"
+									className="inline-flex items-center justify-center rounded-xl bg-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-white hover:bg-gray-900 disabled:cursor-not-allowed disabled:opacity-50 transition"
 								>
 									{saving ? 'Guardando...' : 'Guardar cambios'}
 								</button>
 								<button
 									type="button"
 									onClick={() => navigate('/customer/dashboard')}
-									className="inline-flex items-center justify-center rounded-xl border border-black px-6 py-3 text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white"
+									className="inline-flex items-center justify-center rounded-xl border border-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
 								>
 									Cancelar
 								</button>

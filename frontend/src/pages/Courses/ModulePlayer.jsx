@@ -241,21 +241,21 @@ function ModulePlayer() {
     <div className="bg-[#f2f2f0] text-[#1a1a1a] min-h-screen flex flex-col">
       {/* Header */}
       <header className="border-b border-black/5 bg-[#f2f2f0]/95 backdrop-blur-md z-40 sticky top-0">
-        <div className="max-w-7xl mx-auto w-full px-8 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-6">
-            <Link to={coursePath} className="text-xl font-light tracking-[0.4em] text-black hover:text-gray-600 transition">MARALESTE</Link>
-            <span className="text-gray-400">•</span>
-            <div>
-              <p className="text-sm text-gray-500 uppercase tracking-wider">Módulo {modulo.numero}</p>
-              <p className="text-sm font-light text-black">{modulo.titulo}</p>
+        <div className="max-w-7xl mx-auto w-full px-3 md:px-6 lg:px-8 py-2 md:py-3 lg:py-4 flex justify-between items-center gap-2">
+          <div className="flex items-center gap-2 md:gap-4 min-w-0 flex-1">
+            <Link to={coursePath} className="text-base md:text-lg lg:text-xl font-light tracking-[0.4em] text-black hover:text-gray-600 transition whitespace-nowrap flex-shrink-0">MARALESTE</Link>
+            <span className="text-gray-400 hidden sm:inline flex-shrink-0">•</span>
+            <div className="min-w-0 flex-1">
+              <p className="text-[9px] md:text-xs lg:text-sm text-gray-500 uppercase tracking-wider truncate">Módulo {modulo.numero}</p>
+              <p className="text-xs md:text-sm lg:text-base font-light text-black truncate">{modulo.titulo}</p>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-1 md:gap-2 lg:gap-4 flex-shrink-0">
             {fromDashboard && (
-              <button type="button" onClick={handleGoToDashboard} className="text-sm uppercase tracking-wider text-gray-500 hover:text-black transition">Dashboard</button>
+              <button type="button" onClick={handleGoToDashboard} className="hidden lg:inline text-xs lg:text-sm uppercase tracking-wider text-gray-500 hover:text-black transition">Dashboard</button>
             )}
-            <button type="button" onClick={handleReturnToCourse} className="text-sm uppercase tracking-wider text-gray-500 hover:text-black transition">← Volver al Curso</button>
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-black hover:text-gray-600 transition text-xl lg:hidden p-2 rounded-lg hover:bg-black/5">
+            <button type="button" onClick={handleReturnToCourse} className="hidden sm:inline text-xs lg:text-sm uppercase tracking-wider text-gray-500 hover:text-black transition">Volver</button>
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-black hover:text-gray-600 transition text-lg lg:hidden p-1.5 rounded-lg hover:bg-black/5 flex-shrink-0">
               {sidebarOpen ? '✕' : '≡'}
             </button>
           </div>
@@ -291,19 +291,19 @@ function ModulePlayer() {
               </div>
 
               {/* Progress */}
-              <div className="mb-8 bg-white/60 backdrop-blur-sm rounded-3xl p-6 border border-black/10 shadow-lg">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500">Progreso del Módulo</h3>
-                  <span className="text-sm text-gray-500 font-light">
+              <div className="mb-4 md:mb-6 lg:mb-8 bg-white/60 backdrop-blur-sm rounded-3xl p-3 md:p-4 lg:p-6 border border-black/10 shadow-lg">
+                <div className="flex justify-between items-center mb-2 md:mb-4 gap-2 flex-wrap">
+                  <h3 className="text-[10px] md:text-xs lg:text-sm font-semibold uppercase tracking-wider text-gray-500">Progreso del Módulo</h3>
+                  <span className="text-[10px] md:text-xs lg:text-sm text-gray-500 font-light">
                     {isModuleCompleted ? 'Completado' : `${progressPercentage}% completado`}
                   </span>
                 </div>
                 <div className="w-full bg-black/10 rounded-full h-2">
                   <div className="bg-gradient-to-r from-gray-600 to-black h-2 rounded-full transition-all duration-500" style={{ width: `${Math.min(100, progressPercentage)}%` }} />
                 </div>
-                <div className="flex justify-between items-center mt-4 text-xs text-gray-500">
+                <div className="flex justify-between items-center mt-2 md:mt-4 text-[8px] md:text-xs text-gray-500 gap-2 flex-wrap">
                   <span>{completedLessons.length} de {lecciones.length} lecciones completadas</span>
-                  <span>Instructor: {curso?.instructor || '—'}</span>
+                  <span className="hidden md:inline">Instructor: {curso?.instructor || '—'}</span>
                 </div>
               </div>
 
@@ -557,40 +557,40 @@ function ModulePlayer() {
               )}
 
               {/* Lesson Navigation */}
-              <div className="flex justify-between items-center bg-white/60 backdrop-blur-sm rounded-3xl p-6 border border-black/10 shadow-lg mb-8">
+              <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center bg-white/60 backdrop-blur-sm rounded-3xl p-4 sm:p-6 border border-black/10 shadow-lg mb-8 gap-2 sm:gap-4">
                 <button
                   disabled={isFirstLesson}
                   onClick={() => goToLesson(currentLessonIndex - 1)}
-                  className={`flex items-center gap-3 px-6 py-3 rounded-2xl text-sm font-medium uppercase tracking-wider transition-all ${
+                  className={`flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 px-3 sm:px-6 py-3 sm:py-3 rounded-2xl text-xs sm:text-sm font-medium uppercase tracking-wider transition-all ${
                     isFirstLesson
                       ? 'opacity-50 cursor-not-allowed border-2 border-gray-300 text-gray-400'
                       : 'border-2 border-black/20 text-black hover:bg-black hover:text-white hover:shadow-lg'
                   }`}
                 >
-                  <span>←</span>
+                  <span className="text-lg sm:text-base">←</span>
                   <div className="text-left">
                     <p className="text-xs opacity-70">Anterior</p>
-                    {!isFirstLesson && <p className="text-xs font-light normal-case">{lecciones[currentLessonIndex - 1]?.titulo}</p>}
+                    {!isFirstLesson && <p className="text-xs font-light normal-case hidden sm:block">{lecciones[currentLessonIndex - 1]?.titulo}</p>}
                   </div>
                 </button>
 
                 <button
                   onClick={() => toggleLessonCompletion(currentLesson.id)}
-                  className={`px-6 py-3 rounded-2xl text-sm font-medium uppercase tracking-wider transition-all hover:scale-105 ${
+                  className={`px-4 sm:px-6 py-3 rounded-2xl text-xs sm:text-sm font-medium uppercase tracking-wider transition-all hover:scale-105 flex-shrink-0 ${
                     completedLessons.includes(currentLesson.id)
                       ? 'bg-green-600 text-white hover:bg-green-700 shadow-lg shadow-green-200'
                       : 'bg-black text-white hover:bg-gray-800 shadow-lg shadow-black/20'
                   }`}
                 >
-                  <span className="flex items-center gap-2">
-                    {completedLessons.includes(currentLesson.id) ? '✅ Completado' : '☑️ Marcar Completado'}
+                  <span className="flex items-center gap-1 sm:gap-2">
+                    {completedLessons.includes(currentLesson.id) ? '✅ Completado' : '☑️ Marcar'}
                   </span>
                 </button>
 
                 <button
                   disabled={isLastLesson}
                   onClick={() => goToLesson(currentLessonIndex + 1)}
-                  className={`flex items-center gap-3 px-6 py-3 rounded-2xl text-sm font-medium uppercase tracking-wider transition-all ${
+                  className={`flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 px-3 sm:px-6 py-3 sm:py-3 rounded-2xl text-xs sm:text-sm font-medium uppercase tracking-wider transition-all ${
                     isLastLesson
                       ? 'opacity-50 cursor-not-allowed border-2 border-gray-300 text-gray-400'
                       : 'border-2 border-black/20 text-black hover:bg-black hover:text-white hover:shadow-lg'
@@ -598,25 +598,25 @@ function ModulePlayer() {
                 >
                   <div className="text-right">
                     <p className="text-xs opacity-70">Siguiente</p>
-                    {!isLastLesson && <p className="text-xs font-light normal-case">{lecciones[currentLessonIndex + 1]?.titulo}</p>}
+                    {!isLastLesson && <p className="text-xs font-light normal-case hidden sm:block">{lecciones[currentLessonIndex + 1]?.titulo}</p>}
                   </div>
-                  <span>→</span>
+                  <span className="text-lg sm:text-base">→</span>
                 </button>
               </div>
 
               {/* Quiz CTA */}
               {isLastLesson && modulo.tieneQuiz && (
-                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-3xl p-8 border border-purple-200 text-center">
-                  <div className="text-5xl mb-6">🎯</div>
-                  <h3 className="text-2xl font-light text-purple-900 mb-4">¡Excelente Progreso!</h3>
-                  <p className="text-purple-700 font-light mb-6 max-w-2xl mx-auto">
+                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-3xl p-6 sm:p-8 border border-purple-200 text-center">
+                  <div className="text-4xl sm:text-5xl mb-4 sm:mb-6">🎯</div>
+                  <h3 className="text-xl sm:text-2xl font-light text-purple-900 mb-3 sm:mb-4">¡Excelente Progreso!</h3>
+                  <p className="text-sm sm:text-base text-purple-700 font-light mb-6 sm:mb-6 max-w-2xl mx-auto">
                     Has completado todas las lecciones. Es momento de poner a prueba tus conocimientos.
                   </p>
-                  <div className="flex justify-center gap-4">
-                    <button type="button" onClick={handleStartQuiz} className="px-8 py-4 bg-purple-600 text-white rounded-2xl text-sm uppercase tracking-wider font-medium hover:bg-purple-700 transition shadow-lg shadow-purple-200">
+                  <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
+                    <button type="button" onClick={handleStartQuiz} className="px-4 sm:px-8 py-3 sm:py-4 bg-purple-600 text-white rounded-2xl text-xs sm:text-sm uppercase tracking-wider font-medium hover:bg-purple-700 transition shadow-lg shadow-purple-200">
                       📝 Comenzar Quiz
                     </button>
-                    <Link to={`/course/${courseId}`} className="px-8 py-4 border-2 border-purple-300 text-purple-700 rounded-2xl text-sm uppercase tracking-wider font-medium hover:bg-purple-100 transition">
+                    <Link to={`/course/${courseId}`} className="px-4 sm:px-8 py-3 sm:py-4 border-2 border-purple-300 text-purple-700 rounded-2xl text-xs sm:text-sm uppercase tracking-wider font-medium hover:bg-purple-100 transition text-center">
                       Volver al Curso
                     </Link>
                   </div>
@@ -627,19 +627,19 @@ function ModulePlayer() {
         </main>
 
         {/* Sidebar */}
-        <aside className={`w-96 border-l border-black/10 bg-white/40 backdrop-blur-md overflow-auto transition-all duration-300 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'} lg:translate-x-0 fixed lg:static right-0 top-0 h-full lg:h-auto z-30`}>
-          <div className="p-6 border-b border-black/10 bg-white/60 backdrop-blur-sm sticky top-0">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-light text-black">Contenido del Módulo</h3>
-              <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-gray-500 hover:text-black text-xl p-1">✕</button>
+        <aside className={`w-11/12 md:w-80 lg:w-96 border-l border-black/10 bg-white/40 backdrop-blur-md overflow-auto transition-all duration-300 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'} lg:translate-x-0 fixed lg:static right-0 top-0 h-full lg:h-auto z-30`}>
+          <div className="p-3 md:p-4 lg:p-6 border-b border-black/10 bg-white/60 backdrop-blur-sm sticky top-0">
+            <div className="flex items-center justify-between mb-2 md:mb-4">
+              <h3 className="text-base md:text-lg font-light text-black">Contenido del Módulo</h3>
+              <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-gray-500 hover:text-black text-lg p-1">✕</button>
             </div>
-            <div className="text-xs text-gray-500 space-y-1">
+            <div className="text-[10px] md:text-xs text-gray-500 space-y-0.5 md:space-y-1">
               <p><strong>{completedLessons.length}</strong> de <strong>{lecciones.length}</strong> lecciones completadas</p>
               <p>Duración: {modulo.duracion}</p>
             </div>
           </div>
 
-          <div className="p-4 space-y-3">
+          <div className="p-2 md:p-3 lg:p-4 space-y-2 md:space-y-3">
             {lecciones.map((leccion, index) => {
               const isActive = currentLessonIndex === index
               const isCompleted = completedLessons.includes(leccion.id)
@@ -647,31 +647,31 @@ function ModulePlayer() {
                 <button
                   key={leccion.id}
                     onClick={() => { goToLesson(index); if (window.innerWidth < 1024) setSidebarOpen(false) }}
-                  className={`w-full text-left p-4 rounded-2xl transition-all duration-300 shadow-sm border-2 ${
+                  className={`w-full text-left p-2 md:p-3 lg:p-4 rounded-lg md:rounded-2xl transition-all duration-300 shadow-sm border-2 ${
                     isActive ? 'bg-black text-white shadow-lg shadow-black/25 scale-105 border-black'
                     : isCompleted ? 'bg-green-50 border-green-200 text-green-900 hover:bg-green-100'
                     : 'bg-white/80 border-black/10 text-black hover:bg-white hover:shadow-md'
                   }`}
                 >
-                  <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 mt-1">
-                      {isCompleted ? <span className="text-green-600 text-lg">✅</span> : (
-                        <span className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-medium ${isActive ? 'bg-white text-black border-white' : 'border-gray-400 text-gray-500'}`}>
+                  <div className="flex items-start gap-2 md:gap-3">
+                    <div className="flex-shrink-0 mt-0.5">
+                      {isCompleted ? <span className="text-green-600 text-base md:text-lg">✅</span> : (
+                        <span className={`w-5 md:w-6 h-5 md:h-6 rounded-full border-2 flex items-center justify-center text-[8px] md:text-xs font-medium ${isActive ? 'bg-white text-black border-white' : 'border-gray-400 text-gray-500'}`}>
                           {leccion.orden || index + 1}
                         </span>
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-lg">{leccion.tipo === 'video' ? '▶️' : leccion.tipo === 'lectura' ? '📖' : '📥'}</span>
-                        <span className={`text-xs px-2 py-1 rounded-full font-medium ${isActive ? 'bg-white/20 text-white/80' : isCompleted ? 'bg-green-200 text-green-800' : 'bg-gray-100 text-gray-600'}`}>
+                      <div className="flex items-center gap-1 md:gap-2 mb-0.5 md:mb-1">
+                        <span className="text-base md:text-lg flex-shrink-0">{leccion.tipo === 'video' ? '▶️' : leccion.tipo === 'lectura' ? '📖' : '📥'}</span>
+                        <span className={`text-[8px] md:text-xs px-1.5 md:px-2 py-0.5 md:py-1 rounded-full font-medium truncate ${isActive ? 'bg-white/20 text-white/80' : isCompleted ? 'bg-green-200 text-green-800' : 'bg-gray-100 text-gray-600'}`}>
                           {leccion.tipo}
                         </span>
                       </div>
-                      <p className={`font-light mb-2 line-clamp-2 ${isActive ? 'text-white' : isCompleted ? 'text-green-900' : 'text-black'}`}>{leccion.titulo}</p>
+                      <p className={`font-light mb-1 md:mb-2 line-clamp-2 text-xs md:text-sm ${isActive ? 'text-white' : isCompleted ? 'text-green-900' : 'text-black'}`}>{leccion.titulo}</p>
                       <div className="flex items-center justify-between">
-                        <span className={`text-xs font-light ${isActive ? 'text-white/70' : isCompleted ? 'text-green-700' : 'text-gray-500'}`}>⏱️ {leccion.duracion}</span>
-                        {isActive && <span className="text-xs text-white/70">• Actual</span>}
+                        <span className={`text-[8px] md:text-xs font-light ${isActive ? 'text-white/70' : isCompleted ? 'text-green-700' : 'text-gray-500'}`}>⏱️ {leccion.duracion}</span>
+                        {isActive && <span className="text-[8px] md:text-xs text-white/70">• Actual</span>}
                       </div>
                     </div>
                   </div>
@@ -680,14 +680,14 @@ function ModulePlayer() {
             })}
           </div>
 
-          <div className="p-6 border-t border-black/10 bg-white/60 backdrop-blur-sm">
+          <div className="p-3 md:p-4 lg:p-6 border-t border-black/10 bg-white/60 backdrop-blur-sm">
             <div className="text-center">
-              <div className="w-16 h-16 bg-black/10 rounded-full flex items-center justify-center mx-auto mb-3"><span className="text-2xl">🎓</span></div>
-              <h4 className="text-sm font-medium text-black mb-2">Progreso del Módulo</h4>
+              <div className="w-12 md:w-14 lg:w-16 h-12 md:h-14 lg:h-16 bg-black/10 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-3"><span className="text-lg md:text-2xl">🎓</span></div>
+              <h4 className="text-xs md:text-sm font-medium text-black mb-1 md:mb-2">Progreso del Módulo</h4>
               <div className="w-full bg-black/10 rounded-full h-2 mb-2">
                 <div className="bg-black h-2 rounded-full transition-all duration-500" style={{ width: `${progressPercentage}%` }} />
               </div>
-              <p className="text-xs text-gray-500 font-light">{progressPercentage}% completado</p>
+              <p className="text-[8px] md:text-xs text-gray-500 font-light">{progressPercentage}% completado</p>
             </div>
           </div>
         </aside>
