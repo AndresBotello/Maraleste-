@@ -241,6 +241,79 @@ async function getConversationMessages(conversationId, uid) {
   };
 }
 
+async function startConversationFromInstructor(courseId, instructorUid, studentUid, text) {
+  const normalizedText = normalizeText(text)
+  if (!normalizedText) throw buildError('El mensaje no puede estar vacío', 400)
+
+  const course = await ensureCourseExists(courseId)
+
+  // Verificar que quien llama es efectivamente el instructor del curso
+  if (course.creadoPor !== instructorUid) {
+    throw buildError('No eres el instructor de este curso', 403)
+  }
+
+  // Verificar que el estudiante esté inscrito
+  await ensureStudentEnrollment(courseId, studentUid)
+
+  const conversationId = buildConversationId(courseId, studentUid)
+  const conversationRef = db.collection(CONVERSATION_COLLECTION).doc(conversationId)
+
+  const [studentProfile, instructorProfile, conversationDoc] = await Promise.all([
+    getUserBasicProfile(studentUid),
+    getUserBasicProfile(instructorUid),
+    conversationRef.get(),
+  ])
+
+  const messageRef = conversationRef.collection(MESSAGE_SUBCOLLECTION).doc()
+
+  const conversationPayload = {
+    conversationId,
+    courseId,
+    courseTitle: course.titulo || 'Curso',
+    studentUid,
+    instructorUid,
+    studentName: displayName(studentProfile),
+    instructorName: displayName(instructorProfile),
+    updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+    lastMessage: normalizedText,
+    lastMessageSenderUid: instructorUid,
+    lastMessageAt: admin.firestore.FieldValue.serverTimestamp(),
+  }
+
+  if (!conversationDoc.exists) {
+    conversationPayload.createdAt = admin.firestore.FieldValue.serverTimestamp()
+  }
+
+  const messagePayload = {
+    conversationId,
+    courseId,
+    senderUid: instructorUid,
+    senderName: displayName(instructorProfile),
+    text: normalizedText,
+    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+  }
+
+  const batch = db.batch()
+  batch.set(conversationRef, conversationPayload, { merge: true })
+  batch.set(messageRef, messagePayload)
+  await batch.commit()
+
+  // Notificar al estudiante
+  try {
+    await createUserNotification(studentUid, {
+      type: 'nuevo_mensaje',
+      title: 'Mensaje de tu instructor',
+      message: `${displayName(instructorProfile)} te escribió sobre ${course.titulo || 'tu curso'}.`,
+      courseId,
+      conversationId,
+    })
+  } catch (err) {
+    console.error('No se pudo crear notificación:', err.message)
+  }
+
+  return { conversationId, courseId, messageId: messageRef.id }
+}
+
 async function deleteConversation(conversationId, uid) {
   const conversationRef = db.collection(CONVERSATION_COLLECTION).doc(conversationId);
   const conversationDoc = await conversationRef.get();
@@ -295,10 +368,57 @@ async function deleteConversation(conversationId, uid) {
   };
 }
 
+async function getInstructorCourses(instructorUid) {
+  const snap = await db
+    .collection(COURSE_COLLECTION)
+    .where('creadoPor', '==', instructorUid)
+    .get();
+
+  return snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+}
+
+async function getCourseStudents(courseId, instructorUid) {
+  // Verificar que el instructor es dueño del curso
+  const course = await ensureCourseExists(courseId);
+  if (course.creadoPor !== instructorUid) {
+    throw buildError('No tienes acceso a este curso', 403);
+  }
+
+  // Buscar todos los usuarios que tienen este courseId en su subcolección cursosAdquiridos
+  const usersSnap = await db.collection(USER_COLLECTION).get();
+
+  const results = await Promise.all(
+    usersSnap.docs.map(async (userDoc) => {
+      const enrollmentDoc = await db
+        .collection(USER_COLLECTION)
+        .doc(userDoc.id)
+        .collection(USER_COURSE_ACCESS_SUBCOLLECTION)
+        .doc(courseId)
+        .get();
+
+      if (!enrollmentDoc.exists) return null;
+
+      const data = userDoc.data();
+      return {
+        uid: userDoc.id,
+        firstName: data.firstName || '',
+        lastName: data.lastName || '',
+        email: data.email || '',
+      };
+    })
+  );
+
+  return results.filter(Boolean);
+}
+
 module.exports = {
   sendMessageToCourseInstructor,
   sendMessageInConversation,
   getUserConversations,
   getConversationMessages,
   deleteConversation,
+  startConversationFromInstructor,
+  getCourseStudents,
+  getInstructorCourses,
+
 };

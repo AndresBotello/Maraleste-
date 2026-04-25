@@ -52,6 +52,9 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
+
+console.log('🔍 Cargando rutas...')
+console.log('messageRoutes:', require('./routes/messageRoutes'))
 // Rutas de la API
 app.use("/api/courses", courseRoutes);
 app.use("/api/workshops", workshopRoutes);

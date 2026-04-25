@@ -14,6 +14,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const handleThirdPartyLogin = (provider) => {
     console.log(`Login with ${provider}`)
@@ -73,19 +74,40 @@ function Login() {
 
   return (
     <div className="bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#1a1a1a] min-h-screen selection:bg-gray-200/70">
-      <nav className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
+      <header className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
-          <Link to="/" className="text-xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition-colors">
-            MARALESTE <br/> Arte y Expansión
+          <Link to="/" className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
+            MARALESTE
           </Link>
-          <div className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.4em] text-gray-500">
-            <a href="/" className="hover:text-black transition font-medium">Inicio</a>
+          <nav className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.4em] text-gray-500">
+            <Link to="/about" className="hover:text-black transition font-medium">Estudios</Link>
+            <Link to="/workshops" className="hover:text-black transition font-medium">Talleres</Link>
+            <Link to="/courses" className="hover:text-black transition font-medium">Cursos</Link>
+            <Link to="/works" className="hover:text-black transition font-medium">Obras</Link>
+          </nav>
+          <div className="hidden md:flex items-center gap-6 text-[11px] uppercase tracking-[0.4em] font-medium">
+            <Link to="/" className="text-black/70 hover:text-black transition">Volver al inicio</Link>
+            <Link to="/register" className="text-black hover:underline underline-offset-4">Crear cuenta</Link>
           </div>
-          <a href="/register" className="hidden md:inline-flex text-[11px] uppercase tracking-[0.4em] font-medium text-black/70 hover:text-black transition">
-            Crear cuenta
-          </a>
+          <button
+            type="button"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="md:hidden text-sm font-medium uppercase tracking-[0.3em] text-black"
+          >
+            {menuOpen ? 'Cerrar' : 'Menú'}
+          </button>
         </div>
-      </nav>
+        {menuOpen && (
+          <div className="md:hidden border-t border-black/5 bg-white/90 px-6 py-6 space-y-6 text-[11px] uppercase tracking-[0.3em] text-gray-600">
+            <Link to="/about" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Estudios</Link>
+            <Link to="/workshops" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Talleres</Link>
+            <Link to="/courses" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Cursos</Link>
+            <Link to="/works" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Obras</Link>
+            <Link to="/" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Volver al inicio</Link>
+            <Link to="/register" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Crear cuenta</Link>
+          </div>
+        )}
+      </header>
 
       <section className="relative px-6 lg:px-12 py-16 lg:py-24 min-h-[calc(100vh-80px)] flex items-center">
         <div className="absolute inset-0 -z-10">

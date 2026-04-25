@@ -46,3 +46,30 @@ export async function deleteConversation(conversationId) {
   const response = await api.delete(`/messages/conversations/${conversationId}`, { token })
   return response.data
 }
+
+
+
+export async function getCourseEnrolledStudents(courseId) {
+  const token = await getToken()
+  if (!token) throw new Error('Debes iniciar sesión para ver los estudiantes')
+
+  const response = await api.get(`/messages/courses/${courseId}/students`, { token })
+  return response.data
+}
+
+export async function getInstructorCourses() {
+  const token = await getToken()
+  console.log('🔑 Token obtenido:', token ? 'SÍ tiene token' : 'NO tiene token')
+  if (!token) throw new Error('Debes iniciar sesión para ver tus cursos')
+
+  const response = await api.get('/messages/instructor/courses', { token })
+  return response.data
+}
+
+export async function startConversationAsInstructor(courseId, studentUid, text) {
+  const token = await getToken()
+  if (!token) throw new Error('Debes iniciar sesión para iniciar una conversación')
+
+  const response = await api.post('/messages/instructor/start', { courseId, studentUid, text }, { token })
+  return response.data
+}

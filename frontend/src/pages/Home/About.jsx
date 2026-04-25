@@ -8,33 +8,40 @@ const About = () => {
   return (
     <div className="bg-[#f2f2f0] text-[#1a1a1a] min-h-screen selection:bg-gray-200 selection:text-black">
       {/* Navigation - Mejorado con mejor spacing y transiciones */}
-      <nav className="border-b border-black/10 sticky top-0 bg-[#f2f2f0]/95 backdrop-blur-md z-50">
-        <div className="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
-          <Link to="/" className="text-xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition-colors">
-            MARALESTE <br/> Arte y Expansión
+      <header className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
+          <Link to="/" className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
+            MARALESTE
           </Link>
-          
-          <button 
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden text-2xl text-gray-600 hover:text-black transition-colors"
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? '✕' : '☰'}
-          </button>
-
-          <div className={`${
-            menuOpen ? 'flex animate-fadeInUp' : 'hidden'
-          } md:flex gap-12 absolute md:static top-[73px] left-0 right-0 flex-col md:flex-row bg-[#f2f2f0] md:bg-transparent p-8 md:p-0 border-b md:border-0 border-black/10`}>
-            <Link 
-              to="/login" 
-              className="text-[11px] uppercase tracking-[0.2em] text-gray-500 hover:text-black transition-colors font-medium relative group"
-            >
-              Inicia Sesion
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black transition-all group-hover:w-full"></span>
-            </Link>
+          <nav className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.4em] text-gray-500">
+            <Link to="/about" className="hover:text-black transition font-medium">Estudios</Link>
+            <Link to="/workshops" className="hover:text-black transition font-medium">Talleres</Link>
+            <Link to="/courses" className="hover:text-black transition font-medium">Cursos</Link>
+            <Link to="/works" className="hover:text-black transition font-medium">Obras</Link>
+          </nav>
+          <div className="hidden md:flex items-center gap-6 text-[11px] uppercase tracking-[0.4em] font-medium">
+            <Link to="/" className="text-black/70 hover:text-black transition">Volver al inicio</Link>
+            <Link to="/login" className="text-black hover:underline underline-offset-4">Iniciar sesión</Link>
           </div>
+          <button
+            type="button"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="md:hidden text-sm font-medium uppercase tracking-[0.3em] text-black"
+          >
+            {menuOpen ? 'Cerrar' : 'Menú'}
+          </button>
         </div>
-      </nav>
+        {menuOpen && (
+          <div className="md:hidden border-t border-black/5 bg-white/90 px-6 py-6 space-y-6 text-[11px] uppercase tracking-[0.3em] text-gray-600">
+            <Link to="/about" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Estudios</Link>
+            <Link to="/workshops" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Talleres</Link>
+            <Link to="/courses" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Cursos</Link>
+            <Link to="/works" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Obras</Link>
+            <Link to="/" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Volver al inicio</Link>
+            <Link to="/login" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Iniciar sesión</Link>
+          </div>
+        )}
+      </header>
 
       {/* Hero Section - Mejorado con mejor tipografía y espaciado */}
       <section className="max-w-7xl mx-auto px-8 py-28 md:py-36 text-center">
