@@ -5,6 +5,7 @@ import { useFetch } from '../../hooks/useFetch'
 import { useAuth } from '../../context/AuthContext'
 
 function Workshops() {
+  const [menuOpen, setMenuOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('todos')
   const [searchQuery, setSearchQuery] = useState('')
   const [enrolledWorkshopIds, setEnrolledWorkshopIds] = useState(new Set())
@@ -147,38 +148,59 @@ function Workshops() {
   }
 
   return (
-    <div className="bg-[#f2f2f0] text-[#1a1a1a] min-h-screen">
-      {/* Navigation Bar */}
-      <nav className="bg-[#f2f2f0]/95 backdrop-blur-md border-b border-black/5 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link 
-              to="/" 
-              className="group text-black hover:text-gray-600 transition-colors duration-300"
-            >
-              <div className="text-xl font-light tracking-[0.4em] text-black">MARALESTE <br/> Arte y Expansión</div>
-            </Link>
-            
-            <div className="flex items-center space-x-4">
-              {showBackToDashboard && (
-                <button
-                  type="button"
-                  onClick={() => navigate(dashboardPath)}
-                  className="px-6 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors duration-300"
-                >
-                  ← Volver al Dashboard
-                </button>
-              )}
-              <Link 
-                to="/" 
-                className="px-6 py-2 text-sm font-medium text-gray-500 hover:text-black transition-colors duration-300"
+    <div className="bg-[#f2f2f0] text-[#1a1a1a] min-h-screen selection:bg-gray-200/70">
+      <header className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
+          <Link to="/" className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
+            MARALESTE
+          </Link>
+          <nav className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.4em] text-gray-500">
+            <Link to="/about" className="hover:text-black transition font-medium">Estudios</Link>
+            <Link to="/workshops" className="hover:text-black transition font-medium">Talleres</Link>
+            <Link to="/courses" className="hover:text-black transition font-medium">Cursos</Link>
+            <Link to="/works" className="hover:text-black transition font-medium">Obras</Link>
+          </nav>
+          <div className="hidden md:flex items-center gap-6 text-[11px] uppercase tracking-[0.4em] font-medium">
+            {showBackToDashboard && (
+              <button
+                type="button"
+                onClick={() => navigate(dashboardPath)}
+                className="text-black/70 hover:text-black transition"
               >
-                ← Volver al Inicio
-              </Link>
-            </div>
+                Volver al dashboard
+              </button>
+            )}
+            <Link to="/" className="text-black/70 hover:text-black transition">Volver al inicio</Link>
+            <Link to="/login" className="text-black hover:underline underline-offset-4">Iniciar sesión</Link>
           </div>
+          <button
+            type="button"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="md:hidden text-sm font-medium uppercase tracking-[0.3em] text-black"
+          >
+            {menuOpen ? 'Cerrar' : 'Menú'}
+          </button>
         </div>
-      </nav>
+        {menuOpen && (
+          <div className="md:hidden border-t border-black/5 bg-white/90 px-6 py-6 space-y-6 text-[11px] uppercase tracking-[0.3em] text-gray-600">
+            <Link to="/about" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Estudios</Link>
+            <Link to="/workshops" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Talleres</Link>
+            <Link to="/courses" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Cursos</Link>
+            <Link to="/works" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Obras</Link>
+            {showBackToDashboard && (
+              <button
+                type="button"
+                onClick={() => navigate(dashboardPath)}
+                className="block hover:text-black transition text-left"
+              >
+                Volver al dashboard
+              </button>
+            )}
+            <Link to="/" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Volver al inicio</Link>
+            <Link to="/login" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Iniciar sesión</Link>
+          </div>
+        )}
+      </header>
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#f2f2f0] via-[#ecece9] to-[#e8e8e6] py-20 overflow-hidden">
