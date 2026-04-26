@@ -1,5 +1,6 @@
 const { asyncHandler } = require("../middlewares/errorHandler");
 const messageService = require("../services/messageService");
+const courseService = require("../services/courseService"); 
 
 const sendToCourseInstructor = asyncHandler(async (req, res) => {
   const { courseId } = req.params;
@@ -32,16 +33,15 @@ const deleteConversation = asyncHandler(async (req, res) => {
   res.json({ message: "Conversación eliminada", data: payload });
 });
 
-// ← mismo estilo que las de arriba
 const getInstructorCourses = asyncHandler(async (req, res) => {
-  const courses = await messageService.getInstructorCourses(req.user.uid);
-  res.json(courses);
+  const courses = await courseService.getCoursesByCreator(req.user.uid);
+  res.json({ message: "Cursos del instructor obtenidos", count: courses.length, data: courses });
 });
 
 const getCourseStudents = asyncHandler(async (req, res) => {
   const { courseId } = req.params;
   const students = await messageService.getCourseStudents(courseId, req.user.uid);
-  res.json(students);
+  res.json({ message: "Estudiantes obtenidos", count: students.length, data: students });
 });
 
 const startInstructorConversation = asyncHandler(async (req, res) => {

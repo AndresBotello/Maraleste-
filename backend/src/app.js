@@ -53,8 +53,6 @@ app.get("/api/health", (req, res) => {
 });
 
 
-console.log('🔍 Cargando rutas...')
-console.log('messageRoutes:', require('./routes/messageRoutes'))
 // Rutas de la API
 app.use("/api/courses", courseRoutes);
 app.use("/api/workshops", workshopRoutes);
