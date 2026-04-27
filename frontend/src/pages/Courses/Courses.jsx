@@ -5,6 +5,8 @@ import { CATEGORIAS_CON_TODOS } from '../../data/constants'
 import { useFetch } from '../../hooks/useFetch'
 import { useAuth } from '../../context/AuthContext'
 import Footer from '../../components/layouts/Footer'
+import catalogSharedStyles from '../CatalogSharedStyles'
+import homeSharedStyles from '../Home/HomeSharedStyles'
 
 function Courses() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -45,10 +47,12 @@ function Courses() {
   }, [])
 
   return (
-    <div className="bg-[#f2f2f0] text-[#1a1a1a] min-h-screen selection:bg-gray-200/70">
-      <header className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
-          <Link to="/" className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
+    <div className="catalog-root bg-[#f2f2f0] text-[#1a1a1a] min-h-screen selection:bg-gray-200/70">
+      <style>{catalogSharedStyles}</style>
+      <style>{homeSharedStyles}</style>
+      <header className="hm-header border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
+        <div className="hm-shell max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
+          <Link to="/" className="hm-brand text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
             MARALESTE
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.4em] text-gray-500">
@@ -58,8 +62,8 @@ function Courses() {
             <Link to="/works" className="hover:text-black transition font-medium">Obras</Link>
           </nav>
           <div className="hidden md:flex items-center gap-6 text-[11px] uppercase tracking-[0.4em] font-medium">
-            <Link to="/" className="text-black/70 hover:text-black transition">Volver al inicio</Link>
-            <Link to="/login" className="text-black hover:underline underline-offset-4">Iniciar sesión</Link>
+            <Link to="/login" className="hm-link text-black/70 hover:text-black transition">Iniciar sesión</Link>
+            <Link to="/register" className="hm-link text-black hover:underline underline-offset-4">Crear cuenta</Link>
           </div>
           <button
             type="button"
@@ -75,14 +79,14 @@ function Courses() {
             <Link to="/workshops" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Talleres</Link>
             <Link to="/courses" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Cursos</Link>
             <Link to="/works" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Obras</Link>
-            <Link to="/" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Volver al inicio</Link>
             <Link to="/login" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Iniciar sesión</Link>
+            <Link to="/register" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Crear cuenta</Link>
           </div>
         )}
       </header>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#f2f2f0] via-[#ecece9] to-[#e8e8e6] py-10 md:py-12 overflow-hidden">
+      <section className="catalog-hero relative bg-gradient-to-br from-[#f2f2f0] via-[#ecece9] to-[#e8e8e6] py-10 md:py-12 overflow-hidden">
         {/* Background decorative elements */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-10 w-32 h-32 bg-black rounded-full blur-3xl"></div>
@@ -91,10 +95,10 @@ function Courses() {
         
         <div className="relative max-w-7xl mx-auto px-8">
           <div className="mb-8 text-center">
-            <div className="inline-flex items-center px-4 py-1.5 bg-black/10 rounded-full mb-4">
+            <div className="catalog-chip inline-flex items-center px-4 py-1.5 bg-black/10 rounded-full mb-4">
               <span className="text-sm font-medium text-gray-600 tracking-wide">✨ EDUCACIÓN CREATIVA</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-light mb-4 tracking-tight text-black">
+            <h1 className="catalog-title text-4xl md:text-5xl font-light mb-4 tracking-tight text-black">
               Catálogo de Cursos
             </h1>
             <p className="text-base md:text-lg text-gray-500 font-light max-w-3xl mx-auto leading-relaxed">
@@ -120,7 +124,7 @@ function Courses() {
               <label className="block text-[11px] uppercase tracking-[0.28em] text-gray-500 font-semibold mb-2">
                 Categoría
               </label>
-              <div ref={categoryMenuRef} className="relative rounded-2xl p-[1px] bg-gradient-to-r from-black/15 via-black/10 to-black/15 shadow-md shadow-black/5">
+              <div ref={categoryMenuRef} className="catalog-panel relative rounded-2xl p-[1px] bg-gradient-to-r from-black/15 via-black/10 to-black/15 shadow-md shadow-black/5">
                 <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 z-10">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h8m-8 4h6" />
@@ -131,7 +135,7 @@ function Courses() {
                   aria-haspopup="listbox"
                   aria-expanded={isCategoryOpen}
                   onClick={() => setIsCategoryOpen((prev) => !prev)}
-                  className="w-full h-12 pl-11 pr-12 bg-gradient-to-b from-white to-[#f8f8f7] backdrop-blur-sm border border-black/10 rounded-2xl text-sm font-medium text-black text-left focus:outline-none focus:ring-2 focus:ring-black/20 hover:border-black/20 transition-all duration-300"
+                  className="catalog-select w-full h-12 pl-11 pr-12 bg-gradient-to-b from-white to-[#f8f8f7] backdrop-blur-sm border border-black/10 rounded-2xl text-sm font-medium text-black text-left focus:outline-none focus:ring-2 focus:ring-black/20 hover:border-black/20 transition-all duration-300"
                 >
                   {categoriaActiva?.nombre || 'Todos los Cursos'}
                 </button>
@@ -192,7 +196,7 @@ function Courses() {
                   placeholder="Buscar cursos por nombre o instructor..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-5 py-3.5 bg-white/80 backdrop-blur-sm border-2 border-black/20 rounded-2xl text-black placeholder-gray-500 focus:outline-none focus:border-black focus:bg-white transition-all duration-300 shadow-lg shadow-black/5"
+                  className="catalog-input w-full px-5 py-3.5 bg-white/80 backdrop-blur-sm border-2 border-black/20 rounded-2xl text-black placeholder-gray-500 focus:outline-none focus:border-black focus:bg-white transition-all duration-300 shadow-lg shadow-black/5"
                 />
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 bg-black/10 p-2 rounded-xl group-focus-within:bg-black group-focus-within:text-white transition-all duration-300">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -206,7 +210,7 @@ function Courses() {
 
         {/* Results Info */}
         <div className="mb-8 text-center">
-          <div className="inline-flex items-center px-5 py-2 bg-white/50 backdrop-blur-sm rounded-full border border-black/10">
+          <div className="catalog-pill inline-flex items-center px-5 py-2 bg-white/50 backdrop-blur-sm rounded-full border border-black/10">
             <svg className="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
@@ -227,7 +231,7 @@ function Courses() {
           </div>
         ) : error ? (
           <div className="text-center py-20">
-            <div className="w-24 h-24 mx-auto mb-8 bg-red-50 rounded-full flex items-center justify-center">
+            <div className="catalog-pill w-24 h-24 mx-auto mb-8 bg-red-50 rounded-full flex items-center justify-center">
               <svg className="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
@@ -236,7 +240,7 @@ function Courses() {
             <p className="text-gray-500 mb-6">{error}</p>
             <button
               onClick={() => window.location.reload()}
-              className="px-8 py-4 bg-black text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              className="catalog-button-primary px-8 py-4 bg-black text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
             >
               Reintentar
             </button>
@@ -246,7 +250,7 @@ function Courses() {
             {cursosFiltrados.map((curso) => (
               <article
                 key={curso.id}
-                className="group relative bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg shadow-black/8 border border-black/10 hover:shadow-2xl hover:shadow-black/15 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1"
+                className="catalog-card catalog-fade group relative bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg shadow-black/8 border border-black/10 hover:shadow-2xl hover:shadow-black/15 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1"
               >
                 {/* Image */}
                 <div className="h-52 overflow-hidden bg-gradient-to-br from-[#f2f2f0] to-[#ecece9] relative">
@@ -286,7 +290,7 @@ function Courses() {
                   
                   {/* Certificate Badge */}
                   {curso.certificado && (
-                    <div className="absolute top-4 left-4 px-3 py-2 bg-black text-white rounded-xl text-xs font-semibold shadow-lg backdrop-blur-sm">
+                    <div className="catalog-pill absolute top-4 left-4 px-3 py-2 bg-black text-white rounded-xl text-xs font-semibold shadow-lg backdrop-blur-sm">
                       <span className="flex items-center">
                         <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -368,7 +372,7 @@ function Courses() {
                     </div>
                     <Link
                       to={getDetailsPath(curso.id)}
-                      className="px-6 py-3 bg-black text-white text-sm font-semibold rounded-xl shadow-lg shadow-black/25 hover:shadow-xl hover:scale-105 transition-all duration-300 group-hover:bg-gray-800"
+                      className="catalog-button-primary px-6 py-3 bg-black text-white text-sm font-semibold rounded-xl shadow-lg shadow-black/25 hover:shadow-xl hover:scale-105 transition-all duration-300 group-hover:bg-gray-800"
                     >
                       <span className="flex items-center">
                         Ver Detalles
@@ -384,9 +388,9 @@ function Courses() {
           </div>
         ) : (
           <div className="text-center py-20">
-            <div className="max-w-md mx-auto">
+            <div className="catalog-empty catalog-fade max-w-md mx-auto">
               {/* Empty state illustration */}
-              <div className="w-24 h-24 mx-auto mb-8 bg-black/10 rounded-full flex items-center justify-center">
+              <div className="catalog-pill w-24 h-24 mx-auto mb-8 bg-black/10 rounded-full flex items-center justify-center">
                 <svg className="w-12 h-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
@@ -404,7 +408,7 @@ function Courses() {
                     setSearchQuery('')
                     setSelectedCategory('todos')
                   }}
-                  className="w-full px-8 py-4 bg-black text-white font-semibold rounded-2xl shadow-lg shadow-black/25 hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  className="catalog-button-primary w-full px-8 py-4 bg-black text-white font-semibold rounded-2xl shadow-lg shadow-black/25 hover:shadow-xl hover:scale-105 transition-all duration-300"
                 >
                   <span className="flex items-center justify-center">
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

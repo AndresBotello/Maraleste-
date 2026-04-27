@@ -9,6 +9,8 @@ import maraleste5 from '../../assets/maraleste5.jpg'
 import maraleste6 from '../../assets/maraleste6.webp'
 import maraleste7 from '../../assets/maraleste7.jpg'
 import maraleste8 from '../../assets/maraleste8.jpg'
+import homeSharedStyles from './HomeSharedStyles'
+import homePageStyles from './HomePageStyles'
 
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -157,10 +159,11 @@ function Home() {
   }, [materialSlides])
 
   return (
-    <div className="bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#111] min-h-screen selection:bg-gray-200/70">
-      <header className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
-          <div className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black">MARALESTE</div>
+    <div className="hm-root bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#111] min-h-screen selection:bg-gray-200/70">
+      <style>{homeSharedStyles + homePageStyles}</style>
+      <header className="hm-header border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
+        <div className="hm-shell max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
+          <div className="hm-brand text-xl lg:text-2xl font-light tracking-[0.4em] text-black">MARALESTE</div>
           <nav className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.4em] text-gray-500">
             {navItems.map(({ label, href }) => (
               <a key={label} href={href} className="hover:text-black transition font-medium">
@@ -169,8 +172,8 @@ function Home() {
             ))}
           </nav>
           <div className="hidden md:flex items-center gap-6 text-[11px] uppercase tracking-[0.4em] font-medium">
-            <Link to="/login" className="text-black/70 hover:text-black transition">Iniciar sesión</Link>
-            <Link to="/register" className="text-black hover:underline underline-offset-4">Crear cuenta</Link>
+            <Link to="/login" className="hm-link text-black/70 hover:text-black transition">Iniciar sesión</Link>
+            <Link to="/register" className="hm-link text-black hover:underline underline-offset-4">Crear cuenta</Link>
           </div>
           <button
             type="button"
@@ -207,7 +210,7 @@ function Home() {
             <div className="space-y-10">
               <div className="space-y-5">
                 <span className="text-[10px] uppercase tracking-[0.5em] text-gray-500">Estudio transdisciplinar</span>
-                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-light tracking-tight text-black leading-tight">
+                <h1 className="hm-title text-4xl lg:text-5xl xl:text-6xl font-light tracking-tight text-black leading-tight">
                   Arte botánico contemporáneo que conecta marcas, colecciones y comunidades.
                 </h1>
                 <p className="text-base lg:text-lg text-gray-600 leading-relaxed max-w-xl">
@@ -215,23 +218,23 @@ function Home() {
                 </p>
               </div>
               <div className="flex flex-wrap gap-4">
-                <Link to="/courses" className="inline-flex items-center justify-center rounded-xl bg-black px-8 py-3 text-[11px] uppercase tracking-[0.3em] text-white hover:bg-gray-900 transition">
+                <Link to="/courses" className="hm-btn hm-btn--solid inline-flex items-center justify-center rounded-xl bg-black px-8 py-3 text-[11px] uppercase tracking-[0.3em] text-white hover:bg-gray-900 transition">
                   Explorar programas
                 </Link>
-                <a href="#contacto" className="inline-flex items-center justify-center rounded-xl border border-black px-8 py-3 text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition">
+                <a href="#contacto" className="hm-btn hm-btn--ghost inline-flex items-center justify-center rounded-xl border border-black px-8 py-3 text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition">
                   Solicitar agenda
                 </a>
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
                 {studioHighlights.map(({ label, value }) => (
-                  <article key={label} className="rounded-2xl border border-black/10 bg-white/70 backdrop-blur-sm px-5 py-6 shadow-sm shadow-black/5">
+                  <article key={label} className="hm-card rounded-2xl border border-black/10 bg-white/70 backdrop-blur-sm px-5 py-6 shadow-sm shadow-black/5">
                     <p className="text-sm uppercase tracking-[0.3em] text-gray-400 mb-2">{label}</p>
                     <p className="text-3xl font-light text-black">{value}</p>
                   </article>
                 ))}
               </div>
             </div>
-            <div className="relative h-[420px] w-full overflow-hidden rounded-3xl border border-black/10 bg-black/5 shadow-xl shadow-black/10">
+            <div className="hm-hero-card relative h-[420px] w-full overflow-hidden rounded-3xl border border-black/10 bg-black/5 shadow-xl shadow-black/10">
               {heroSlides.map(({ image, caption }, index) => (
                 <figure
                   key={caption}
@@ -324,10 +327,10 @@ function Home() {
             </div>
             <div className="grid gap-6 sm:grid-cols-3">
               {programTracks.map(({ title, description }) => (
-                <article key={title} className="rounded-2xl border border-black/10 bg-white px-5 py-6 shadow-sm shadow-black/5">
+                <article key={title} className="hm-card rounded-2xl border border-black/10 bg-white px-5 py-6 shadow-sm shadow-black/5">
                   <h3 className="text-lg font-medium text-black mb-3">{title}</h3>
                   <p className="text-sm text-gray-600 leading-relaxed">{description}</p>
-                  <Link to="/courses" className="mt-4 inline-flex text-[10px] uppercase tracking-[0.3em] font-medium text-black hover:underline underline-offset-4">
+                  <Link to="/courses" className="hm-link mt-4 inline-flex text-[10px] uppercase tracking-[0.3em] font-medium text-black hover:underline underline-offset-4">
                     Conocer más
                   </Link>
                 </article>
@@ -389,17 +392,17 @@ function Home() {
             </p>
             <div className="grid gap-4 sm:grid-cols-3">
               {contactChannels.map(({ label, value }) => (
-                <article key={label} className="rounded-2xl border border-black/10 bg-white px-5 py-6 shadow-sm shadow-black/5">
+                <article key={label} className="hm-card rounded-2xl border border-black/10 bg-white px-5 py-6 shadow-sm shadow-black/5">
                   <p className="text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-3">{label}</p>
                   <p className="text-sm text-black/80 leading-relaxed">{value}</p>
                 </article>
               ))}
             </div>
             <div className="flex flex-wrap justify-center gap-4">
-              <a href="mailto:hola@maraleste.com" className="inline-flex items-center justify-center rounded-xl bg-black px-8 py-3 text-[11px] uppercase tracking-[0.3em] text-white hover:bg-gray-900 transition">
+              <a href="mailto:hola@maraleste.com" className="hm-btn hm-btn--solid inline-flex items-center justify-center rounded-xl bg-black px-8 py-3 text-[11px] uppercase tracking-[0.3em] text-white hover:bg-gray-900 transition">
                 Enviar correo
               </a>
-              <a href="/contact" className="inline-flex items-center justify-center rounded-xl border border-black px-8 py-3 text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition">
+              <a href="/contact" className="hm-btn hm-btn--ghost inline-flex items-center justify-center rounded-xl border border-black px-8 py-3 text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition">
                 Reservar reunión
               </a>
             </div>

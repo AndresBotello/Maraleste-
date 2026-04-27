@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import Footer from '../../components/layouts/Footer'
+import profileStyles from './ProfileStyles'
+import customerSharedStyles from './CustomerSharedStyles'
 
 function Profile() {
 	const { user, profile, updateProfileData, refreshProfile } = useAuth()
@@ -116,27 +118,28 @@ function Profile() {
 	}, [photoPreview])
 
 	return (
-		<div className="bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#1a1a1a] min-h-screen">
-			<header className="border-b border-black/5 sticky top-0 z-40 bg-white/70 backdrop-blur-xl">
-				<div className="px-4 md:px-8 lg:px-12 py-4 md:py-5 flex items-center justify-between gap-3 md:gap-4">
-					<Link to="/" className="text-lg md:text-xl lg:text-2xl font-light tracking-[0.3em] md:tracking-[0.4em] text-black">
+		<div className="pf-root bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#1a1a1a] min-h-screen">
+			<style>{customerSharedStyles + profileStyles}</style>
+			<header className="pf-header border-b border-black/5 sticky top-0 z-40 bg-white/70 backdrop-blur-xl">
+				<div className="pf-shell px-4 md:px-8 lg:px-12 py-4 md:py-5 flex items-center justify-between gap-3 md:gap-4">
+					<Link to="/" className="pf-brand text-lg md:text-xl lg:text-2xl font-light tracking-[0.3em] md:tracking-[0.4em] text-black">
 						MARALESTE
 					</Link>
 					<button
 						type="button"
 						onClick={() => navigate('/customer/dashboard')}
-						className="rounded-xl border border-black px-3 md:px-5 py-2 md:py-2 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
+						className="pf-btn pf-btn--ghost rounded-xl border border-black px-3 md:px-5 py-2 md:py-2 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
 					>
 						Volver
 					</button>
 				</div>
 			</header>
 
-			<main className="px-4 md:px-8 lg:px-12 py-10 md:py-14 lg:py-20">
+			<main className="pf-shell px-4 md:px-8 lg:px-12 py-10 md:py-14 lg:py-20">
 				<section className="grid gap-6 md:gap-8 lg:grid-cols-[0.9fr_1.1fr] items-start">
-					<aside className="rounded-3xl border border-black/10 bg-white/80 p-6 md:p-8 shadow-lg shadow-black/5 backdrop-blur-sm">
+					<aside className="pf-card rounded-3xl border border-black/10 bg-white/80 p-6 md:p-8 shadow-lg shadow-black/5 backdrop-blur-sm">
 						<div className="mb-6 flex flex-col md:flex-row items-center md:items-start gap-4">
-							<div className="h-16 w-16 flex-shrink-0 rounded-full border border-black/10 bg-black/5 overflow-hidden flex items-center justify-center">
+							<div className="pf-avatar h-16 w-16 flex-shrink-0 rounded-full border border-black/10 bg-black/5 overflow-hidden flex items-center justify-center">
 								{avatarSrc ? (
 									<img src={avatarSrc} alt="Foto de perfil" className="h-full w-full object-cover" />
 								) : (
@@ -147,7 +150,7 @@ function Profile() {
 								<button
 									type="button"
 									onClick={() => fileInputRef.current?.click()}
-									className="rounded-lg border border-black/15 px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-black hover:bg-black hover:text-white transition"
+									className="pf-btn pf-btn--ghost rounded-lg border border-black/15 px-3 py-2 text-[10px] uppercase tracking-[0.25em] text-black hover:bg-black hover:text-white transition"
 								>
 									Cambiar foto
 								</button>
@@ -163,13 +166,13 @@ function Profile() {
 						</div>
 
 						<p className="text-[10px] uppercase tracking-[0.5em] text-gray-500">Perfil de usuario</p>
-						<h1 className="mt-4 text-2xl md:text-3xl font-light text-black leading-tight">Edita tu información personal</h1>
+						<h1 className="pf-title mt-4 text-2xl md:text-3xl font-light text-black leading-tight">Edita tu información personal</h1>
 						<p className="mt-4 text-xs md:text-sm text-gray-600 leading-relaxed">
 							Puedes actualizar tus datos de contacto para mantener tu cuenta al día y sincronizar tu cuenta con la plataforma.
 						</p>
 					</aside>
 
-					<section className="rounded-3xl border border-black/10 bg-white/90 p-6 md:p-8 lg:p-10 shadow-xl shadow-black/10">
+					<section className="pf-form-card rounded-3xl border border-black/10 bg-white/90 p-6 md:p-8 lg:p-10 shadow-xl shadow-black/10">
 						<form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
 							<div className="grid gap-4 md:gap-5 md:grid-cols-2">
 								<label className="space-y-2">
@@ -180,7 +183,7 @@ function Profile() {
 										value={formData.firstName}
 										onChange={handleChange}
 										required
-										className="w-full rounded-xl border border-black/10 bg-white px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
+										className="pf-input w-full rounded-xl border border-black/10 bg-white px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
 										placeholder="Tu nombre"
 									/>
 								</label>
@@ -193,7 +196,7 @@ function Profile() {
 										value={formData.lastName}
 										onChange={handleChange}
 										required
-										className="w-full rounded-xl border border-black/10 bg-white px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
+										className="pf-input w-full rounded-xl border border-black/10 bg-white px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
 										placeholder="Tu apellido"
 									/>
 								</label>
@@ -207,31 +210,31 @@ function Profile() {
 									value={formData.email}
 									onChange={handleChange}
 									required
-									className="w-full rounded-xl border border-black/10 bg-white px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
+									className="pf-input w-full rounded-xl border border-black/10 bg-white px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
 									placeholder="correo@ejemplo.com"
 								/>
 							</label>
 
 							{errorMessage && (
-								<p className="rounded-xl border border-red-200 bg-red-50 px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-red-600">{errorMessage}</p>
+									<p className="pf-alert is-error rounded-xl border border-red-200 bg-red-50 px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-red-600">{errorMessage}</p>
 							)}
 
 							{successMessage && (
-								<p className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-emerald-700">{successMessage}</p>
+									<p className="pf-alert is-success rounded-xl border border-emerald-200 bg-emerald-50 px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-emerald-700">{successMessage}</p>
 							)}
 
 							<div className="flex flex-col gap-2 md:gap-3 md:flex-row">
 								<button
 									type="submit"
 									disabled={saving || !isDirty}
-									className="inline-flex items-center justify-center rounded-xl bg-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-white hover:bg-gray-900 disabled:cursor-not-allowed disabled:opacity-50 transition"
+									className="pf-btn pf-btn--solid inline-flex items-center justify-center rounded-xl bg-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-white hover:bg-gray-900 disabled:cursor-not-allowed disabled:opacity-50 transition"
 								>
 									{saving ? 'Guardando...' : 'Guardar cambios'}
 								</button>
 								<button
 									type="button"
 									onClick={() => navigate('/customer/dashboard')}
-									className="inline-flex items-center justify-center rounded-xl border border-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
+									className="pf-btn pf-btn--ghost inline-flex items-center justify-center rounded-xl border border-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
 								>
 									Cancelar
 								</button>

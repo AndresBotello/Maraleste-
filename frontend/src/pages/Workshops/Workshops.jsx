@@ -3,6 +3,8 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { getWorkshops, getMyWorkshopAccesses, registerWorkshopAccess } from '../../services/workshopService'
 import { useFetch } from '../../hooks/useFetch'
 import { useAuth } from '../../context/AuthContext'
+import catalogSharedStyles from '../CatalogSharedStyles'
+import homeSharedStyles from '../Home/HomeSharedStyles'
 
 function Workshops() {
   const [selectedCategory, setSelectedCategory] = useState('todos')
@@ -148,11 +150,13 @@ function Workshops() {
   }
 
   return (
-    <div className="bg-[#f2f2f0] text-[#1a1a1a] min-h-screen">
+    <div className="catalog-root bg-[#f2f2f0] text-[#1a1a1a] min-h-screen">
+      <style>{catalogSharedStyles}</style>
+      <style>{homeSharedStyles}</style>
       {/* Navigation Bar */}
-      <header className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
-          <Link to="/" className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
+      <header className="hm-header border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
+        <div className="hm-shell max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
+          <Link to="/" className="hm-brand text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
             MARALESTE
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.4em] text-gray-500">
@@ -162,8 +166,8 @@ function Workshops() {
             <Link to="/works" className="hover:text-black transition font-medium">Obras</Link>
           </nav>
           <div className="hidden md:flex items-center gap-6 text-[11px] uppercase tracking-[0.4em] font-medium">
-            <Link to="/" className="text-black/70 hover:text-black transition">Volver al inicio</Link>
-            <Link to="/login" className="text-black hover:underline underline-offset-4">Iniciar sesión</Link>
+            <Link to="/login" className="hm-link text-black/70 hover:text-black transition">Iniciar sesión</Link>
+            <Link to="/register" className="hm-link text-black hover:underline underline-offset-4">Crear cuenta</Link>
           </div>
           <button
             type="button"
@@ -179,14 +183,14 @@ function Workshops() {
             <Link to="/workshops" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Talleres</Link>
             <Link to="/courses" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Cursos</Link>
             <Link to="/works" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Obras</Link>
-            <Link to="/" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Volver al inicio</Link>
             <Link to="/login" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Iniciar sesión</Link>
+            <Link to="/register" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Crear cuenta</Link>
           </div>
         )}
       </header>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#f2f2f0] via-[#ecece9] to-[#e8e8e6] py-20 overflow-hidden">
+      <section className="catalog-hero relative bg-gradient-to-br from-[#f2f2f0] via-[#ecece9] to-[#e8e8e6] py-20 overflow-hidden">
         {/* Background decorative elements */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-10 w-32 h-32 bg-black rounded-full blur-3xl"></div>
@@ -195,10 +199,10 @@ function Workshops() {
         
         <div className="relative max-w-7xl mx-auto px-8">
           <div className="mb-16 text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-black/10 rounded-full mb-6">
+            <div className="catalog-chip inline-flex items-center px-4 py-2 bg-black/10 rounded-full mb-6">
               <span className="text-sm font-medium text-gray-600 tracking-wide">🎭 EXPERIENCIAS PRESENCIALES</span>
             </div>
-            <h1 className="text-6xl md:text-7xl font-light mb-6 tracking-tight text-black">
+            <h1 className="catalog-title text-6xl md:text-7xl font-light mb-6 tracking-tight text-black">
               Catálogo de Talleres
             </h1>
             <p className="text-xl text-gray-500 font-light max-w-3xl mx-auto leading-relaxed">
@@ -231,7 +235,7 @@ function Workshops() {
                   placeholder="Buscar por nombre o instructor..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-5 py-3.5 bg-white/80 backdrop-blur-sm border-2 border-black/20 rounded-2xl text-black placeholder-gray-500 focus:outline-none focus:border-black focus:bg-white transition-all duration-300 shadow-lg shadow-black/5"
+                  className="catalog-input w-full px-5 py-3.5 bg-white/80 backdrop-blur-sm border-2 border-black/20 rounded-2xl text-black placeholder-gray-500 focus:outline-none focus:border-black focus:bg-white transition-all duration-300 shadow-lg shadow-black/5"
                 />
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 bg-black/10 p-2 rounded-xl group-focus-within:bg-black group-focus-within:text-white transition-all duration-300">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -245,7 +249,7 @@ function Workshops() {
               <label className="block text-[11px] uppercase tracking-[0.28em] text-gray-500 font-semibold mb-2">
                 Categoría
               </label>
-              <div ref={categoryMenuRef} className="relative rounded-2xl p-[1px] bg-gradient-to-r from-black/15 via-black/10 to-black/15 shadow-md shadow-black/5">
+              <div ref={categoryMenuRef} className="catalog-panel relative rounded-2xl p-[1px] bg-gradient-to-r from-black/15 via-black/10 to-black/15 shadow-md shadow-black/5">
                 <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 z-10">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h8m-8 4h6" />
@@ -256,7 +260,7 @@ function Workshops() {
                   aria-haspopup="listbox"
                   aria-expanded={isCategoryOpen}
                   onClick={() => setIsCategoryOpen((prev) => !prev)}
-                  className="w-full h-12 pl-11 pr-12 bg-gradient-to-b from-white to-[#f8f8f7] backdrop-blur-sm border border-black/10 rounded-2xl text-sm font-medium text-black text-left focus:outline-none focus:ring-2 focus:ring-black/20 hover:border-black/20 transition-all duration-300"
+                  className="catalog-select w-full h-12 pl-11 pr-12 bg-gradient-to-b from-white to-[#f8f8f7] backdrop-blur-sm border border-black/10 rounded-2xl text-sm font-medium text-black text-left focus:outline-none focus:ring-2 focus:ring-black/20 hover:border-black/20 transition-all duration-300"
                 >
                   {categoriaActiva?.nombre || 'Todos los Talleres'}
                 </button>
@@ -334,7 +338,7 @@ function Workshops() {
         {/* Error State */}
         {!loading && error && (
           <div className="flex flex-col items-center justify-center py-24">
-            <div className="w-24 h-24 mx-auto mb-8 bg-red-50 rounded-full flex items-center justify-center">
+            <div className="catalog-pill w-24 h-24 mx-auto mb-8 bg-red-50 rounded-full flex items-center justify-center">
               <svg className="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
@@ -350,7 +354,7 @@ function Workshops() {
             {talleresFiltrados.map((taller) => (
               <div
                 key={taller.id}
-                className="group bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg shadow-black/8 border border-black/10 hover:shadow-2xl hover:shadow-black/15 transition-all duration-500 hover:scale-105 hover:-translate-y-2"
+                className="catalog-card catalog-fade group bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg shadow-black/8 border border-black/10 hover:shadow-2xl hover:shadow-black/15 transition-all duration-500 hover:scale-105 hover:-translate-y-2"
               >
                 {/* Image */}
                 <div className="h-52 overflow-hidden bg-gradient-to-br from-[#f2f2f0] to-[#ecece9] relative">
@@ -385,7 +389,7 @@ function Workshops() {
                   </div>
                   
                   {/* Available Spots Badge */}
-                  <div className="absolute top-4 left-4 px-3 py-2 bg-black text-white rounded-xl text-xs font-semibold shadow-lg backdrop-blur-sm">
+                  <div className="catalog-pill absolute top-4 left-4 px-3 py-2 bg-black text-white rounded-xl text-xs font-semibold shadow-lg backdrop-blur-sm">
                     <span className="flex items-center">
                       <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
@@ -396,7 +400,7 @@ function Workshops() {
 
                   {/* Virtual Badge */}
                   {taller.linkReunion && (
-                    <div className="absolute bottom-4 left-4 px-3 py-2 bg-blue-600 text-white rounded-xl text-xs font-semibold shadow-lg backdrop-blur-sm">
+                    <div className="catalog-pill absolute bottom-4 left-4 px-3 py-2 bg-blue-600 text-white rounded-xl text-xs font-semibold shadow-lg backdrop-blur-sm">
                       <span className="flex items-center">
                         <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -410,7 +414,7 @@ function Workshops() {
                 {/* Content */}
                 <div className="p-7">
                   {/* Date Badge */}
-                  <div className="inline-flex items-center px-3 py-1 bg-black/10 text-gray-600 rounded-lg text-xs font-semibold mb-4">
+                  <div className="catalog-pill inline-flex items-center px-3 py-1 bg-black/10 text-gray-600 rounded-lg text-xs font-semibold mb-4">
                     <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
@@ -439,13 +443,13 @@ function Workshops() {
 
                   {/* Stats */}
                   <div className="grid grid-cols-2 gap-3 mb-6">
-                    <div className="flex items-center text-xs text-gray-500 bg-black/5 px-3 py-2 rounded-lg">
+                    <div className="catalog-surface flex items-center text-xs text-gray-500 bg-black/5 px-3 py-2 rounded-lg">
                       <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       {taller.duracion}
                     </div>
-                    <div className="flex items-center text-xs text-gray-500 bg-black/5 px-3 py-2 rounded-lg">
+                    <div className="catalog-surface flex items-center text-xs text-gray-500 bg-black/5 px-3 py-2 rounded-lg">
                       <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                       </svg>
@@ -471,7 +475,7 @@ function Workshops() {
                   {/* Materials Info */}
                   {taller.materiales && (
                     <div className="mb-4 p-3 bg-black/5 rounded-lg border border-black/10">
-                      <div className="flex items-center text-xs text-gray-600">
+                      <div className="catalog-surface flex items-center text-xs text-gray-600">
                         <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
@@ -482,7 +486,7 @@ function Workshops() {
 
                   {/* Meeting Link */}
                   {taller.linkReunion && isWorkshopEnrolled(taller.id) && (
-                    <div className="mb-6 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <div className="catalog-surface mb-6 p-3 bg-blue-50 rounded-lg border border-blue-200">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center text-xs text-blue-700">
                           <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -495,7 +499,7 @@ function Workshops() {
                             e.stopPropagation()
                             navigate(`/workshop/${taller.id}/session`)
                           }}
-                          className="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+                          className="catalog-button-primary inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
                         >
                           <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             {taller.plataformaReunion === 'jitsi-meet' ? (
@@ -514,7 +518,7 @@ function Workshops() {
                   )}
 
                   {taller.linkReunion && !isWorkshopEnrolled(taller.id) && (
-                    <div className="mb-6 p-3 bg-amber-50 rounded-lg border border-amber-200">
+                    <div className="catalog-surface mb-6 p-3 bg-amber-50 rounded-lg border border-amber-200">
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center text-xs text-amber-700">
                           <svg className="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -526,7 +530,7 @@ function Workshops() {
                           type="button"
                           onClick={() => handleEnrollWorkshop(taller, { goToSession: false })}
                           disabled={enrollingWorkshopId === taller.id || !hasWorkshopSpots(taller)}
-                          className="inline-flex items-center px-3 py-1.5 bg-amber-600 text-white text-xs font-semibold rounded-lg hover:bg-amber-700 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                          className="catalog-button-primary inline-flex items-center px-3 py-1.5 bg-amber-600 text-white text-xs font-semibold rounded-lg hover:bg-amber-700 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           {enrollingWorkshopId === taller.id
                             ? 'Procesando...'
@@ -554,7 +558,7 @@ function Workshops() {
                     <button
                       onClick={() => handleEnrollWorkshop(taller, { goToSession: false })}
                       disabled={enrollingWorkshopId === taller.id || (!isWorkshopEnrolled(taller.id) && !hasWorkshopSpots(taller))}
-                      className="px-6 py-3 bg-black text-white text-sm font-semibold rounded-xl shadow-lg shadow-black/25 hover:shadow-xl hover:scale-105 transition-all duration-300 group-hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="catalog-button-primary px-6 py-3 bg-black text-white text-sm font-semibold rounded-xl shadow-lg shadow-black/25 hover:shadow-xl hover:scale-105 transition-all duration-300 group-hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span className="flex items-center">
                         {enrollingWorkshopId === taller.id
@@ -579,8 +583,8 @@ function Workshops() {
         {/* Empty State */}
         {!loading && !error && talleresFiltrados.length === 0 && (
           <div className="text-center py-20">
-            <div className="max-w-md mx-auto">
-              <div className="w-24 h-24 mx-auto mb-8 bg-black/10 rounded-full flex items-center justify-center">
+            <div className="catalog-empty max-w-md mx-auto">
+              <div className="catalog-pill w-24 h-24 mx-auto mb-8 bg-black/10 rounded-full flex items-center justify-center">
                 <svg className="w-12 h-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -598,7 +602,7 @@ function Workshops() {
                     setSearchQuery('')
                     setSelectedCategory('todos')
                   }}
-                  className="w-full px-8 py-4 bg-black text-white font-semibold rounded-2xl shadow-lg shadow-black/25 hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  className="catalog-button-primary w-full px-8 py-4 bg-black text-white font-semibold rounded-2xl shadow-lg shadow-black/25 hover:shadow-xl hover:scale-105 transition-all duration-300"
                 >
                   <span className="flex items-center justify-center">
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { getArtworks } from '../../services/artworkService'
 import { useFetch } from '../../hooks/useFetch'
+import catalogSharedStyles from '../CatalogSharedStyles'
+import homeSharedStyles from '../Home/HomeSharedStyles'
 
 function Works() {
   const [selectedCategory, setSelectedCategory] = useState('todos')
@@ -59,11 +61,13 @@ function Works() {
   }, [])
 
   return (
-    <div className="bg-[#f2f2f0] text-[#1a1a1a] min-h-screen">
+    <div className="catalog-root bg-[#f2f2f0] text-[#1a1a1a] min-h-screen">
+      <style>{catalogSharedStyles}</style>
+      <style>{homeSharedStyles}</style>
       {/* Navigation Bar */}
-      <header className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
-          <Link to="/" className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
+      <header className="hm-header border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
+        <div className="hm-shell max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
+          <Link to="/" className="hm-brand text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
             MARALESTE
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.4em] text-gray-500">
@@ -73,8 +77,8 @@ function Works() {
             <Link to="/works" className="hover:text-black transition font-medium">Obras</Link>
           </nav>
           <div className="hidden md:flex items-center gap-6 text-[11px] uppercase tracking-[0.4em] font-medium">
-            <Link to="/" className="text-black/70 hover:text-black transition">Volver al inicio</Link>
-            <Link to="/login" className="text-black hover:underline underline-offset-4">Iniciar sesión</Link>
+            <Link to="/login" className="hm-link text-black/70 hover:text-black transition">Iniciar sesión</Link>
+            <Link to="/register" className="hm-link text-black hover:underline underline-offset-4">Crear cuenta</Link>
           </div>
           <button
             type="button"
@@ -90,14 +94,14 @@ function Works() {
             <Link to="/workshops" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Talleres</Link>
             <Link to="/courses" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Cursos</Link>
             <Link to="/works" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Obras</Link>
-            <Link to="/" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Volver al inicio</Link>
             <Link to="/login" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Iniciar sesión</Link>
+            <Link to="/register" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Crear cuenta</Link>
           </div>
         )}
       </header>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#f2f2f0] via-[#ecece9] to-[#e8e8e6] py-20 overflow-hidden">
+      <section className="catalog-hero relative bg-gradient-to-br from-[#f2f2f0] via-[#ecece9] to-[#e8e8e6] py-20 overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-10 w-32 h-32 bg-black rounded-full blur-3xl"></div>
           <div className="absolute bottom-20 right-10 w-48 h-48 bg-gray-400 rounded-full blur-3xl"></div>
@@ -105,12 +109,12 @@ function Works() {
 
         <div className="relative max-w-7xl mx-auto px-8">
           <div className="mb-16 text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-black/10 rounded-full mb-6">
+            <div className="catalog-chip inline-flex items-center px-4 py-2 bg-black/10 rounded-full mb-6">
               <span className="text-sm font-medium text-gray-600 tracking-wide">
                 🎨 COLECCIÓN DE OBRAS
               </span>
             </div>
-            <h1 className="text-6xl md:text-7xl font-light mb-6 tracking-tight text-black">
+            <h1 className="catalog-title text-6xl md:text-7xl font-light mb-6 tracking-tight text-black">
               Galería de Obras
             </h1>
             <p className="text-xl text-gray-500 font-light max-w-3xl mx-auto leading-relaxed">
@@ -143,7 +147,7 @@ function Works() {
                   placeholder="Buscar por título, autor o técnica..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-5 py-3.5 bg-white/80 backdrop-blur-sm border-2 border-black/20 rounded-2xl text-black placeholder-gray-500 focus:outline-none focus:border-black focus:bg-white transition-all duration-300 shadow-lg shadow-black/5"
+                  className="catalog-input w-full px-5 py-3.5 bg-white/80 backdrop-blur-sm border-2 border-black/20 rounded-2xl text-black placeholder-gray-500 focus:outline-none focus:border-black focus:bg-white transition-all duration-300 shadow-lg shadow-black/5"
                 />
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 bg-black/10 p-2 rounded-xl group-focus-within:bg-black group-focus-within:text-white transition-all duration-300">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -157,7 +161,7 @@ function Works() {
               <label className="block text-[11px] uppercase tracking-[0.28em] text-gray-500 font-semibold mb-2">
                 Categoría
               </label>
-              <div ref={categoryMenuRef} className="relative rounded-2xl p-[1px] bg-gradient-to-r from-black/15 via-black/10 to-black/15 shadow-md shadow-black/5">
+              <div ref={categoryMenuRef} className="catalog-panel relative rounded-2xl p-[1px] bg-gradient-to-r from-black/15 via-black/10 to-black/15 shadow-md shadow-black/5">
                 <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 z-10">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h8m-8 4h6" />
@@ -168,7 +172,7 @@ function Works() {
                   aria-haspopup="listbox"
                   aria-expanded={isCategoryOpen}
                   onClick={() => setIsCategoryOpen((prev) => !prev)}
-                  className="w-full h-12 pl-11 pr-12 bg-gradient-to-b from-white to-[#f8f8f7] backdrop-blur-sm border border-black/10 rounded-2xl text-sm font-medium text-black text-left focus:outline-none focus:ring-2 focus:ring-black/20 hover:border-black/20 transition-all duration-300"
+                  className="catalog-select w-full h-12 pl-11 pr-12 bg-gradient-to-b from-white to-[#f8f8f7] backdrop-blur-sm border border-black/10 rounded-2xl text-sm font-medium text-black text-left focus:outline-none focus:ring-2 focus:ring-black/20 hover:border-black/20 transition-all duration-300"
                 >
                   {categoriaActiva?.nombre || 'Todas las Obras'}
                 </button>
@@ -261,7 +265,7 @@ function Works() {
         {/* Error State */}
         {!loading && error && (
           <div className="flex flex-col items-center justify-center py-24">
-            <div className="w-24 h-24 mx-auto mb-8 bg-red-50 rounded-full flex items-center justify-center">
+            <div className="catalog-pill w-24 h-24 mx-auto mb-8 bg-red-50 rounded-full flex items-center justify-center">
               <svg
                 className="w-12 h-12 text-red-400"
                 fill="none"
@@ -290,7 +294,7 @@ function Works() {
               <div
                 key={obra.id}
                 onClick={() => setSelectedObra(obra)}
-                className="group bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg shadow-black/8 border border-black/10 hover:shadow-2xl hover:shadow-black/15 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                className="catalog-card catalog-fade group bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg shadow-black/8 border border-black/10 hover:shadow-2xl hover:shadow-black/15 transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer"
               >
                 {/* Image */}
                 <div className="h-64 overflow-hidden bg-gradient-to-br from-[#f2f2f0] to-[#ecece9] relative">
@@ -427,8 +431,8 @@ function Works() {
         {/* Empty State */}
         {!loading && !error && obrasFiltradas.length === 0 && (
           <div className="text-center py-20">
-            <div className="max-w-md mx-auto">
-              <div className="w-24 h-24 mx-auto mb-8 bg-black/10 rounded-full flex items-center justify-center">
+              <div className="catalog-empty max-w-md mx-auto">
+                <div className="catalog-pill w-24 h-24 mx-auto mb-8 bg-black/10 rounded-full flex items-center justify-center">
                 <svg
                   className="w-12 h-12 text-gray-500"
                   fill="none"
@@ -458,7 +462,7 @@ function Works() {
                     setSearchQuery('')
                     setSelectedCategory('todos')
                   }}
-                  className="w-full px-8 py-4 bg-black text-white font-semibold rounded-2xl shadow-lg shadow-black/25 hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  className="catalog-button-primary w-full px-8 py-4 bg-black text-white font-semibold rounded-2xl shadow-lg shadow-black/25 hover:shadow-xl hover:scale-105 transition-all duration-300"
                 >
                   <span className="flex items-center justify-center">
                     <svg
@@ -494,13 +498,13 @@ function Works() {
 
           {/* Modal Content */}
           <div
-            className="relative bg-[#f2f2f0] rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-black/10"
+            className="catalog-modal catalog-fade relative bg-[#f2f2f0] rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-black/10"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
             <button
               onClick={() => setSelectedObra(null)}
-              className="absolute top-5 right-5 z-10 w-10 h-10 bg-black/80 hover:bg-black text-white rounded-full flex items-center justify-center transition-colors shadow-lg"
+              className="catalog-button-primary absolute top-5 right-5 z-10 w-10 h-10 bg-black/80 hover:bg-black text-white rounded-full flex items-center justify-center transition-colors shadow-lg"
             >
               <svg
                 className="w-5 h-5"
@@ -581,7 +585,7 @@ function Works() {
 
               {/* Datos técnicos */}
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-                <div className="bg-white/60 backdrop-blur-sm p-4 rounded-2xl border border-black/5">
+                <div className="catalog-surface bg-white/60 backdrop-blur-sm p-4 rounded-2xl border border-black/5">
                   <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold mb-1">
                     Técnica
                   </p>
@@ -589,7 +593,7 @@ function Works() {
                     {selectedObra.tecnica}
                   </p>
                 </div>
-                <div className="bg-white/60 backdrop-blur-sm p-4 rounded-2xl border border-black/5">
+                <div className="catalog-surface bg-white/60 backdrop-blur-sm p-4 rounded-2xl border border-black/5">
                   <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold mb-1">
                     Medidas
                   </p>
@@ -597,7 +601,7 @@ function Works() {
                     {selectedObra.medidas}
                   </p>
                 </div>
-                <div className="bg-white/60 backdrop-blur-sm p-4 rounded-2xl border border-black/5">
+                <div className="catalog-surface bg-white/60 backdrop-blur-sm p-4 rounded-2xl border border-black/5">
                   <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-semibold mb-1">
                     Modalidad
                   </p>
@@ -623,7 +627,7 @@ function Works() {
                   <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-400 mb-4">
                     Proceso de la Obra
                   </h3>
-                  <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-black/5">
+                  <div className="catalog-surface bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-black/5">
                     <p className="text-gray-700 leading-relaxed font-light whitespace-pre-line">
                       {selectedObra.procesoObra}
                     </p>
@@ -637,7 +641,7 @@ function Works() {
                   <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-gray-400 mb-4">
                     Historia de la Obra
                   </h3>
-                  <div className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-black/5">
+                  <div className="catalog-surface bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-black/5">
                     <p className="text-gray-700 leading-relaxed font-light whitespace-pre-line">
                       {selectedObra.historiaObra}
                     </p>
@@ -666,7 +670,7 @@ function Works() {
                       href={selectedObra.videoURL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center px-6 py-3 bg-black text-white rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors shadow-lg"
+                      className="catalog-button-primary inline-flex items-center px-6 py-3 bg-black text-white rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors shadow-lg"
                     >
                       <svg
                         className="w-5 h-5 mr-2"

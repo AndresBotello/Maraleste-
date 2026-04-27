@@ -6,22 +6,8 @@ import { getCourses } from '../../services/courseService'
 import { getWorkshops } from '../../services/workshopService'
 import { getArtworks } from '../../services/artworkService'
 import { useFetch } from '../../hooks/useFetch'
-import globalStyles from './dashboardStyles'
-
-
-function DashboardStyles() {
-  useEffect(() => {
-    const style = document.createElement('style')
-    style.id = 'dashboard-styles'
-    style.textContent = globalStyles
-    document.head.appendChild(style)
-    return () => {
-      const el = document.getElementById('dashboard-styles')
-      if (el) el.remove()
-    }
-  }, [])
-  return null
-}
+import globalStyles from './DashboardStyles'
+import adminSharedStyles from './AdminSharedStyles'
 
 function Dashboard() {
   const { profile, user } = useAuth()
@@ -145,9 +131,9 @@ function Dashboard() {
 
   return (
     <>
-      <style>{globalStyles}</style>
+      <style>{adminSharedStyles + globalStyles}</style>
       <AdminLayout activeSection="dashboard">
-        <div className="db-root">
+        <div className="ad-root db-root">
 
           {/* ── Hero header ── */}
           <header className="db-header">

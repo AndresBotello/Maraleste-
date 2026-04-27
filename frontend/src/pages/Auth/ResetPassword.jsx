@@ -3,6 +3,7 @@ import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { confirmPasswordReset, verifyPasswordResetCode } from 'firebase/auth'
 import { auth } from '../../config/firebase'
 import Footer from '../../components/layouts/Footer'
+import authSharedStyles from './AuthSharedStyles'
 
 function ResetPassword() {
   const [searchParams] = useSearchParams()
@@ -76,11 +77,12 @@ function ResetPassword() {
   }
 
   return (
-    <div className="bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#1a1a1a] min-h-screen selection:bg-gray-200/70">
-      <nav className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
-          <div className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black">MARALESTE</div>
-          <Link to="/login" className="text-[11px] uppercase tracking-[0.4em] font-medium text-black/70 hover:text-black transition">
+    <div className="auth-root bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#1a1a1a] min-h-screen selection:bg-gray-200/70">
+      <style>{authSharedStyles}</style>
+      <nav className="auth-header border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
+        <div className="auth-shell max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
+          <div className="auth-brand text-xl lg:text-2xl font-light tracking-[0.4em] text-black">MARALESTE</div>
+          <Link to="/login" className="auth-link text-[11px] uppercase tracking-[0.4em] font-medium text-black/70 hover:text-black transition">
             Ir a login
           </Link>
         </div>

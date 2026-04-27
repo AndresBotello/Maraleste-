@@ -5,6 +5,8 @@ import {
   markAllNotificationsAsRead,
   markNotificationAsRead,
 } from '../../services/notificationService'
+import notificationsStyles from './NotificationsStyles'
+import customerSharedStyles from './CustomerSharedStyles'
 
 function Notifications() {
   const [notifications, setNotifications] = useState([])
@@ -67,10 +69,11 @@ function Notifications() {
   }
 
   return (
-    <div className="bg-[#f2f2f0] min-h-screen text-[#1a1a1a]">
-      <header className="border-b border-black/5 sticky top-0 bg-[#f2f2f0]/95 backdrop-blur-md z-40">
-        <div className="px-4 md:px-8 lg:px-12 py-4 md:py-6 flex justify-between items-center">
-          <Link to="/customer/dashboard" className="text-lg md:text-xl font-light tracking-[0.3em] md:tracking-[0.4em] text-black hover:text-gray-600 transition">
+    <div className="nt-root bg-[#f2f2f0] min-h-screen text-[#1a1a1a]">
+      <style>{customerSharedStyles + notificationsStyles}</style>
+      <header className="nt-header border-b border-black/5 sticky top-0 bg-[#f2f2f0]/95 backdrop-blur-md z-40">
+        <div className="nt-shell px-4 md:px-8 lg:px-12 py-4 md:py-6 flex justify-between items-center">
+          <Link to="/customer/dashboard" className="nt-brand text-lg md:text-xl font-light tracking-[0.3em] md:tracking-[0.4em] text-black hover:text-gray-600 transition">
             MARALESTE
           </Link>
           <div className="flex items-center gap-3 md:gap-4">
@@ -81,21 +84,21 @@ function Notifications() {
         </div>
       </header>
 
-      <main className="px-4 md:px-8 lg:px-12 py-8 md:py-10 space-y-6 md:space-y-8">
+      <main className="nt-shell px-4 md:px-8 lg:px-12 py-8 md:py-10 space-y-6 md:space-y-8">
         <div className="flex flex-col gap-3 md:gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-light tracking-tight text-black">Notificaciones</h1>
+            <h1 className="nt-title text-2xl md:text-3xl lg:text-4xl font-light tracking-tight text-black">Notificaciones</h1>
             <p className="text-xs md:text-sm text-gray-500 mt-2">Te avisamos cuando se publica un nuevo curso en la plataforma.</p>
           </div>
           <div className="flex flex-wrap items-center gap-2 md:gap-3">
-            <span className="inline-flex px-2 md:px-3 py-1 md:py-1.5 rounded-full border border-black/10 bg-white text-[10px] md:text-xs uppercase tracking-wider text-gray-600">
+            <span className="nt-pill inline-flex px-2 md:px-3 py-1 md:py-1.5 rounded-full border border-black/10 bg-white text-[10px] md:text-xs uppercase tracking-wider text-gray-600">
               Sin leer: {unreadCount}
             </span>
             <button
               type="button"
               onClick={handleMarkAll}
               disabled={markingAll || unreadCount === 0}
-              className="px-3 md:px-4 py-1.5 md:py-2 rounded-xl border border-black/15 text-[10px] md:text-xs uppercase tracking-wider text-black hover:bg-black hover:text-white transition disabled:opacity-50"
+              className="nt-btn px-3 md:px-4 py-1.5 md:py-2 rounded-xl border border-black/15 text-[10px] md:text-xs uppercase tracking-wider text-black hover:bg-black hover:text-white transition disabled:opacity-50"
             >
               Marcar todas leídas
             </button>
@@ -104,7 +107,7 @@ function Notifications() {
 
         {error && <div className="rounded-xl border border-red-200 bg-red-50 px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-red-700">{error}</div>}
 
-        <section className="rounded-3xl border border-black/5 bg-white p-4 md:p-6 shadow-lg shadow-black/5">
+        <section className="nt-panel rounded-3xl border border-black/5 bg-white p-4 md:p-6 shadow-lg shadow-black/5">
           {loading ? (
             <p className="text-xs md:text-sm text-gray-500">Cargando notificaciones...</p>
           ) : notifications.length === 0 ? (
@@ -114,7 +117,7 @@ function Notifications() {
               {notifications.map((notification) => (
                 <article
                   key={notification.id}
-                  className={`rounded-2xl border p-3 md:p-4 ${notification.read ? 'border-black/10 bg-white' : 'border-blue-200 bg-blue-50/50'}`}
+                  className={`nt-item rounded-2xl border p-3 md:p-4 ${notification.read ? 'border-black/10 bg-white' : 'is-unread border-blue-200 bg-blue-50/50'}`}
                 >
                   <div className="flex flex-col gap-2 md:gap-3 md:flex-row md:items-start md:justify-between">
                     <div className="min-w-0">
@@ -147,7 +150,7 @@ function Notifications() {
                         <button
                           type="button"
                           onClick={() => handleMarkOne(notification.id)}
-                          className="px-2 md:px-3 py-1 md:py-2 rounded-lg border border-blue-200 text-[10px] uppercase tracking-wider text-blue-700 hover:bg-blue-700 hover:text-white transition"
+                          className="nt-mini-btn px-2 md:px-3 py-1 md:py-2 rounded-lg border border-blue-200 text-[10px] uppercase tracking-wider text-blue-700 hover:bg-blue-700 hover:text-white transition"
                         >
                           Marcar leída
                         </button>

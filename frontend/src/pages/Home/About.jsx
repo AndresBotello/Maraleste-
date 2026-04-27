@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../../components/layouts/Footer';
+import homeSharedStyles from './HomeSharedStyles';
+import aboutStyles from './AboutStyles';
 
 const About = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="bg-[#f2f2f0] text-[#1a1a1a] min-h-screen selection:bg-gray-200 selection:text-black">
+    <div className="ab-root bg-[#f2f2f0] text-[#1a1a1a] min-h-screen selection:bg-gray-200 selection:text-black">
+      <style>{homeSharedStyles + aboutStyles}</style>
       {/* Navigation - Mejorado con mejor spacing y transiciones */}
-      <header className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
-          <Link to="/" className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
+      <header className="ab-header border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
+        <div className="ab-shell max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
+          <Link to="/" className="ab-brand ab-link text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
             MARALESTE
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.4em] text-gray-500">
@@ -20,8 +23,8 @@ const About = () => {
             <Link to="/works" className="hover:text-black transition font-medium">Obras</Link>
           </nav>
           <div className="hidden md:flex items-center gap-6 text-[11px] uppercase tracking-[0.4em] font-medium">
-            <Link to="/" className="text-black/70 hover:text-black transition">Volver al inicio</Link>
-            <Link to="/login" className="text-black hover:underline underline-offset-4">Iniciar sesión</Link>
+            <Link to="/" className="ab-link text-black/70 hover:text-black transition">Volver al inicio</Link>
+            <Link to="/login" className="ab-link text-black hover:underline underline-offset-4">Iniciar sesión</Link>
           </div>
           <button
             type="button"
@@ -44,9 +47,9 @@ const About = () => {
       </header>
 
       {/* Hero Section - Mejorado con mejor tipografía y espaciado */}
-      <section className="max-w-7xl mx-auto px-8 py-28 md:py-36 text-center">
+      <section className="ab-shell max-w-7xl mx-auto px-8 py-28 md:py-36 text-center">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-light mb-8 leading-[1.05] tracking-tight text-black">
+          <h1 className="ab-title text-5xl md:text-7xl font-light mb-8 leading-[1.05] tracking-tight text-black">
             Lorena Gullo Mercado
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 font-light mb-6 tracking-wide">
@@ -60,7 +63,7 @@ const About = () => {
 
       {/* Proceso Creativo - Mejorado con mejor jerarquía y diseño */}
       <section className="border-t border-black/10 bg-[#ecece9]/50">
-        <div className="max-w-7xl mx-auto px-8 py-36">
+        <div className="ab-shell max-w-7xl mx-auto px-8 py-36">
           <div className="max-w-4xl mx-auto">
             <div className="mb-12">
               <h2 className="text-[11px] tracking-[0.3em] uppercase text-gray-500 mb-4 font-semibold text-center">Filosofía</h2>
@@ -100,7 +103,7 @@ const About = () => {
 
       {/* Yo natural, El Florímetro - Mejorado con mejor presentación de imagen */}
       <section className="border-t border-black/10">
-        <div className="max-w-7xl mx-auto px-8 py-36">
+        <div className="ab-shell max-w-7xl mx-auto px-8 py-36">
           <div className="max-w-4xl mx-auto">
             <div className="mb-12">
               <h2 className="text-[11px] tracking-[0.3em] uppercase text-gray-500 mb-4 font-semibold text-center">Obra Destacada</h2>
@@ -158,7 +161,7 @@ const About = () => {
 
       {/* ESCUDO - Obra Destacada - Mejorado con mejor diseño */}
       <section className="border-t border-black/10 bg-[#ecece9]/50">
-        <div className="max-w-7xl mx-auto px-8 py-36">
+        <div className="ab-shell max-w-7xl mx-auto px-8 py-36">
           <div className="max-w-4xl mx-auto">
             <div className="mb-12">
               <h2 className="text-[11px] tracking-[0.3em] uppercase text-gray-500 mb-4 font-semibold text-center">Serie</h2>
@@ -206,7 +209,7 @@ const About = () => {
 
       {/* RELACIÓN VITAL - Obra Destacada - Mejorado */}
       <section className="border-t border-black/10">
-        <div className="max-w-7xl mx-auto px-8 py-36">
+        <div className="ab-shell max-w-7xl mx-auto px-8 py-36">
           <div className="max-w-4xl mx-auto">
             <div className="mb-12">
               <h2 className="text-[11px] tracking-[0.3em] uppercase text-gray-500 mb-4 font-semibold text-center">Escultura</h2>
@@ -257,7 +260,7 @@ const About = () => {
 
       {/* CV Section - Totalmente rediseñado con mejor organización */}
       <section className="border-t border-black/10">
-        <div className="max-w-7xl mx-auto px-8 py-36">
+        <div className="ab-shell max-w-7xl mx-auto px-8 py-36">
           <div className="mb-20 text-center">
             <h2 className="text-[11px] tracking-[0.3em] uppercase text-gray-500 mb-4 font-semibold">Trayectoria</h2>
             <div className="w-24 h-0.5 bg-black/10 mx-auto mb-8"></div>
@@ -505,7 +508,7 @@ const About = () => {
 
       <Footer />
 
-      <style jsx>{`
+      <style>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;
         }

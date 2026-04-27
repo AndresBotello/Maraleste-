@@ -8,6 +8,7 @@ import { getMyNotifications, markAllNotificationsAsRead, markNotificationAsRead 
 import { useFetch } from '../../hooks/useFetch'
 import { CATEGORIAS_CON_TODOS } from '../../data/constants'
 import Footer from '../../components/layouts/Footer'
+import customerDashboardStyles from './DashboardStyles'
 
 function CustomerDashboard() {
   const { profile, user, logout } = useAuth()
@@ -84,6 +85,8 @@ function CustomerDashboard() {
       return ''
     }
   }
+
+
 
   const handleOpenNotificationsModal = () => {
     setProfileModalOpen(false)
@@ -221,58 +224,48 @@ function CustomerDashboard() {
   )
 
   return (
-    <div className="bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#1a1a1a] min-h-screen">
-      <header className="border-b border-black/5 sticky top-0 z-40 bg-white/70 backdrop-blur-xl">
-        <div className="px-4 md:px-8 lg:px-12 py-4 md:py-5 flex items-center justify-between">
-          <Link to="/" className="text-lg md:text-xl lg:text-2xl font-light tracking-[0.3em] md:tracking-[0.4em] text-black">
+    <div className="cd-root bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#1a1a1a] min-h-screen">
+      <style>{customerDashboardStyles}</style>
+      <header className="cd-header border-b border-black/5 sticky top-0 z-40 bg-white/70 backdrop-blur-xl">
+        <div className="cd-header-inner px-4 md:px-8 lg:px-12 py-4 md:py-5 flex items-center justify-between">
+          <Link to="/" className="cd-brand text-lg md:text-xl lg:text-2xl font-light tracking-[0.3em] md:tracking-[0.4em] text-black">
             MARALESTE
           </Link>
-          <div className="flex items-center gap-2 md:gap-3">
+          <div className="cd-header-actions flex items-center gap-2 md:gap-3">
             {/* Notifications Button */}
             <button
               type="button"
               onClick={handleOpenNotificationsModal}
-              className="relative flex items-center justify-center h-10 w-10 rounded-xl border border-black/10 bg-white/60 text-black hover:border-black/20 transition"
+              className="cd-icon-btn relative flex items-center justify-center h-10 w-10 rounded-xl border border-black/10 bg-white/60 text-black hover:border-black/20 transition"
               aria-label="Ver notificaciones"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
               {unreadNotifications > 0 && (
-                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-red-600 text-white text-[10px] leading-[18px] text-center font-semibold">
+                <span className="cd-badge absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-red-600 text-white text-[10px] leading-[18px] text-center font-semibold">
                   {unreadNotifications > 99 ? '99+' : unreadNotifications}
                 </span>
               )}
             </button>
 
-            {/* Profile Button - Hidden on small screens, visible on md+ */}
+            {/* Un solo botón de perfil para ambos tamaños */}
             <button
               type="button"
               onClick={() => setProfileModalOpen(true)}
-              className="hidden md:flex items-center gap-2 rounded-xl border border-black/10 bg-white/60 px-3 py-2 text-xs uppercase tracking-[0.3em] text-black hover:border-black/20 transition"
+              className="inline-flex items-center gap-2 rounded-xl border border-black/10 bg-white/60 px-2 md:px-3 py-2 text-xs uppercase tracking-[0.3em] text-black hover:border-black/20 transition"
+              aria-label="Perfil"
             >
-              Perfil
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-black/10 bg-white/80 flex-shrink-0">
+              <span className="hidden md:inline">Perfil</span>
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-black/10 bg-white/80 flex-shrink-0 overflow-hidden">
                 {userData.imagen ? (
                   <img src={userData.imagen} alt="Avatar" className="h-full w-full rounded-full object-cover" />
                 ) : (
-                  <span className="text-xs font-medium">MG</span>
+                  <span className="text-xs font-medium">
+                    {userData.nombre?.slice(0, 1) || 'U'}
+                  </span>
                 )}
               </span>
-            </button>
-
-            {/* Mobile Avatar Button */}
-            <button
-              type="button"
-              onClick={() => setProfileModalOpen(true)}
-              className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-xl border border-black/10 bg-white/60 flex-shrink-0 overflow-hidden"
-              aria-label="Perfil"
-            >
-              {userData.imagen ? (
-                <img src={userData.imagen} alt="Avatar" className="h-full w-full object-cover" />
-              ) : (
-                <span className="text-xs font-medium">U</span>
-              )}
             </button>
 
             {/* Mobile Menu Button */}
@@ -332,72 +325,72 @@ function CustomerDashboard() {
         )}
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 md:px-8 lg:px-12 py-12 md:py-16 space-y-12 md:space-y-16">
-        <section className="grid gap-8 md:gap-12 lg:grid-cols-[1.2fr_0.8fr] items-center">
+      <main className="cd-shell max-w-7xl mx-auto px-4 md:px-8 lg:px-12 py-12 md:py-16 space-y-12 md:space-y-16">
+        <section className="cd-hero grid gap-8 md:gap-12 lg:grid-cols-[1.2fr_0.8fr] items-center">
           <div className="space-y-4 md:space-y-6">
-            <span className="text-[10px] uppercase tracking-[0.5em] text-gray-500">Panel de aprendizaje</span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-black leading-tight">
+            <span className="cd-eyebrow text-[10px] uppercase tracking-[0.5em] text-gray-500">Panel de aprendizaje</span>
+            <h1 className="cd-title text-3xl md:text-4xl lg:text-5xl font-light text-black leading-tight">
               Hola {userData.nombre}, retoma tu recorrido creativo cuando quieras.
             </h1>
-            <p className="text-sm md:text-base lg:text-lg text-gray-600 max-w-xl leading-relaxed">
+            <p className="cd-subtitle text-sm md:text-base lg:text-lg text-gray-600 max-w-xl leading-relaxed">
               Accede a tus cursos, talleres y colecciones desde un mismo espacio. Descubre nuevas propuestas curadas según tus intereses.
             </p>
-            <div className="flex flex-wrap gap-2 md:gap-3">
+            <div className="cd-hero-actions flex flex-wrap gap-2 md:gap-3">
               <button
                 type="button"
                 onClick={() => setActiveTab('catalogo')}
-                className="inline-flex items-center justify-center rounded-xl bg-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-white hover:bg-gray-900 transition"
+                className="cd-btn cd-btn--solid inline-flex items-center justify-center rounded-xl bg-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-white hover:bg-gray-900 transition"
               >
                 Explorar catálogo
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('biblioteca')}
-                className="inline-flex items-center justify-center rounded-xl border border-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
+                className="cd-btn cd-btn--ghost inline-flex items-center justify-center rounded-xl border border-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
               >
                 Ver mi biblioteca
               </button>
               <Link
                 to="/customer/messages"
-                className="inline-flex items-center justify-center rounded-xl border border-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
+                className="cd-btn cd-btn--ghost inline-flex items-center justify-center rounded-xl border border-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
               >
                 Mensajes
               </Link>
               <button
                 type="button"
                 onClick={() => navigate('/customer/notifications')}
-                className="inline-flex items-center justify-center rounded-xl border border-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
+                className="cd-btn cd-btn--ghost inline-flex items-center justify-center rounded-xl border border-black px-4 md:px-6 py-2 md:py-3 text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
               >
                 Notificaciones
               </button>
             </div>
           </div>
-          <div className="rounded-3xl border border-black/10 bg-white/80 backdrop-blur-xl px-6 md:px-8 py-8 md:py-10 shadow-xl shadow-black/10">
+          <div className="cd-kpi-panel rounded-3xl border border-black/10 bg-white/80 backdrop-blur-xl px-6 md:px-8 py-8 md:py-10 shadow-xl shadow-black/10">
             <div className="text-xs md:text-sm uppercase tracking-[0.3em] text-gray-400">Resumen</div>
             <div className="mt-4 md:mt-6 grid gap-3 md:gap-4">
               {metrics.map(({ title, value, detail }) => (
-                <article key={title} className="rounded-2xl border border-black/10 px-4 md:px-5 py-3 md:py-4 bg-white/90">
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400">{title}</p>
-                  <p className="text-2xl font-light text-black mt-2">{value}</p>
-                  <p className="text-xs text-gray-500 mt-1">{detail}</p>
+                <article key={title} className="cd-kpi-item rounded-2xl border border-black/10 px-4 md:px-5 py-3 md:py-4 bg-white/90">
+                  <p className="cd-kpi-label text-[10px] uppercase tracking-[0.3em] text-gray-400">{title}</p>
+                  <p className="cd-kpi-value text-2xl font-light text-black mt-2">{value}</p>
+                  <p className="cd-kpi-detail text-xs text-gray-500 mt-1">{detail}</p>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="space-y-6">
-          <div className="flex flex-col gap-3 md:gap-4 md:flex-row md:items-end md:justify-between">
+        <section className="cd-section space-y-6">
+          <div className="cd-section-head flex flex-col gap-3 md:gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.5em] text-gray-500">Navegación</p>
-              <h2 className="text-2xl md:text-3xl font-light text-black">Explora tu contenido</h2>
+              <p className="cd-eyebrow text-[10px] uppercase tracking-[0.5em] text-gray-500">Navegación</p>
+              <h2 className="cd-section-title text-2xl md:text-3xl font-light text-black">Explora tu contenido</h2>
             </div>
-            <div className="inline-flex rounded-2xl border border-black/10 bg-white/70 p-2 text-xs md:text-sm font-medium text-gray-500">
+            <div className="cd-tabs inline-flex rounded-2xl border border-black/10 bg-white/70 p-2 text-xs md:text-sm font-medium text-gray-500">
               <button
                 type="button"
                 onClick={() => setActiveTab('catalogo')}
-                className={`rounded-xl px-3 md:px-4 py-2 uppercase tracking-[0.3em] transition ${
-                  activeTab === 'catalogo' ? 'bg-black text-white' : 'hover:text-black'
+                className={`cd-tab rounded-xl px-3 md:px-4 py-2 uppercase tracking-[0.3em] transition ${
+                  activeTab === 'catalogo' ? 'is-active bg-black text-white' : 'hover:text-black'
                 }`}
               >
                 Catálogo
@@ -405,8 +398,8 @@ function CustomerDashboard() {
               <button
                 type="button"
                 onClick={() => setActiveTab('biblioteca')}
-                className={`rounded-xl px-3 md:px-4 py-2 uppercase tracking-[0.3em] transition ${
-                  activeTab === 'biblioteca' ? 'bg-black text-white' : 'hover:text-black'
+                className={`cd-tab rounded-xl px-3 md:px-4 py-2 uppercase tracking-[0.3em] transition ${
+                  activeTab === 'biblioteca' ? 'is-active bg-black text-white' : 'hover:text-black'
                 }`}
               >
                 Mi biblioteca
@@ -416,27 +409,27 @@ function CustomerDashboard() {
         </section>
 
         {activeTab === 'catalogo' && (
-          <section className="space-y-14">
-            <div className="space-y-8">
-              <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+          <section className="cd-section space-y-14">
+            <div className="cd-section space-y-8">
+              <div className="cd-section-head grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
                 <div className="space-y-3">
-                  <h3 className="text-2xl font-light text-black">Catálogo de cursos</h3>
-                  <p className="text-sm text-gray-600">Seleccionamos rutas de aprendizaje actualizadas semanalmente.</p>
+                  <h3 className="cd-panel-title text-2xl font-light text-black">Catálogo de cursos</h3>
+                  <p className="cd-panel-subtitle text-sm text-gray-600">Seleccionamos rutas de aprendizaje actualizadas semanalmente.</p>
                 </div>
-                <div className="text-sm text-gray-500">{filteredCourses.length} resultados</div>
+                <div className="cd-mono-count text-sm text-gray-500">{filteredCourses.length} resultados</div>
               </div>
-              <div className="grid gap-4 md:grid-cols-[minmax(0,0.5fr)_1fr]">
-                <div className="rounded-2xl border border-black/10 bg-white/80 p-4">
-                  <p className="text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-3">Categorías</p>
-                  <div className="grid gap-2 text-sm">
+              <div className="cd-filter-grid grid gap-4 md:grid-cols-[minmax(0,0.5fr)_1fr]">
+                <div className="cd-panel rounded-2xl border border-black/10 bg-white/80 p-4">
+                  <p className="cd-eyebrow text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-3">Categorías</p>
+                  <div className="cd-category-list grid gap-2 text-sm">
                     {catalogCategories.map(({ id, nombre }) => (
                       <button
                         key={id}
                         type="button"
                         onClick={() => setSelectedCategory(id)}
-                        className={`flex w-full items-center justify-between rounded-xl border px-4 py-2 text-left transition ${
+                        className={`cd-category-btn flex w-full items-center justify-between rounded-xl border px-4 py-2 text-left transition ${
                           selectedCategory === id
-                            ? 'border-black bg-black text-white'
+                            ? 'is-active border-black bg-black text-white'
                             : 'border-transparent bg-white hover:border-black/10'
                         }`}
                       >
@@ -446,30 +439,27 @@ function CustomerDashboard() {
                     ))}
                   </div>
                 </div>
-                <div className="space-y-4">
-                  <div className="relative">
+                <div className="cd-section space-y-4">
+                  <div className="cd-search-wrap relative">
                     <input
                       type="text"
                       value={searchTerm}
                       onChange={(event) => setSearchTerm(event.target.value)}
                       placeholder="Buscar cursos por nombre o instructor"
-                      className="w-full rounded-2xl border border-black/10 bg-white/80 px-6 py-4 text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
+                      className="cd-search-input w-full rounded-2xl border border-black/10 bg-white/80 px-6 py-4 text-sm text-black placeholder:text-gray-400 focus:border-black focus:outline-none"
                     />
-                    <span className="absolute right-6 top-4 text-gray-400">⌕</span>
+                    <span className="cd-search-icon absolute right-6 top-4 text-gray-400">⌕</span>
                   </div>
                   {loadingCourses && (
-                    <div className="flex flex-col items-center justify-center py-16 col-span-full">
-                      <svg className="w-8 h-8 animate-spin text-black mb-3" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                      </svg>
+                    <div className="cd-loading-wrap flex flex-col items-center justify-center py-16 col-span-full">
+                      <div className="cd-spinner" />
                       <p className="text-sm text-gray-500">Cargando cursos...</p>
                     </div>
                   )}
 
                   {!loadingCourses && errorCourses && (
-                    <div className="flex flex-col items-center justify-center py-16 col-span-full">
-                      <div className="w-16 h-16 mb-4 bg-red-50 rounded-full flex items-center justify-center">
+                    <div className="cd-error-wrap flex flex-col items-center justify-center py-16 col-span-full">
+                      <div className="cd-error-icon w-16 h-16 mb-4 bg-red-50 rounded-full flex items-center justify-center">
                         <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
                         </svg>
@@ -479,41 +469,41 @@ function CustomerDashboard() {
                   )}
 
                   {!loadingCourses && !errorCourses && filteredCourses.length === 0 && (
-                    <div className="flex flex-col items-center justify-center py-16 col-span-full">
+                    <div className="cd-empty flex flex-col items-center justify-center py-16 col-span-full">
                       <p className="text-sm text-gray-500">No se encontraron cursos.</p>
                     </div>
                   )}
 
-                  <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                  <div className="cd-grid grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
                     {!loadingCourses && !errorCourses && filteredCourses.map((course) => (
                       <article
                         key={course.id}
-                        className="flex h-full flex-col rounded-3xl border border-black/10 bg-white/90 overflow-hidden shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                        className="cd-card flex h-full flex-col rounded-3xl border border-black/10 bg-white/90 overflow-hidden shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
                       >
                         {/* Imagen de portada */}
-                        <div className="h-32 bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center overflow-hidden">
+                        <div className="cd-card-cover cd-card-cover--course h-32 bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center overflow-hidden">
                           {course.imagenPortada ? (
                             <img src={course.imagenPortada} alt={course.titulo} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
                           ) : (
                             <span className="text-4xl">🎨</span>
                           )}
                         </div>
-                        <div className="p-4 flex flex-col flex-1">
+                        <div className="cd-card-body p-4 flex flex-col flex-1">
                           <div className="flex items-center justify-between gap-2">
-                            <div className="text-[10px] uppercase tracking-[0.28em] text-gray-400 line-clamp-1">{course.categoria}</div>
-                            <span className="inline-flex items-center rounded-full bg-black/5 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-gray-500">
+                            <div className="cd-mono-count text-[10px] uppercase tracking-[0.28em] text-gray-400 line-clamp-1">{course.categoria}</div>
+                            <span className="cd-pill inline-flex items-center rounded-full bg-black/5 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-gray-500">
                               {course.nivel}
                             </span>
                           </div>
-                          <h4 className="mt-2 text-base font-medium text-black line-clamp-2 leading-snug">{course.titulo}</h4>
-                          <p className="mt-1 text-xs text-gray-500 line-clamp-1">Por {course.instructor}</p>
-                          <p className="mt-2 text-sm text-gray-600 leading-relaxed line-clamp-2 min-h-[2.5rem]">{course.descripcion}</p>
-                          <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-gray-500">
-                            <span className="rounded-full bg-black/5 px-2.5 py-1">⏱ {course.duracion}</span>
-                            <span className="rounded-full bg-black/5 px-2.5 py-1">📚 {course.totalModulos || 0} módulos</span>
+                          <h4 className="cd-card-title mt-2 text-base font-medium text-black line-clamp-2 leading-snug">{course.titulo}</h4>
+                          <p className="cd-card-meta mt-1 text-xs text-gray-500 line-clamp-1">Por {course.instructor}</p>
+                          <p className="cd-card-description mt-2 text-sm text-gray-600 leading-relaxed line-clamp-2 min-h-[2.5rem]">{course.descripcion}</p>
+                          <div className="cd-tags mt-3 flex flex-wrap gap-2 text-[11px] text-gray-500">
+                            <span className="cd-pill rounded-full bg-black/5 px-2.5 py-1">⏱ {course.duracion}</span>
+                            <span className="cd-pill rounded-full bg-black/5 px-2.5 py-1">📚 {course.totalModulos || 0} módulos</span>
                           </div>
-                          <div className="mt-auto pt-3 flex items-center justify-between border-t border-black/10 text-sm gap-3">
-                            <span className="text-base font-medium text-black">
+                          <div className="cd-card-foot mt-auto pt-3 flex items-center justify-between border-t border-black/10 text-sm gap-3">
+                            <span className="cd-price text-base font-medium text-black">
                               {course.tipoAcceso === 'pago'
                                 ? `$ ${Number(course.precio || 0).toLocaleString('es-CO')} COP`
                                 : 'Gratis'}
@@ -522,7 +512,7 @@ function CustomerDashboard() {
                               type="button"
                               onClick={() => handleEnrollCourse(course)}
                               disabled={enrollingCourseId === course.id || loadingEnrollments}
-                              className="rounded-lg border border-black/20 px-3 py-2 text-[10px] uppercase tracking-[0.24em] text-black hover:bg-black hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="cd-btn rounded-lg border border-black/20 px-3 py-2 text-[10px] uppercase tracking-[0.24em] text-black hover:bg-black hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                               {enrollingCourseId === course.id
                                 ? 'Inscribiendo...'
@@ -541,30 +531,27 @@ function CustomerDashboard() {
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="cd-section space-y-6">
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <h3 className="text-2xl font-light text-black">Próximos talleres</h3>
-                  <p className="text-sm text-gray-600">Modalidades presenciales e híbridas con cupos limitados.</p>
+                  <h3 className="cd-panel-title text-2xl font-light text-black">Próximos talleres</h3>
+                  <p className="cd-panel-subtitle text-sm text-gray-600">Modalidades presenciales e híbridas con cupos limitados.</p>
                 </div>
                 {!loadingWorkshops && !errorWorkshops && (
-                  <span className="text-xs uppercase tracking-[0.3em] text-gray-500">{(workshopCatalog || []).length} talleres activos</span>
+                  <span className="cd-mono-count text-xs uppercase tracking-[0.3em] text-gray-500">{(workshopCatalog || []).length} talleres activos</span>
                 )}
               </div>
 
               {loadingWorkshops && (
-                <div className="flex flex-col items-center justify-center py-16">
-                  <svg className="w-8 h-8 animate-spin text-black mb-3" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
+                <div className="cd-loading-wrap flex flex-col items-center justify-center py-16">
+                  <div className="cd-spinner" />
                   <p className="text-sm text-gray-500">Cargando talleres...</p>
                 </div>
               )}
 
               {!loadingWorkshops && errorWorkshops && (
-                <div className="flex flex-col items-center justify-center py-16">
-                  <div className="w-16 h-16 mb-4 bg-red-50 rounded-full flex items-center justify-center">
+                <div className="cd-error-wrap flex flex-col items-center justify-center py-16">
+                  <div className="cd-error-icon w-16 h-16 mb-4 bg-red-50 rounded-full flex items-center justify-center">
                     <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
                     </svg>
@@ -574,38 +561,38 @@ function CustomerDashboard() {
               )}
 
               {!loadingWorkshops && !errorWorkshops && (workshopCatalog || []).length === 0 && (
-                <div className="flex flex-col items-center justify-center py-16">
+                <div className="cd-empty flex flex-col items-center justify-center py-16">
                   <p className="text-sm text-gray-500">No hay talleres disponibles por el momento.</p>
                 </div>
               )}
 
-              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              <div className="cd-grid grid gap-6 md:grid-cols-2 xl:grid-cols-3">
                 {!loadingWorkshops && !errorWorkshops && (workshopCatalog || []).map((workshop) => (
                   <div
                     key={workshop.id}
-                    className="flex flex-col rounded-3xl border border-black/10 bg-white/85 overflow-hidden shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                    className="cd-card flex flex-col rounded-3xl border border-black/10 bg-white/85 overflow-hidden shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
                   >
                     {/* Imagen de portada */}
-                    <div className="h-40 bg-gradient-to-br from-amber-100 via-orange-100 to-rose-100 flex items-center justify-center">
+                    <div className="cd-card-cover cd-card-cover--workshop h-40 bg-gradient-to-br from-amber-100 via-orange-100 to-rose-100 flex items-center justify-center">
                       {workshop.imagenPortada ? (
                         <img src={workshop.imagenPortada} alt={workshop.titulo} className="w-full h-full object-cover" />
                       ) : (
                         <span className="text-4xl">🎨</span>
                       )}
                     </div>
-                    <div className="p-6 flex flex-col flex-1">
+                    <div className="cd-card-body p-6 flex flex-col flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs uppercase tracking-[0.3em] text-gray-400">{workshop.categoria}</span>
+                        <span className="cd-mono-count text-xs uppercase tracking-[0.3em] text-gray-400">{workshop.categoria}</span>
                         {workshop.linkReunion && (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-medium text-emerald-700 uppercase tracking-wider">
+                          <span className="cd-pill cd-pill--live inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-medium text-emerald-700 uppercase tracking-wider">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                             Virtual
                           </span>
                         )}
                       </div>
-                      <h4 className="mt-3 text-lg font-light text-black">{workshop.titulo}</h4>
-                      <p className="mt-2 text-sm text-gray-500">Facilitado por {workshop.instructor}</p>
-                      <div className="mt-4 space-y-1.5 text-xs text-gray-500">
+                      <h4 className="cd-card-title mt-3 text-lg font-light text-black">{workshop.titulo}</h4>
+                      <p className="cd-card-meta mt-2 text-sm text-gray-500">Facilitado por {workshop.instructor}</p>
+                      <div className="cd-card-meta mt-4 space-y-1.5 text-xs text-gray-500">
                         <p>📅 {workshop.fecha} {workshop.horario && `· ${workshop.horario}`}</p>
                         <p>⏱ {workshop.duracion}</p>
                         <p>👥 {workshop.cuposDisponibles ?? '—'} / {workshop.cuposTotal ?? '—'} cupos</p>
@@ -636,9 +623,9 @@ function CustomerDashboard() {
                         </div>
                       )}
 
-                      <div className="mt-auto pt-4 flex items-center justify-between border-t border-black/10 text-sm">
-                        <span className="text-lg font-light text-black">${Number(workshop.precio || 0).toFixed(2)}</span>
-                        <Link to="/workshops?from=customer-dashboard" className="uppercase tracking-[0.3em] text-gray-500 hover:text-black transition">Ver detalles →</Link>
+                      <div className="cd-card-foot mt-auto pt-4 flex items-center justify-between border-t border-black/10 text-sm">
+                        <span className="cd-price text-lg font-light text-black">${Number(workshop.precio || 0).toFixed(2)}</span>
+                        <Link to="/workshops?from=customer-dashboard" className="cd-link uppercase tracking-[0.3em] text-gray-500 hover:text-black transition">Ver detalles →</Link>
                       </div>
                     </div>
                   </div>
@@ -646,33 +633,30 @@ function CustomerDashboard() {
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="cd-section space-y-6">
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <h3 className="text-2xl font-light text-black">Galería de Obras</h3>
-                  <p className="text-sm text-gray-600">Obras disponibles de artistas residentes y colaboradores.</p>
+                  <h3 className="cd-panel-title text-2xl font-light text-black">Galería de Obras</h3>
+                  <p className="cd-panel-subtitle text-sm text-gray-600">Obras disponibles de artistas residentes y colaboradores.</p>
                 </div>
                 <div className="flex items-center gap-4">
                   {!loadingObras && !errorObras && (
-                    <span className="text-xs uppercase tracking-[0.3em] text-gray-500">{galleryPieces.length} obras disponibles</span>
+                    <span className="cd-mono-count text-xs uppercase tracking-[0.3em] text-gray-500">{galleryPieces.length} obras disponibles</span>
                   )}
-                  <Link to="/works" className="text-xs uppercase tracking-[0.3em] text-black hover:underline underline-offset-4">Ver todas →</Link>
+                  <Link to="/works" className="cd-link text-xs uppercase tracking-[0.3em] text-black hover:underline underline-offset-4">Ver todas →</Link>
                 </div>
               </div>
 
               {loadingObras && (
-                <div className="flex flex-col items-center justify-center py-16">
-                  <svg className="w-8 h-8 animate-spin text-black mb-3" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
+                <div className="cd-loading-wrap flex flex-col items-center justify-center py-16">
+                  <div className="cd-spinner" />
                   <p className="text-sm text-gray-500">Cargando obras...</p>
                 </div>
               )}
 
               {!loadingObras && errorObras && (
-                <div className="flex flex-col items-center justify-center py-16">
-                  <div className="w-16 h-16 mb-4 bg-red-50 rounded-full flex items-center justify-center">
+                <div className="cd-error-wrap flex flex-col items-center justify-center py-16">
+                  <div className="cd-error-icon w-16 h-16 mb-4 bg-red-50 rounded-full flex items-center justify-center">
                     <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
                     </svg>
@@ -682,20 +666,20 @@ function CustomerDashboard() {
               )}
 
               {!loadingObras && !errorObras && galleryPieces.length === 0 && (
-                <div className="flex flex-col items-center justify-center py-16">
+                <div className="cd-empty flex flex-col items-center justify-center py-16">
                   <p className="text-sm text-gray-500">No hay obras disponibles por el momento.</p>
                 </div>
               )}
 
-              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="cd-grid cd-grid--works grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
                 {!loadingObras && !errorObras && galleryPieces.slice(0, 8).map((piece) => (
                   <article
                     key={piece.id}
                     onClick={() => setSelectedObra(piece)}
-                    className="group rounded-3xl border border-black/10 bg-white/85 overflow-hidden shadow-sm transition hover:-translate-y-1 hover:shadow-lg cursor-pointer"
+                    className="cd-card group rounded-3xl border border-black/10 bg-white/85 overflow-hidden shadow-sm transition hover:-translate-y-1 hover:shadow-lg cursor-pointer"
                   >
                     {/* Imagen */}
-                    <div className="h-44 overflow-hidden bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 relative">
+                    <div className="cd-card-cover cd-card-cover--work h-44 overflow-hidden bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 relative">
                       {piece.imagenPortada ? (
                         <img src={piece.imagenPortada} alt={piece.titulo} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       ) : (
@@ -704,19 +688,19 @@ function CustomerDashboard() {
                         </div>
                       )}
                       <div className="absolute top-3 right-3">
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-semibold uppercase tracking-wider text-white bg-black/60 backdrop-blur-sm">
+                        <span className="cd-card-badge inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-semibold uppercase tracking-wider text-white bg-black/60 backdrop-blur-sm">
                           {piece.modalidad}
                         </span>
                       </div>
                     </div>
-                    <div className="p-5">
-                      <p className="text-xs uppercase tracking-[0.3em] text-gray-400">{piece.tecnica}</p>
-                      <h4 className="mt-2 text-base font-medium text-black line-clamp-1">{piece.titulo}</h4>
-                      <p className="text-sm text-gray-500">Por {piece.autor}</p>
-                      <p className="mt-1 text-xs text-gray-400">{piece.anio} · {piece.medidas}</p>
-                      <div className="mt-3 flex items-center justify-between border-t border-black/10 pt-3">
-                        <span className="text-xs uppercase tracking-[0.2em] text-gray-500">{piece.estado || 'Disponible'}</span>
-                        <span className="text-xs uppercase tracking-[0.3em] text-black group-hover:underline">Ver detalles</span>
+                    <div className="cd-card-body p-5">
+                      <p className="cd-mono-count text-xs uppercase tracking-[0.3em] text-gray-400">{piece.tecnica}</p>
+                      <h4 className="cd-card-title mt-2 text-base font-medium text-black line-clamp-1">{piece.titulo}</h4>
+                      <p className="cd-card-meta text-sm text-gray-500">Por {piece.autor}</p>
+                      <p className="cd-card-meta mt-1 text-xs text-gray-400">{piece.anio} · {piece.medidas}</p>
+                      <div className="cd-card-foot mt-3 flex items-center justify-between border-t border-black/10 pt-3">
+                        <span className="cd-mono-count text-xs uppercase tracking-[0.2em] text-gray-500">{piece.estado || 'Disponible'}</span>
+                        <span className="cd-link text-xs uppercase tracking-[0.3em] text-black group-hover:underline">Ver detalles</span>
                       </div>
                     </div>
                   </article>
@@ -727,54 +711,54 @@ function CustomerDashboard() {
         )}
 
         {activeTab === 'biblioteca' && (
-          <section className="space-y-16">
+          <section className="cd-section space-y-16">
             {/* Cursos disponibles */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-light text-black">Cursos</h3>
-                <Link to="/courses" className="text-xs uppercase tracking-[0.3em] text-black hover:underline underline-offset-4">Ver todos →</Link>
+                <h3 className="cd-panel-title text-2xl font-light text-black">Cursos</h3>
+                <Link to="/courses" className="cd-link text-xs uppercase tracking-[0.3em] text-black hover:underline underline-offset-4">Ver todos →</Link>
               </div>
               {loadingCourses && (
-                <div className="flex items-center justify-center py-12">
-                  <svg className="w-6 h-6 animate-spin text-black" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+                <div className="cd-loading-wrap flex items-center justify-center py-12">
+                  <div className="cd-spinner" />
                 </div>
               )}
               {!loadingCourses && errorCourses && (
                 <p className="text-sm text-red-500 py-8 text-center">{errorCourses}</p>
               )}
               {!loadingCourses && !errorCourses && libraryCourses.length === 0 && (
-                <div className="rounded-3xl border border-dashed border-black/15 bg-white/60 p-12 text-center">
+                <div className="cd-empty rounded-3xl border border-dashed border-black/15 bg-white/60 p-12 text-center">
                   <p className="text-sm text-gray-500">Aún no estás inscrito en cursos. Ve al catálogo y pulsa Inscribirse.</p>
                   <button
                     type="button"
                     onClick={() => setActiveTab('catalogo')}
-                    className="mt-3 inline-block text-xs uppercase tracking-[0.3em] text-black hover:underline"
+                    className="cd-link mt-3 inline-block text-xs uppercase tracking-[0.3em] text-black hover:underline"
                   >
                     Explorar catálogo
                   </button>
                 </div>
               )}
-              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="cd-grid grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
                 {!loadingCourses && !errorCourses && libraryCourses.slice(0, 6).map((course) => (
-                  <Link key={course.id} to={`/course/${course.id}?from=dashboard`} className="flex flex-col rounded-3xl border border-black/10 bg-white/85 overflow-hidden shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-                    <div className="h-36 bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center">
+                  <Link key={course.id} to={`/course/${course.id}?from=dashboard`} className="cd-card flex flex-col rounded-3xl border border-black/10 bg-white/85 overflow-hidden shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                    <div className="cd-card-cover cd-card-cover--course h-36 bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center">
                       {course.imagenPortada ? (
                         <img src={course.imagenPortada} alt={course.titulo} className="w-full h-full object-cover" />
                       ) : (
                         <span className="text-3xl">📚</span>
                       )}
                     </div>
-                    <div className="p-5 flex flex-col flex-1">
-                      <p className="text-xs uppercase tracking-[0.3em] text-gray-400">{course.categoria}</p>
-                      <h4 className="mt-2 text-base font-light text-black">{course.titulo}</h4>
-                      <p className="text-sm text-gray-500">Por {course.instructor}</p>
-                      <div className="mt-auto pt-3 flex items-center justify-between border-t border-black/10 text-sm">
-                        <span className="font-light text-black">
+                    <div className="cd-card-body p-5 flex flex-col flex-1">
+                      <p className="cd-mono-count text-xs uppercase tracking-[0.3em] text-gray-400">{course.categoria}</p>
+                      <h4 className="cd-card-title mt-2 text-base font-light text-black">{course.titulo}</h4>
+                      <p className="cd-card-meta text-sm text-gray-500">Por {course.instructor}</p>
+                      <div className="cd-card-foot mt-auto pt-3 flex items-center justify-between border-t border-black/10 text-sm">
+                        <span className="cd-price font-light text-black">
                           {course.tipoAcceso === 'pago'
                             ? `$ ${Number(course.precio || 0).toLocaleString('es-CO')} COP`
                             : 'Gratis'}
                         </span>
-                        <span className="text-xs uppercase tracking-[0.3em] text-gray-500">Ver →</span>
+                        <span className="cd-link text-xs uppercase tracking-[0.3em] text-gray-500">Ver →</span>
                       </div>
                     </div>
                   </Link>
@@ -785,8 +769,8 @@ function CustomerDashboard() {
             {/* Talleres disponibles */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-light text-black">Talleres</h3>
-                <Link to="/workshops?from=customer-dashboard" className="text-xs uppercase tracking-[0.3em] text-black hover:underline underline-offset-4">Ver todos →</Link>
+                <h3 className="cd-panel-title text-2xl font-light text-black">Talleres</h3>
+                <Link to="/workshops?from=customer-dashboard" className="cd-link text-xs uppercase tracking-[0.3em] text-black hover:underline underline-offset-4">Ver todos →</Link>
               </div>
               {loadingWorkshops && (
                 <div className="flex items-center justify-center py-12">
@@ -797,37 +781,37 @@ function CustomerDashboard() {
                 <p className="text-sm text-red-500 py-8 text-center">{errorWorkshops}</p>
               )}
               {!loadingWorkshops && !errorWorkshops && (workshopCatalog || []).length === 0 && (
-                <div className="rounded-3xl border border-dashed border-black/15 bg-white/60 p-12 text-center">
+                <div className="cd-empty rounded-3xl border border-dashed border-black/15 bg-white/60 p-12 text-center">
                   <p className="text-sm text-gray-500">No hay talleres disponibles por el momento.</p>
-                  <Link to="/workshops?from=customer-dashboard" className="mt-3 inline-block text-xs uppercase tracking-[0.3em] text-black hover:underline">Explorar talleres</Link>
+                  <Link to="/workshops?from=customer-dashboard" className="cd-link mt-3 inline-block text-xs uppercase tracking-[0.3em] text-black hover:underline">Explorar talleres</Link>
                 </div>
               )}
-              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="cd-grid grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
                 {!loadingWorkshops && !errorWorkshops && (workshopCatalog || []).slice(0, 6).map((workshop) => (
-                  <div key={workshop.id} className="flex flex-col rounded-3xl border border-black/10 bg-white/85 overflow-hidden shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-                    <div className="h-36 bg-gradient-to-br from-amber-100 via-orange-100 to-rose-100 flex items-center justify-center">
+                  <div key={workshop.id} className="cd-card flex flex-col rounded-3xl border border-black/10 bg-white/85 overflow-hidden shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                    <div className="cd-card-cover cd-card-cover--workshop h-36 bg-gradient-to-br from-amber-100 via-orange-100 to-rose-100 flex items-center justify-center">
                       {workshop.imagenPortada ? (
                         <img src={workshop.imagenPortada} alt={workshop.titulo} className="w-full h-full object-cover" />
                       ) : (
                         <span className="text-3xl">🎨</span>
                       )}
                     </div>
-                    <div className="p-5 flex flex-col flex-1">
+                    <div className="cd-card-body p-5 flex flex-col flex-1">
                       <div className="flex items-center gap-2">
-                        <p className="text-xs uppercase tracking-[0.3em] text-gray-400">{workshop.categoria}</p>
+                        <p className="cd-mono-count text-xs uppercase tracking-[0.3em] text-gray-400">{workshop.categoria}</p>
                         {workshop.linkReunion && (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-medium text-emerald-700 uppercase tracking-wider">
+                          <span className="cd-pill cd-pill--live inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-medium text-emerald-700 uppercase tracking-wider">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                             Virtual
                           </span>
                         )}
                       </div>
-                      <h4 className="mt-2 text-base font-light text-black">{workshop.titulo}</h4>
-                      <p className="text-sm text-gray-500">Por {workshop.instructor}</p>
-                      <p className="mt-2 text-xs text-gray-500">📅 {workshop.fecha} {workshop.horario && `· ${workshop.horario}`}</p>
-                      <div className="mt-auto pt-3 flex items-center justify-between border-t border-black/10 text-sm">
-                        <span className="font-light text-black">${Number(workshop.precio || 0).toFixed(2)}</span>
-                        <Link to="/workshops?from=customer-dashboard" className="text-xs uppercase tracking-[0.3em] text-gray-500 hover:text-black">Ver →</Link>
+                      <h4 className="cd-card-title mt-2 text-base font-light text-black">{workshop.titulo}</h4>
+                      <p className="cd-card-meta text-sm text-gray-500">Por {workshop.instructor}</p>
+                      <p className="cd-card-meta mt-2 text-xs text-gray-500">📅 {workshop.fecha} {workshop.horario && `· ${workshop.horario}`}</p>
+                      <div className="cd-card-foot mt-auto pt-3 flex items-center justify-between border-t border-black/10 text-sm">
+                        <span className="cd-price font-light text-black">${Number(workshop.precio || 0).toFixed(2)}</span>
+                        <Link to="/workshops?from=customer-dashboard" className="cd-link text-xs uppercase tracking-[0.3em] text-gray-500 hover:text-black">Ver →</Link>
                       </div>
                     </div>
                   </div>
@@ -838,8 +822,8 @@ function CustomerDashboard() {
             {/* Obras disponibles */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-light text-black">Obras</h3>
-                <Link to="/works" className="text-xs uppercase tracking-[0.3em] text-black hover:underline underline-offset-4">Ver galería →</Link>
+                <h3 className="cd-panel-title text-2xl font-light text-black">Obras</h3>
+                <Link to="/works" className="cd-link text-xs uppercase tracking-[0.3em] text-black hover:underline underline-offset-4">Ver galería →</Link>
               </div>
               {loadingObras && (
                 <div className="flex items-center justify-center py-12">
@@ -850,32 +834,32 @@ function CustomerDashboard() {
                 <p className="text-sm text-red-500 py-8 text-center">{errorObras}</p>
               )}
               {!loadingObras && !errorObras && galleryPieces.length === 0 && (
-                <div className="rounded-3xl border border-dashed border-black/15 bg-white/60 p-12 text-center">
+                <div className="cd-empty rounded-3xl border border-dashed border-black/15 bg-white/60 p-12 text-center">
                   <p className="text-sm text-gray-500">No hay obras en la galería por el momento.</p>
-                  <Link to="/works" className="mt-3 inline-block text-xs uppercase tracking-[0.3em] text-black hover:underline">Explorar galería</Link>
+                  <Link to="/works" className="cd-link mt-3 inline-block text-xs uppercase tracking-[0.3em] text-black hover:underline">Explorar galería</Link>
                 </div>
               )}
-              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="cd-grid cd-grid--works grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
                 {!loadingObras && !errorObras && galleryPieces.slice(0, 8).map((piece) => (
                   <article
                     key={piece.id}
                     onClick={() => setSelectedObra(piece)}
-                    className="group rounded-3xl border border-black/10 bg-white/85 overflow-hidden shadow-sm transition hover:-translate-y-1 hover:shadow-lg cursor-pointer"
+                    className="cd-card group rounded-3xl border border-black/10 bg-white/85 overflow-hidden shadow-sm transition hover:-translate-y-1 hover:shadow-lg cursor-pointer"
                   >
-                    <div className="h-40 overflow-hidden bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 relative">
+                    <div className="cd-card-cover cd-card-cover--work h-40 overflow-hidden bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 relative">
                       {piece.imagenPortada ? (
                         <img src={piece.imagenPortada} alt={piece.titulo} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center"><span className="text-3xl">🖼️</span></div>
                       )}
                       <div className="absolute top-3 right-3">
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-semibold uppercase tracking-wider text-white bg-black/60 backdrop-blur-sm">{piece.modalidad}</span>
+                        <span className="cd-card-badge inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-semibold uppercase tracking-wider text-white bg-black/60 backdrop-blur-sm">{piece.modalidad}</span>
                       </div>
                     </div>
-                    <div className="p-4">
-                      <h4 className="text-sm font-medium text-black line-clamp-1">{piece.titulo}</h4>
-                      <p className="text-xs text-gray-500">Por {piece.autor} · {piece.anio}</p>
-                      <p className="mt-2 text-xs uppercase tracking-[0.3em] text-black group-hover:underline">Ver detalles</p>
+                    <div className="cd-card-body p-4">
+                      <h4 className="cd-card-title text-sm font-medium text-black line-clamp-1">{piece.titulo}</h4>
+                      <p className="cd-card-meta text-xs text-gray-500">Por {piece.autor} · {piece.anio}</p>
+                      <p className="cd-link mt-2 text-xs uppercase tracking-[0.3em] text-black group-hover:underline">Ver detalles</p>
                     </div>
                   </article>
                 ))}
@@ -888,20 +872,20 @@ function CustomerDashboard() {
       {profileModalOpen && (
         <div className="fixed inset-0 z-50">
           <div
-            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+            className="cd-modal-backdrop absolute inset-0 bg-black/20 backdrop-blur-sm"
             onClick={() => setProfileModalOpen(false)}
           />
-          <aside className="absolute right-0 top-0 h-full w-full max-w-sm bg-white/90 backdrop-blur-xl shadow-xl overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-black/10 px-6 py-4 md:py-5 sticky top-0 bg-white/90">
+          <aside className="cd-panel-modal absolute right-0 top-0 h-full w-full max-w-sm bg-white/90 backdrop-blur-xl shadow-xl overflow-y-auto">
+            <div className="cd-modal-header flex items-center justify-between border-b border-black/10 px-6 py-4 md:py-5 sticky top-0 bg-white/90">
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Perfil</p>
-                <h2 className="text-lg md:text-xl font-light text-black">{userData.nombre}</h2>
+                <p className="cd-eyebrow text-xs uppercase tracking-[0.3em] text-gray-500">Perfil</p>
+                <h2 className="cd-modal-title text-lg md:text-xl font-light text-black">{userData.nombre}</h2>
               </div>
-              <button type="button" onClick={() => setProfileModalOpen(false)} className="text-sm uppercase tracking-[0.3em] text-gray-500 hover:text-black transition">
+              <button type="button" onClick={() => setProfileModalOpen(false)} className="cd-link text-sm uppercase tracking-[0.3em] text-gray-500 hover:text-black transition">
                 Cerrar
               </button>
             </div>
-            <div className="px-6 py-6 md:py-8 space-y-6 md:space-y-8">
+            <div className="cd-modal-body px-6 py-6 md:py-8 space-y-6 md:space-y-8">
               <div className="flex flex-col items-center gap-4">
                 <div className="h-20 md:h-24 w-20 md:w-24 overflow-hidden rounded-full border border-black/10">
                   {userData.imagen ? (
@@ -914,21 +898,21 @@ function CustomerDashboard() {
                 </div>
                 <p className="text-xs md:text-sm text-gray-500 break-all text-center">{userData.email}</p>
               </div>
-              <div className="space-y-2 md:space-y-3 text-xs md:text-sm">
+              <div className="cd-profile-actions space-y-2 md:space-y-3 text-xs md:text-sm">
                 <button
                   type="button"
                   onClick={() => {
                     setProfileModalOpen(false)
                     navigate('/customer/profile')
                   }}
-                  className="w-full rounded-xl border border-black px-4 py-2 md:py-3 uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
+                  className="cd-btn cd-btn--ghost w-full rounded-xl border border-black px-4 py-2 md:py-3 uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition"
                 >
                   Editar perfil
                 </button>
-                <button type="button" className="w-full rounded-xl border border-black px-4 py-2 md:py-3 uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition">
+                <button type="button" className="cd-btn cd-btn--ghost w-full rounded-xl border border-black px-4 py-2 md:py-3 uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition">
                   Cambiar contraseña
                 </button>
-                <button type="button" onClick={handleLogout} className="w-full rounded-xl border border-black px-4 py-2 md:py-3 uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition">
+                <button type="button" onClick={handleLogout} className="cd-btn cd-btn--ghost w-full rounded-xl border border-black px-4 py-2 md:py-3 uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition">
                   Cerrar sesión
                 </button>
               </div>
@@ -938,40 +922,40 @@ function CustomerDashboard() {
       )}
 
       {notificationsModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-16 md:pt-20 md:p-6">
+        <div className="cd-center-modal-wrap fixed inset-0 z-50 flex items-start justify-center p-4 pt-16 md:pt-20 md:p-6">
           <div
-            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+            className="cd-modal-backdrop absolute inset-0 bg-black/30 backdrop-blur-sm"
             onClick={() => setNotificationsModalOpen(false)}
           />
-          <section className="relative w-full max-w-3xl rounded-3xl border border-black/10 bg-white shadow-2xl max-h-[70vh] overflow-y-auto">
-            <header className="flex flex-col gap-3 border-b border-black/10 px-4 md:px-6 py-4 md:py-5 md:flex-row md:items-center md:justify-between sticky top-0 bg-white">
+          <section className="cd-center-modal-card relative w-full max-w-3xl rounded-3xl border border-black/10 bg-white shadow-2xl max-h-[70vh] overflow-y-auto">
+            <header className="cd-modal-header flex flex-col gap-3 border-b border-black/10 px-4 md:px-6 py-4 md:py-5 md:flex-row md:items-center md:justify-between sticky top-0 bg-white">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500">Notificaciones</p>
-                <h3 className="text-lg md:text-xl font-light text-black mt-1">Tu actividad reciente</h3>
+                <p className="cd-eyebrow text-[10px] uppercase tracking-[0.3em] text-gray-500">Notificaciones</p>
+                <h3 className="cd-modal-title text-lg md:text-xl font-light text-black mt-1">Tu actividad reciente</h3>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex px-2 md:px-3 py-1 md:py-2 rounded-xl border border-black/10 bg-white text-[10px] uppercase tracking-[0.2em] text-gray-600">
+              <div className="cd-modal-actions flex flex-wrap items-center gap-2">
+                <span className="cd-pill inline-flex px-2 md:px-3 py-1 md:py-2 rounded-xl border border-black/10 bg-white text-[10px] uppercase tracking-[0.2em] text-gray-600">
                   Sin leer: {unreadNotifications}
                 </span>
                 <button
                   type="button"
                   onClick={handleMarkAllNotifications}
                   disabled={markingAllNotifications || unreadNotifications === 0}
-                  className="rounded-xl border border-black/10 px-2 md:px-3 py-1 md:py-2 text-[10px] uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white disabled:opacity-50 transition"
+                  className="cd-chip-btn rounded-xl border border-black/10 px-2 md:px-3 py-1 md:py-2 text-[10px] uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white disabled:opacity-50 transition"
                 >
                   {markingAllNotifications ? 'Marcando...' : 'Marcar todas'}
                 </button>
                 <button
                   type="button"
                   onClick={() => setNotificationsModalOpen(false)}
-                  className="rounded-xl border border-black/10 px-2 md:px-3 py-1 md:py-2 text-[10px] uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white transition"
+                  className="cd-chip-btn rounded-xl border border-black/10 px-2 md:px-3 py-1 md:py-2 text-[10px] uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white transition"
                 >
                   Cerrar
                 </button>
               </div>
             </header>
 
-            <div className="max-h-[70vh] overflow-y-auto p-6 space-y-3">
+            <div className="cd-modal-body max-h-[70vh] overflow-y-auto p-6 space-y-3">
               {notificationError && (
                 <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">{notificationError}</p>
               )}
@@ -984,23 +968,23 @@ function CustomerDashboard() {
                 notifications.map((notification) => (
                   <article
                     key={notification.id}
-                    className={`rounded-2xl border p-4 ${notification.read ? 'border-black/10 bg-white' : 'border-blue-200 bg-blue-50/50'}`}
+                    className={`cd-note-item rounded-2xl border p-4 ${notification.read ? 'border-black/10 bg-white' : 'is-unread border-blue-200 bg-blue-50/50'}`}
                   >
                     <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                       <div>
-                        <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-1">{notification.type || 'Notificacion'}</p>
-                        <h4 className="text-base font-medium text-black">{notification.title}</h4>
-                        <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
-                        <p className="text-xs text-gray-500 mt-2">{formatNotificationDate(notification.createdAt)}</p>
+                        <p className="cd-note-type text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-1">{notification.type || 'Notificacion'}</p>
+                        <h4 className="cd-note-title text-base font-medium text-black">{notification.title}</h4>
+                        <p className="cd-note-text text-sm text-gray-600 mt-1">{notification.message}</p>
+                        <p className="cd-note-date text-xs text-gray-500 mt-2">{formatNotificationDate(notification.createdAt)}</p>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="cd-note-actions flex items-center gap-2">
                         {!notification.read && (
                           <button
                             type="button"
                             onClick={() => handleMarkNotificationAsRead(notification.id)}
                             disabled={markingNotificationId === notification.id}
-                            className="rounded-lg border border-blue-200 px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-blue-700 hover:bg-blue-700 hover:text-white disabled:opacity-60"
+                            className="cd-chip-btn rounded-lg border border-blue-200 px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-blue-700 hover:bg-blue-700 hover:text-white disabled:opacity-60"
                           >
                             {markingNotificationId === notification.id ? 'Marcando...' : 'Marcar leida'}
                           </button>
@@ -1008,7 +992,7 @@ function CustomerDashboard() {
                         <button
                           type="button"
                           onClick={() => handleGoFromNotification(notification)}
-                          className="rounded-lg border border-black/10 px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white"
+                          className="cd-chip-btn cd-chip-btn--primary rounded-lg border border-black/10 px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white"
                         >
                           Ver
                         </button>
@@ -1024,33 +1008,33 @@ function CustomerDashboard() {
 
       {/* Modal de detalle de obra */}
       {selectedObra && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={() => setSelectedObra(null)} />
-          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl">
+        <div className="cd-center-modal-wrap fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="cd-modal-backdrop absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={() => setSelectedObra(null)} />
+          <div className="cd-artwork-modal relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl">
             {/* Imagen header */}
             {selectedObra.imagenPortada && (
               <div className="h-64 w-full overflow-hidden rounded-t-3xl">
                 <img src={selectedObra.imagenPortada} alt={selectedObra.titulo} className="h-full w-full object-cover" />
               </div>
             )}
-            <div className="p-8 space-y-5">
+            <div className="cd-artwork-content p-8 space-y-5">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-gray-400 mb-1">{selectedObra.modalidad} · {selectedObra.tecnica}</p>
-                  <h2 className="text-2xl font-light text-black">{selectedObra.titulo}</h2>
-                  <p className="text-sm text-gray-500 mt-1">Por {selectedObra.autor} · {selectedObra.anio}</p>
+                  <p className="cd-mono-count text-xs uppercase tracking-[0.3em] text-gray-400 mb-1">{selectedObra.modalidad} · {selectedObra.tecnica}</p>
+                  <h2 className="cd-modal-title text-2xl font-light text-black">{selectedObra.titulo}</h2>
+                  <p className="cd-card-meta text-sm text-gray-500 mt-1">Por {selectedObra.autor} · {selectedObra.anio}</p>
                 </div>
-                <button onClick={() => setSelectedObra(null)} className="text-sm uppercase tracking-[0.3em] text-gray-400 hover:text-black transition">✕</button>
+                <button onClick={() => setSelectedObra(null)} className="cd-link text-sm uppercase tracking-[0.3em] text-gray-400 hover:text-black transition">✕</button>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="rounded-xl bg-gray-50 p-3">
-                  <p className="text-xs text-gray-400 mb-1">Medidas</p>
-                  <p className="text-black">{selectedObra.medidas || 'No especificadas'}</p>
+              <div className="cd-detail-grid grid grid-cols-2 gap-4 text-sm">
+                <div className="cd-detail-box rounded-xl bg-gray-50 p-3">
+                  <p className="cd-detail-label text-xs text-gray-400 mb-1">Medidas</p>
+                  <p className="cd-detail-value text-black">{selectedObra.medidas || 'No especificadas'}</p>
                 </div>
-                <div className="rounded-xl bg-gray-50 p-3">
-                  <p className="text-xs text-gray-400 mb-1">Estado</p>
-                  <p className="text-black">{selectedObra.estado || 'Disponible'}</p>
+                <div className="cd-detail-box rounded-xl bg-gray-50 p-3">
+                  <p className="cd-detail-label text-xs text-gray-400 mb-1">Estado</p>
+                  <p className="cd-detail-value text-black">{selectedObra.estado || 'Disponible'}</p>
                 </div>
               </div>
 
@@ -1090,10 +1074,10 @@ function CustomerDashboard() {
               )}
 
               <div className="flex gap-3 pt-3 border-t border-black/10">
-                <Link to="/works" className="flex-1 text-center rounded-xl border border-black px-4 py-3 text-xs uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition">
+                <Link to="/works" className="cd-btn cd-btn--ghost flex-1 text-center rounded-xl border border-black px-4 py-3 text-xs uppercase tracking-[0.3em] text-black hover:bg-black hover:text-white transition">
                   Ver galería completa
                 </Link>
-                <button onClick={() => setSelectedObra(null)} className="flex-1 rounded-xl bg-black px-4 py-3 text-xs uppercase tracking-[0.3em] text-white hover:bg-gray-800 transition">
+                <button onClick={() => setSelectedObra(null)} className="cd-btn cd-btn--solid flex-1 rounded-xl bg-black px-4 py-3 text-xs uppercase tracking-[0.3em] text-white hover:bg-gray-800 transition">
                   Cerrar
                 </button>
               </div>

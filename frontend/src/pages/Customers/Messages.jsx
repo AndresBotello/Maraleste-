@@ -7,6 +7,8 @@ import {
   sendMessageInConversation,
   sendMessageToCourseInstructor,
 } from '../../services/messageService'
+import messagesStyles from './MessagesStyles'
+import customerSharedStyles from './CustomerSharedStyles'
 
 function Messages() {
   const [courses, setCourses] = useState([])
@@ -138,10 +140,11 @@ function Messages() {
   }
 
   return (
-    <div className="bg-[#f2f2f0] min-h-screen text-[#1a1a1a]">
-      <header className="border-b border-black/5 sticky top-0 bg-[#f2f2f0]/95 backdrop-blur-md z-40">
-        <div className="px-4 md:px-8 lg:px-12 py-4 md:py-6 flex justify-between items-center">
-          <Link to="/customer/dashboard" className="text-lg md:text-xl font-light tracking-[0.3em] md:tracking-[0.4em] text-black hover:text-gray-600 transition">
+    <div className="ms-root bg-[#f2f2f0] min-h-screen text-[#1a1a1a]">
+      <style>{customerSharedStyles + messagesStyles}</style>
+      <header className="ms-header border-b border-black/5 sticky top-0 bg-[#f2f2f0]/95 backdrop-blur-md z-40">
+        <div className="ms-shell px-4 md:px-8 lg:px-12 py-4 md:py-6 flex justify-between items-center">
+          <Link to="/customer/dashboard" className="ms-brand text-lg md:text-xl font-light tracking-[0.3em] md:tracking-[0.4em] text-black hover:text-gray-600 transition">
             MARALESTE
           </Link>
           <div className="flex items-center gap-3 md:gap-4">
@@ -152,22 +155,22 @@ function Messages() {
         </div>
       </header>
 
-      <main className="px-4 md:px-8 lg:px-12 py-8 md:py-10 space-y-6 md:space-y-8">
+      <main className="ms-shell px-4 md:px-8 lg:px-12 py-8 md:py-10 space-y-6 md:space-y-8">
         <div>
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-light tracking-tight text-black">Mensajes con instructores</h1>
+          <h1 className="ms-title text-2xl md:text-3xl lg:text-4xl font-light tracking-tight text-black">Mensajes con instructores</h1>
           <p className="text-sm md:text-base text-gray-500 mt-2">Escribe a los instructores de los cursos donde ya estás inscrito.</p>
         </div>
 
-        {error && <div className="rounded-xl border border-red-200 bg-red-50 px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-red-700">{error}</div>}
+        {error && <div className="ms-error rounded-xl border border-red-200 bg-red-50 px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-red-700">{error}</div>}
 
-        <section className="grid gap-4 md:gap-6 md:grid-cols-[250px_1fr] lg:grid-cols-[360px_1fr]">
-          <aside className="rounded-3xl border border-black/5 bg-white p-4 md:p-5 shadow-lg shadow-black/5 space-y-4 md:space-y-6 md:row-start-1">
+        <section className="ms-layout grid gap-4 md:gap-6 md:grid-cols-[250px_1fr] lg:grid-cols-[360px_1fr]">
+          <aside className="ms-side rounded-3xl border border-black/5 bg-white p-4 md:p-5 shadow-lg shadow-black/5 space-y-4 md:space-y-6 md:row-start-1">
             <div>
-              <h2 className="text-xs md:text-sm uppercase tracking-[0.3em] text-gray-500 mb-2 md:mb-3">Nuevo mensaje</h2>
+              <h2 className="ms-section-title text-xs md:text-sm uppercase tracking-[0.3em] text-gray-500 mb-2 md:mb-3">Nuevo mensaje</h2>
               <select
                 value={selectedCourseId}
                 onChange={(e) => setSelectedCourseId(e.target.value)}
-                className="w-full px-3 py-2 border border-black/10 rounded-lg text-xs md:text-sm mb-2 md:mb-3 focus:outline-none focus:border-black min-w-0 overflow-hidden"
+                className="ms-field w-full px-3 py-2 border border-black/10 rounded-lg text-xs md:text-sm mb-2 md:mb-3 focus:outline-none focus:border-black min-w-0 overflow-hidden"
               >
                 {(enrolledCourses || []).map((course) => (
                   <option key={course.id} value={course.id}>{course.titulo.length > 50 ? course.titulo.substring(0, 50) + '...' : course.titulo}</option>
@@ -178,20 +181,20 @@ function Messages() {
                 value={newCourseMessage}
                 onChange={(e) => setNewCourseMessage(e.target.value)}
                 placeholder="Escribe tu mensaje para el instructor"
-                className="w-full px-3 py-2 border border-black/10 rounded-lg text-xs md:text-sm resize-y focus:outline-none focus:border-black"
+                className="ms-textarea w-full px-3 py-2 border border-black/10 rounded-lg text-xs md:text-sm resize-y focus:outline-none focus:border-black"
               />
               <button
                 type="button"
                 onClick={handleSendCourseMessage}
                 disabled={sending || !selectedCourseId || !newCourseMessage.trim()}
-                className="mt-2 md:mt-3 w-full px-3 md:px-4 py-2 md:py-3 rounded-xl bg-black text-white text-xs uppercase tracking-wider disabled:opacity-50 transition"
+                className="ms-btn ms-btn--solid mt-2 md:mt-3 w-full px-3 md:px-4 py-2 md:py-3 rounded-xl bg-black text-white text-xs uppercase tracking-wider disabled:opacity-50 transition"
               >
                 Enviar al instructor
               </button>
             </div>
 
             <div>
-              <h2 className="text-xs md:text-sm uppercase tracking-[0.3em] text-gray-500 mb-2 md:mb-3">Conversaciones</h2>
+              <h2 className="ms-section-title text-xs md:text-sm uppercase tracking-[0.3em] text-gray-500 mb-2 md:mb-3">Conversaciones</h2>
               {loading ? (
                 <p className="text-xs md:text-sm text-gray-500">Cargando...</p>
               ) : conversations.length === 0 ? (
@@ -203,9 +206,9 @@ function Messages() {
                       key={conversation.id}
                       type="button"
                       onClick={() => setSelectedConversationId(conversation.id)}
-                      className={`w-full text-left p-2 md:p-3 rounded-xl border transition text-xs md:text-sm min-w-0 overflow-hidden ${
+                      className={`ms-conversation w-full text-left p-2 md:p-3 rounded-xl border transition text-xs md:text-sm min-w-0 overflow-hidden ${
                         selectedConversationId === conversation.id
-                          ? 'bg-black text-white border-black'
+                          ? 'is-active bg-black text-white border-black'
                           : 'bg-white border-black/10 hover:bg-black/5'
                       }`}
                     >
@@ -222,7 +225,7 @@ function Messages() {
             </div>
           </aside>
 
-          <article className="rounded-3xl border border-black/5 bg-white p-4 md:p-6 shadow-lg shadow-black/5">
+          <article className="ms-main rounded-3xl border border-black/5 bg-white p-4 md:p-6 shadow-lg shadow-black/5">
             {!selectedConversation ? (
               <div className="h-full min-h-[300px] flex items-center justify-center text-xs md:text-base text-gray-500 text-center">
                 Selecciona una conversación o crea una nueva.
@@ -241,8 +244,8 @@ function Messages() {
                     return (
                       <div
                         key={message.id}
-                        className={`rounded-2xl px-3 md:px-4 py-2 md:py-3 border text-xs md:text-sm ${
-                          isOwn ? 'bg-black text-white border-black ml-6 md:ml-10' : 'bg-gray-50 text-black border-black/10 mr-6 md:mr-10'
+                        className={`ms-msg rounded-2xl px-3 md:px-4 py-2 md:py-3 border text-xs md:text-sm ${
+                          isOwn ? 'is-own bg-black text-white border-black ml-6 md:ml-10' : 'is-other bg-gray-50 text-black border-black/10 mr-6 md:mr-10'
                         }`}
                       >
                         <p className="text-[10px] uppercase tracking-wider opacity-70 mb-1">{message.senderName}</p>
@@ -259,13 +262,13 @@ function Messages() {
                     value={replyMessage}
                     onChange={(e) => setReplyMessage(e.target.value)}
                     placeholder="Responder en esta conversación"
-                    className="w-full px-3 py-2 border border-black/10 rounded-lg text-xs md:text-sm resize-y focus:outline-none focus:border-black"
+                    className="ms-textarea w-full px-3 py-2 border border-black/10 rounded-lg text-xs md:text-sm resize-y focus:outline-none focus:border-black"
                   />
                   <button
                     type="button"
                     onClick={handleSendReply}
                     disabled={sending || !replyMessage.trim()}
-                    className="mt-2 md:mt-3 px-4 md:px-5 py-2 md:py-3 rounded-xl bg-black text-white text-xs uppercase tracking-wider disabled:opacity-50 transition w-full md:w-auto"
+                    className="ms-btn ms-btn--solid mt-2 md:mt-3 px-4 md:px-5 py-2 md:py-3 rounded-xl bg-black text-white text-xs uppercase tracking-wider disabled:opacity-50 transition w-full md:w-auto"
                   >
                     Enviar respuesta
                   </button>

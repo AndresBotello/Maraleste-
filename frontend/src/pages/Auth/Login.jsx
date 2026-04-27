@@ -4,6 +4,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../config/firebase'
 import api from '../../api/apiClient'
 import Footer from '../../components/layouts/Footer'
+import authSharedStyles from './AuthSharedStyles'
 
 function Login() {
   const navigate = useNavigate()
@@ -73,21 +74,22 @@ function Login() {
   }
 
   return (
-    <div className="bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#1a1a1a] min-h-screen selection:bg-gray-200/70">
-      <header className="border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
-          <Link to="/" className="text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
+    <div className="auth-root bg-gradient-to-br from-[#f6f6f3] via-[#eceae4] to-[#fafafa] text-[#1a1a1a] min-h-screen selection:bg-gray-200/70">
+      <style>{authSharedStyles}</style>
+      <header className="auth-header border-b border-black/5 sticky top-0 bg-white/70 backdrop-blur-xl z-50">
+        <div className="auth-shell max-w-7xl mx-auto px-6 lg:px-12 py-5 flex items-center justify-between">
+          <Link to="/" className="auth-brand text-xl lg:text-2xl font-light tracking-[0.4em] text-black hover:text-gray-700 transition">
             MARALESTE
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.4em] text-gray-500">
-            <Link to="/about" className="hover:text-black transition font-medium">Estudios</Link>
-            <Link to="/workshops" className="hover:text-black transition font-medium">Talleres</Link>
-            <Link to="/courses" className="hover:text-black transition font-medium">Cursos</Link>
-            <Link to="/works" className="hover:text-black transition font-medium">Obras</Link>
+            <Link to="/about" className="auth-link hover:text-black transition font-medium">Estudios</Link>
+            <Link to="/workshops" className="auth-link hover:text-black transition font-medium">Talleres</Link>
+            <Link to="/courses" className="auth-link hover:text-black transition font-medium">Cursos</Link>
+            <Link to="/works" className="auth-link hover:text-black transition font-medium">Obras</Link>
           </nav>
           <div className="hidden md:flex items-center gap-6 text-[11px] uppercase tracking-[0.4em] font-medium">
-            <Link to="/" className="text-black/70 hover:text-black transition">Volver al inicio</Link>
-            <Link to="/register" className="text-black hover:underline underline-offset-4">Crear cuenta</Link>
+            <Link to="/" className="auth-link text-black/70 hover:text-black transition">Volver al inicio</Link>
+            <Link to="/register" className="auth-link text-black hover:underline underline-offset-4">Crear cuenta</Link>
           </div>
           <button
             type="button"
@@ -99,12 +101,12 @@ function Login() {
         </div>
         {menuOpen && (
           <div className="md:hidden border-t border-black/5 bg-white/90 px-6 py-6 space-y-6 text-[11px] uppercase tracking-[0.3em] text-gray-600">
-            <Link to="/about" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Estudios</Link>
-            <Link to="/workshops" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Talleres</Link>
-            <Link to="/courses" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Cursos</Link>
-            <Link to="/works" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Obras</Link>
-            <Link to="/" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Volver al inicio</Link>
-            <Link to="/register" className="block hover:text-black transition" onClick={() => setMenuOpen(false)}>Crear cuenta</Link>
+            <Link to="/about" className="auth-link block hover:text-black transition" onClick={() => setMenuOpen(false)}>Estudios</Link>
+            <Link to="/workshops" className="auth-link block hover:text-black transition" onClick={() => setMenuOpen(false)}>Talleres</Link>
+            <Link to="/courses" className="auth-link block hover:text-black transition" onClick={() => setMenuOpen(false)}>Cursos</Link>
+            <Link to="/works" className="auth-link block hover:text-black transition" onClick={() => setMenuOpen(false)}>Obras</Link>
+            <Link to="/" className="auth-link block hover:text-black transition" onClick={() => setMenuOpen(false)}>Volver al inicio</Link>
+            <Link to="/register" className="auth-link block hover:text-black transition" onClick={() => setMenuOpen(false)}>Crear cuenta</Link>
           </div>
         )}
       </header>
@@ -120,7 +122,7 @@ function Login() {
           <div className="space-y-10 hidden lg:block">
             <header className="space-y-5">
               <span className="text-[10px] uppercase tracking-[0.5em] text-gray-500">Plataforma creativa</span>
-              <h1 className="text-4xl lg:text-5xl font-light tracking-tight text-black leading-tight">
+              <h1 className="auth-title text-4xl lg:text-5xl font-light tracking-tight text-black leading-tight">
                 Bienvenido de vuelta
               </h1>
               <p className="text-base text-gray-500 max-w-md leading-relaxed">
@@ -135,7 +137,7 @@ function Login() {
                 { icon: '◈', text: 'Seguridad con cifrado de extremo a extremo' },
               ].map(({ icon, text }) => (
                 <div key={text} className="flex items-center gap-4">
-                  <span className="text-black/30 text-lg">{icon}</span>
+                  <span className="auth-pulse-dot" />
                   <span className="text-sm text-gray-600">{text}</span>
                 </div>
               ))}
@@ -149,21 +151,21 @@ function Login() {
           </div>
 
           <div className="w-full max-w-md mx-auto lg:mx-0">
-            <div className="rounded-3xl border border-black/10 bg-white/80 backdrop-blur-xl p-8 lg:p-10 shadow-xl shadow-black/10">
+            <div className="auth-panel rounded-3xl border border-black/10 bg-white/80 backdrop-blur-xl p-8 lg:p-10 shadow-xl shadow-black/10">
               <div className="text-center mb-10">
-                <h2 className="text-3xl font-light text-black mb-3">Iniciar sesión</h2>
-                <p className="text-sm text-gray-500">Accede a tu cuenta para continuar.</p>
+                <h2 className="auth-section-title text-3xl font-light text-black mb-3">Iniciar sesión</h2>
+                <p className="auth-muted text-sm text-gray-500">Accede a tu cuenta para continuar.</p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 {error && (
-                  <div className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
+                  <div className="auth-error rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
                     {error}
                   </div>
                 )}
 
                 <div>
-                  <label htmlFor="email" className="block text-[11px] uppercase tracking-[0.3em] text-gray-500 font-semibold mb-3">
+                  <label htmlFor="email" className="auth-label block text-[11px] uppercase tracking-[0.3em] text-gray-500 font-semibold mb-3">
                     Correo electrónico
                   </label>
                   <input
@@ -172,14 +174,14 @@ function Login() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="tu@correo.com"
-                    className="w-full h-12 rounded-xl border border-black/10 bg-white px-5 text-sm text-black placeholder-gray-400 focus:outline-none focus:border-black focus:ring-2 focus:ring-black/10 transition"
+                    className="auth-input w-full h-12 rounded-xl border border-black/10 bg-white px-5 text-sm text-black placeholder-gray-400 focus:outline-none focus:border-black focus:ring-2 focus:ring-black/10 transition"
                     autoComplete="email"
                     required
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="password" className="block text-[11px] uppercase tracking-[0.3em] text-gray-500 font-semibold mb-3">
+                  <label htmlFor="password" className="auth-label block text-[11px] uppercase tracking-[0.3em] text-gray-500 font-semibold mb-3">
                     Contraseña
                   </label>
                   <div className="relative">
@@ -189,14 +191,14 @@ function Login() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="w-full h-12 rounded-xl border border-black/10 bg-white px-5 text-sm text-black placeholder-gray-400 focus:outline-none focus:border-black focus:ring-2 focus:ring-black/10 transition pr-16"
+                      className="auth-input w-full h-12 rounded-xl border border-black/10 bg-white px-5 text-sm text-black placeholder-gray-400 focus:outline-none focus:border-black focus:ring-2 focus:ring-black/10 transition pr-16"
                       autoComplete="current-password"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-2 flex items-center px-3 text-[11px] uppercase tracking-[0.3em] text-gray-400 hover:text-black transition"
+                      className="auth-link absolute inset-y-0 right-2 flex items-center px-3 text-[11px] uppercase tracking-[0.3em] text-gray-400 hover:text-black transition"
                     >
                       {showPassword ? 'Ocultar' : 'Ver'}
                     </button>
@@ -204,7 +206,7 @@ function Login() {
                 </div>
 
                 <div className="flex items-center justify-between text-xs text-gray-600">
-                  <Link to="/forgot-password" className="uppercase tracking-[0.3em] font-medium text-gray-500 hover:text-black transition">
+                  <Link to="/forgot-password" className="auth-link uppercase tracking-[0.3em] font-medium text-gray-500 hover:text-black transition">
                     Recuperar clave
                   </Link>
                 </div>
@@ -212,7 +214,7 @@ function Login() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full h-12 rounded-xl bg-black text-white text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-gray-900 transition shadow-lg shadow-black/10 disabled:pointer-events-none disabled:opacity-70"
+                  className="auth-btn auth-btn--solid w-full h-12 rounded-xl bg-black text-white text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-gray-900 transition shadow-lg shadow-black/10 disabled:pointer-events-none disabled:opacity-70"
                 >
                   {isLoading ? 'Validando…' : 'Acceder al panel'}
                 </button>
@@ -221,7 +223,7 @@ function Login() {
               <div className="mt-10 text-center text-xs text-gray-500">
                 <p>
                   ¿Aún no formas parte de Maraleste?{' '}
-                  <a href="/register" className="font-medium text-black hover:underline underline-offset-4">
+                  <a href="/register" className="auth-link font-medium text-black hover:underline underline-offset-4">
                     Crea tu cuenta
                   </a>
                 </p>
