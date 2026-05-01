@@ -53,8 +53,10 @@ export async function registerUser({ firstName, lastName, email, password, rol =
  * @returns {Promise<void>}
  */
 export async function requestPasswordReset(email) {
+  const resetPasswordUrl = import.meta.env.VITE_PASSWORD_RESET_URL || `${window.location.origin}/reset-password`;
+
   const actionCodeSettings = {
-    url: `${window.location.origin}/reset-password`,
+    url: resetPasswordUrl,
     handleCodeInApp: true,
   };
 

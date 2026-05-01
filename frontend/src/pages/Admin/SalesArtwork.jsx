@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import AdminLayout from '../../components/layouts/AdminLayout'
+import adminSharedStyles from './AdminSharedStyles'
+import globalStyles from './DashboardStyles'
 
 function SalesArtwork() {
   const [activeSection] = useState('ventas')
@@ -29,23 +31,25 @@ function SalesArtwork() {
   }
 
   return (
-    <AdminLayout activeSection={activeSection}>
-      <section>
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-light mb-4 tracking-tight text-black">
-            Registrar Ventas de Obras
-          </h1>
-          <p className="text-lg text-gray-500 font-light">
-            Administra y registra las ventas de las obras de la galería
-          </p>
-        </div>
+    <>
+      <style>{adminSharedStyles + globalStyles}</style>
+      <AdminLayout activeSection={activeSection}>
+        <div className="ad-root db-root">
+          {/* ── Header ── */}
+          <header className="db-header">
+            <div className="db-header-text">
+              <p className="db-eyebrow">Gestión de ventas</p>
+              <h1 className="db-title">Registrar Ventas de Obras</h1>
+              <p className="db-subtitle">Administra y registra las ventas de las obras de la galería</p>
+            </div>
+          </header>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-sm p-12 shadow-lg shadow-black/5 border border-black/5 mb-16">
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Obra */}
-            <div>
-              <label className="block text-[11px] uppercase tracking-[0.5em] text-gray-500 font-semibold mb-4">
-                Obra Vendida
+          <form onSubmit={handleSubmit} style={{ background: 'var(--surface)', borderRadius: 'var(--radius-xl)', padding: '32px', border: '1px solid var(--border)', marginBottom: '32px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '32px' }}>
+              {/* Obra */}
+              <div>
+                <label className="db-kpi-label" style={{ marginBottom: '16px', display: 'block' }}>
+                  Obra Vendida
               </label>
               <input
                 type="text"
@@ -224,8 +228,9 @@ function SalesArtwork() {
             ))}
           </div>
         </div>
-      </section>
-    </AdminLayout>
+        </div>
+      </AdminLayout>
+    </>
   )
 }
 

@@ -12,6 +12,8 @@ import {
   updateCourseStatus,
 } from '../../services/courseService'
 import { CATEGORIAS, NIVELES, IDIOMAS } from '../../data/constants'
+import adminSharedStyles from './AdminSharedStyles'
+import globalStyles from './DashboardStyles'
 
 function CreateCourses() {
   const [activeSection] = useState('cursos')
@@ -264,60 +266,87 @@ function CreateCourses() {
   }
 
   return (
-    <AdminLayout activeSection={activeSection}>
-      <section>
-        {/* Header */}
-        <div className="mb-6 md:mb-10">
-          <h1 className="text-2xl md:text-4xl lg:text-5xl font-light mb-2 md:mb-4 tracking-tight text-black">
-            {editingCourseId ? 'Editar Curso' : 'Crear Curso'}
-          </h1>
-          <p className="text-xs md:text-sm lg:text-lg text-gray-500 font-light">
-            {editingCourseId
-              ? 'Actualiza contenido y configuración del curso que creaste'
-              : 'Diseña cursos educativos para la comunidad Maraleste'}
-          </p>
-        </div>
+    <>
+      <style>{adminSharedStyles + globalStyles}</style>
+      <AdminLayout activeSection={activeSection}>
+        <div className="ad-root db-root">
+          {/* ── Header ── */}
+          <header className="db-header">
+            <div className="db-header-text">
+              <p className="db-eyebrow">Creación de contenido</p>
+              <h1 className="db-title">
+                {editingCourseId ? 'Editar Curso' : 'Crear Curso'}
+              </h1>
+              <p className="db-subtitle">
+                {editingCourseId
+                  ? 'Actualiza contenido y configuración del curso que creaste'
+                  : 'Diseña cursos educativos para la comunidad Maraleste'}
+              </p>
+            </div>
+          </header>
 
-        {/* Stepper */}
-        <div className="mb-8 md:mb-12">
-          <div className="flex items-center justify-between max-w-2xl mx-auto overflow-x-auto px-2">
-            {stepLabels.map((label, index) => {
-              const stepNum = index + 1
-              const isActive = currentStep === stepNum
-              const isCompleted = currentStep > stepNum
-              return (
-                <div key={stepNum} className="flex items-center">
-                  <button
-                    onClick={() => setCurrentStep(stepNum)}
-                    className="flex flex-col items-center group"
-                  >
-                    <div className={`w-8 md:w-10 h-8 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-medium transition-all duration-300 ${
-                      isActive
-                        ? 'bg-black text-white shadow-lg shadow-black/20'
-                        : isCompleted
-                        ? 'bg-black text-white'
-                        : 'bg-black/10 text-gray-500 group-hover:bg-black/20'
-                    }`}>
-                      {isCompleted ? '✓' : stepNum}
-                    </div>
-                    <span className={`mt-1 md:mt-2 text-[8px] md:text-[10px] uppercase tracking-wider font-medium hidden lg:block ${
-                      isActive ? 'text-black' : 'text-gray-400'
-                    }`}>
-                      {label}
-                    </span>
-                  </button>
-                  {stepNum < totalSteps && (
-                    <div className={`w-8 md:w-12 lg:w-24 h-px mx-1 md:mx-2 transition-colors ${
-                      currentStep > stepNum ? 'bg-black' : 'bg-black/10'
-                    }`} />
-                  )}
-                </div>
-              )
-            })}
+          {/* Stepper */}
+          <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', overflow: 'auto' }}>
+              {stepLabels.map((label, index) => {
+                const stepNum = index + 1
+                const isActive = currentStep === stepNum
+                const isCompleted = currentStep > stepNum
+                return (
+                  <div key={stepNum} style={{ display: 'flex', alignItems: 'center' }}>
+                    <button
+                      onClick={() => setCurrentStep(stepNum)}
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '8px',
+                        border: 'none',
+                        background: 'transparent',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <div style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        transition: 'all 0.3s',
+                        background: isActive ? 'var(--text-primary)' : isCompleted ? 'var(--text-primary)' : 'var(--surface-2)',
+                        color: isActive || isCompleted ? '#fff' : 'var(--text-secondary)'
+                      }}>
+                        {isCompleted ? '✓' : stepNum}
+                      </div>
+                      <span style={{
+                        fontSize: '10px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.08em',
+                        fontWeight: 500,
+                        color: isActive ? 'var(--text-primary)' : 'var(--text-tertiary)',
+                        display: 'none',
+                        '@media (min-width: 1024px)': { display: 'block' }
+                      }}>
+                        {label}
+                      </span>
+                    </button>
+                    {stepNum < totalSteps && (
+                      <div style={{
+                        width: '32px',
+                        height: '1px',
+                        margin: '0 8px',
+                        background: currentStep > stepNum ? 'var(--text-primary)' : 'var(--border)',
+                        transition: 'background 0.3s'
+                      }} />
+                    )}
+                  </div>
+                )
+              })}
+            </div>
           </div>
-        </div>
-
-        <form onSubmit={handleSubmit}>
           {/* ==================== PASO 1: Información Básica ==================== */}
           {currentStep === 1 && (
             <div className="bg-white rounded-2xl p-4 md:p-6 lg:p-8 xl:p-12 shadow-lg shadow-black/5 border border-black/5">
@@ -702,7 +731,6 @@ function CreateCourses() {
               </button>
             )}
           </div>
-        </form>
 
         <div className="mt-10 md:mt-14 bg-white rounded-2xl p-4 md:p-6 lg:p-8 xl:p-10 shadow-lg shadow-black/5 border border-black/5">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4 md:mb-6">
@@ -816,8 +844,9 @@ function CreateCourses() {
                         </div>
                       )}
                     </div>
-                  )}              </article>
-              ))}
+                  )}
+              </article>
+              ))}  
 
               {filteredMyCourses.length > COURSES_PAGE_SIZE && (
                 <div className="pt-2 md:pt-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
@@ -847,8 +876,9 @@ function CreateCourses() {
             </div>
           )}
         </div>
-      </section>
+      </div>
     </AdminLayout>
+    </>
   )
 }
 

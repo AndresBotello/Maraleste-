@@ -24,8 +24,12 @@ function ForgotPassword() {
       const firebaseErrors = {
         'auth/invalid-email': 'El correo electrónico no es válido',
         'auth/too-many-requests': 'Demasiados intentos. Intenta más tarde',
+        'auth/unauthorized-continue-uri': 'La URL de recuperación no está autorizada en Firebase.',
+        'auth/invalid-continue-uri': 'La URL de recuperación no es válida.',
+        'auth/unauthorized-domain': 'El dominio desplegado no está autorizado en Firebase Auth.',
       }
-      setError(firebaseErrors[err.code] || 'No pudimos procesar la solicitud de recuperación.')
+      const firebaseMessage = err?.code ? `${err.code}${err.message ? `: ${err.message}` : ''}` : ''
+      setError(firebaseErrors[err.code] || firebaseMessage || 'No pudimos procesar la solicitud de recuperación.')
     } finally {
       setIsLoading(false)
     }

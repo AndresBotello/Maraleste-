@@ -9,6 +9,8 @@ import {
   getCourseEnrolledStudents,
   startConversationAsInstructor,
 } from '../../services/messageService'
+import adminSharedStyles from './AdminSharedStyles'
+import globalStyles from './DashboardStyles'
 
 function InstructorMessages() {
   const [conversations, setConversations] = useState([])
@@ -189,26 +191,38 @@ function InstructorMessages() {
   }
 
   return (
-    <AdminLayout activeSection="mensajes">
-      <section className="space-y-6 md:space-y-8">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl md:text-4xl lg:text-5xl font-light tracking-tight text-black">
-              Mensajes de estudiantes
-            </h1>
-            <p className="text-xs md:text-sm lg:text-lg text-gray-500 font-light mt-2">
-              Revisa y responde los mensajes que te envían los usuarios de tus cursos.
-            </p>
-          </div>
-          {/* BOTÓN NUEVA CONVERSACIÓN */}
-          <button
-            type="button"
-            onClick={handleOpenModal}
-            className="shrink-0 px-4 py-2 rounded-xl bg-black text-white text-xs md:text-sm uppercase tracking-wider hover:bg-black/80 transition"
-          >
-            + Nueva conversación
-          </button>
-        </div>
+    <>
+      <style>{adminSharedStyles + globalStyles}</style>
+      <AdminLayout activeSection="mensajes">
+        <div className="ad-root db-root">
+          {/* ── Header ── */}
+          <header className="db-header">
+            <div className="db-header-text">
+              <p className="db-eyebrow">Comunicación</p>
+              <h1 className="db-title">Mensajes de estudiantes</h1>
+              <p className="db-subtitle">Revisa y responde los mensajes que te envían los usuarios de tus cursos.</p>
+            </div>
+            {/* BOTÓN NUEVA CONVERSACIÓN */}
+            <button
+              type="button"
+              onClick={handleOpenModal}
+              style={{
+                padding: '12px 16px',
+                borderRadius: '10px',
+                background: 'var(--text-primary)',
+                color: '#fff',
+                fontSize: '11px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                border: 'none',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                flexShrink: 0
+              }}
+            >
+              + Nueva conversación
+            </button>
+          </header>
 
         {error && (
           <div className="rounded-xl border border-red-200 bg-red-50 px-3 md:px-4 py-2 md:py-3 text-xs md:text-sm text-red-700">
@@ -332,7 +346,6 @@ function InstructorMessages() {
             )}
           </article>
         </div>
-      </section>
 
       {/* ===================== MODAL NUEVA CONVERSACIÓN ===================== */}
       {showNewModal && (
@@ -442,7 +455,9 @@ function InstructorMessages() {
           </div>
         </div>
       )}
-    </AdminLayout>
+        </div>
+      </AdminLayout>
+    </>
   )
 }
 

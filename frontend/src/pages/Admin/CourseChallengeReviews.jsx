@@ -5,6 +5,8 @@ import {
   getMyCourses,
   reviewChallengeSubmission,
 } from '../../services/courseService'
+import adminSharedStyles from './AdminSharedStyles'
+import globalStyles from './DashboardStyles'
 
 function CourseChallengeReviews() {
   const [courses, setCourses] = useState([])
@@ -81,165 +83,274 @@ function CourseChallengeReviews() {
   }
 
   return (
-    <AdminLayout activeSection="retos">
-      <section className="space-y-8">
-        <div>
-          <h1 className="text-4xl md:text-5xl font-light mb-3 tracking-tight text-black">Revisión de Retos</h1>
-          <p className="text-lg text-gray-500 font-light">
-            Revisa evidencias por estudiante, aprueba o rechaza y monitorea el progreso del curso.
-          </p>
-        </div>
-
-        {error && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {error}
-          </div>
-        )}
-
-        <div className="bg-white rounded-2xl border border-black/5 shadow-lg shadow-black/5 p-6">
-          <label className="block text-[11px] uppercase tracking-[0.4em] text-gray-500 font-semibold mb-3">
-            Curso
-          </label>
-          {loadingCourses ? (
-            <p className="text-sm text-gray-500">Cargando cursos...</p>
-          ) : courses.length === 0 ? (
-            <p className="text-sm text-gray-500">No tienes cursos creados.</p>
-          ) : (
-            <select
-              value={selectedCourseId}
-              onChange={(e) => setSelectedCourseId(e.target.value)}
-              className="w-full md:max-w-xl px-4 py-3 border border-black/10 rounded-xl bg-white text-black focus:outline-none focus:border-black"
-            >
-              {courses.map((course) => (
-                <option key={course.id} value={course.id}>
-                  {course.titulo}
-                </option>
-              ))}
-            </select>
-          )}
-        </div>
-
-        {loadingProgress ? (
-          <div className="rounded-2xl border border-black/5 bg-white p-8 text-sm text-gray-500">Cargando progreso de retos...</div>
-        ) : challengeProgress ? (
-          <div className="space-y-6">
-            <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-lg shadow-black/5">
-              <p className="text-xs uppercase tracking-[0.3em] text-gray-500 mb-2">Resumen</p>
-              <h2 className="text-2xl font-light text-black mb-2">{challengeProgress.course?.titulo}</h2>
-              <p className="text-sm text-gray-500">
-                Retos activos: {challengeProgress.totalRetos || 0} · Estudiantes inscritos: {students.length}
-              </p>
+    <>
+      <style>{adminSharedStyles + globalStyles}</style>
+      <AdminLayout activeSection="retos">
+        <div className="ad-root db-root">
+          {/* ── Header ── */}
+          <header className="db-header">
+            <div className="db-header-text">
+              <p className="db-eyebrow">Revisión y evaluación</p>
+              <h1 className="db-title">Revisión de Retos</h1>
+              <p className="db-subtitle">Revisa evidencias por estudiante, aprueba o rechaza y monitorea el progreso del curso.</p>
             </div>
+          </header>
 
-            {students.length === 0 ? (
-              <div className="rounded-2xl border border-black/5 bg-white p-6 text-sm text-gray-500">
-                No hay estudiantes inscritos en este curso.
-              </div>
+          {error && (
+            <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </div>
+          )}
+
+          {/* ── Course Selection ── */}
+          <div className="db-card">
+            <p className="db-kpi-label mb-3">Selecciona un curso</p>
+            {loadingCourses ? (
+              <p className="text-sm text-gray-500">Cargando cursos...</p>
+            ) : courses.length === 0 ? (
+              <p className="text-sm text-gray-500">No tienes cursos creados.</p>
             ) : (
-              students.map((student) => (
-                <article key={student.uid} className="rounded-2xl border border-black/5 bg-white p-6 shadow-lg shadow-black/5 space-y-5">
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div>
-                      <h3 className="text-xl font-light text-black">
-                        {student.firstName} {student.lastName}
-                      </h3>
-                      <p className="text-sm text-gray-500">{student.email}</p>
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      <p>Progreso curso: {student.progresoCurso?.porcentaje || 0}%</p>
-                      <p>
-                        Lecciones: {student.progresoCurso?.completadas || 0}/{student.progresoCurso?.totalLecciones || 0}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {student.retos.map((reto) => {
-                      const key = `${reto.moduleId}-${student.uid}`
-                      const stateStyles =
-                        reto.estado === 'aprobado'
-                          ? 'text-green-700 bg-green-50 border-green-200'
-                          : reto.estado === 'rechazado'
-                          ? 'text-red-700 bg-red-50 border-red-200'
-                          : reto.estado === 'pendiente'
-                          ? 'text-amber-700 bg-amber-50 border-amber-200'
-                          : 'text-gray-600 bg-gray-50 border-gray-200'
-
-                      return (
-                        <div key={key} className="rounded-xl border border-black/10 bg-black/[0.02] p-4 space-y-3">
-                          <div>
-                            <p className="text-xs uppercase tracking-wider text-gray-500">{reto.moduloTitulo}</p>
-                            <p className="text-sm font-medium text-black">{reto.retoTitulo}</p>
-                          </div>
-
-                          <span className={`inline-flex px-2 py-1 rounded-lg text-xs uppercase tracking-wider border ${stateStyles}`}>
-                            {reto.estado === 'sin_entrega' ? 'Sin entrega' : reto.estado}
-                          </span>
-
-                          {reto.evidenciaUrl && (
-                            <div className="space-y-2">
-                              <img
-                                src={reto.evidenciaUrl}
-                                alt={`Evidencia de ${student.firstName || 'estudiante'} en ${reto.moduloTitulo}`}
-                                className="w-full h-44 object-cover rounded-lg border border-black/10 bg-white"
-                                loading="lazy"
-                              />
-                              <a
-                                href={reto.evidenciaUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-xs text-blue-600 underline"
-                              >
-                                Abrir imagen completa
-                              </a>
-                            </div>
-                          )}
-
-                          {reto.comentario && (
-                            <p className="text-sm text-gray-600">Comentario: {reto.comentario}</p>
-                          )}
-
-                          {reto.estado !== 'sin_entrega' && (
-                            <>
-                              <textarea
-                                rows={2}
-                                value={feedbackByKey[key] ?? reto.feedback ?? ''}
-                                onChange={(e) => setFeedbackByKey((prev) => ({ ...prev, [key]: e.target.value }))}
-                                placeholder="Feedback para el estudiante"
-                                className="w-full px-3 py-2 border border-black/10 rounded-lg text-sm focus:outline-none focus:border-black"
-                              />
-
-                              <div className="flex gap-2">
-                                <button
-                                  type="button"
-                                  onClick={() => handleReview(reto.moduleId, student.uid, 'aprobado')}
-                                  disabled={actionLoadingKey === `aprobado-${key}`}
-                                  className="px-3 py-2 text-xs uppercase tracking-wider rounded-lg border border-green-300 text-green-700 hover:bg-green-700 hover:text-white transition disabled:opacity-50"
-                                >
-                                  Aprobar
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => handleReview(reto.moduleId, student.uid, 'rechazado')}
-                                  disabled={actionLoadingKey === `rechazado-${key}`}
-                                  className="px-3 py-2 text-xs uppercase tracking-wider rounded-lg border border-red-300 text-red-700 hover:bg-red-700 hover:text-white transition disabled:opacity-50"
-                                >
-                                  Rechazar
-                                </button>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      )
-                    })}
-                  </div>
-                </article>
-              ))
+              <select
+                value={selectedCourseId}
+                onChange={(e) => setSelectedCourseId(e.target.value)}
+                className="w-full md:max-w-xl px-4 py-3 border border-black/10 rounded-xl bg-white text-black focus:outline-none focus:border-black"
+              >
+                {courses.map((course) => (
+                  <option key={course.id} value={course.id}>
+                    {course.titulo}
+                  </option>
+                ))}
+              </select>
             )}
           </div>
-        ) : null}
-      </section>
-    </AdminLayout>
+
+          {/* ── Content ── */}
+          {loadingProgress ? (
+            <div className="db-card">
+              <p className="text-sm text-gray-500">Cargando progreso de retos...</p>
+            </div>
+          ) : challengeProgress ? (
+            <div className="space-y-6">
+              {/* ── Summary Card ── */}
+              <div className="db-card">
+                <div className="db-card-head">
+                  <div>
+                    <p className="db-eyebrow">Resumen del curso</p>
+                    <h2 className="db-card-title">{challengeProgress.course?.titulo}</h2>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-500">
+                  Retos activos: {challengeProgress.totalRetos || 0} · Estudiantes inscritos: {students.length}
+                </p>
+              </div>
+
+              {/* ── Students List ── */}
+              {students.length === 0 ? (
+                <div className="db-card">
+                  <div className="db-empty">
+                    <p>No hay estudiantes inscritos en este curso.</p>
+                  </div>
+                </div>
+              ) : (
+                students.map((student) => (
+                  <div key={student.uid} className="db-card">
+                    <div className="db-card-head">
+                      <div>
+                        <h3 style={{ fontSize: '18px', fontWeight: 400, color: 'var(--text-primary)', marginBottom: '4px' }}>
+                          {student.firstName} {student.lastName}
+                        </h3>
+                        <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{student.email}</p>
+                      </div>
+                      <div style={{ textAlign: 'right', fontSize: '13px', color: 'var(--text-secondary)' }}>
+                        <p>Progreso: {student.progresoCurso?.porcentaje || 0}%</p>
+                        <p style={{ fontSize: '12px' }}>
+                          Lecciones: {student.progresoCurso?.completadas || 0}/{student.progresoCurso?.totalLecciones || 0}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px', marginTop: '20px' }}>
+                      {student.retos.map((reto) => {
+                        const key = `${reto.moduleId}-${student.uid}`
+                        const stateStyles =
+                          reto.estado === 'aprobado'
+                            ? { color: '#047857', background: '#ecfdf5', border: '1px solid #d1fae5' }
+                            : reto.estado === 'rechazado'
+                            ? { color: '#dc2626', background: '#fef2f2', border: '1px solid #fecaca' }
+                            : reto.estado === 'pendiente'
+                            ? { color: '#b45309', background: '#fffbeb', border: '1px solid #fde68a' }
+                            : { color: 'var(--text-secondary)', background: 'var(--surface-2)', border: '1px solid var(--border)' }
+
+                        return (
+                          <div
+                            key={key}
+                            style={{
+                              border: '1px solid var(--border)',
+                              borderRadius: 'var(--radius-md)',
+                              padding: '16px',
+                              background: 'var(--surface)',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              gap: '12px'
+                            }}
+                          >
+                            <div>
+                              <p style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-tertiary)', marginBottom: '4px' }}>
+                                {reto.moduloTitulo}
+                              </p>
+                              <p style={{ fontSize: '14px', fontWeight: 400, color: 'var(--text-primary)' }}>
+                                {reto.retoTitulo}
+                              </p>
+                            </div>
+
+                            <span
+                              style={{
+                                display: 'inline-flex',
+                                alignSelf: 'flex-start',
+                                padding: '4px 8px',
+                                borderRadius: '6px',
+                                fontSize: '10px',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.08em',
+                                fontWeight: 600,
+                                ...stateStyles
+                              }}
+                            >
+                              {reto.estado === 'sin_entrega' ? 'Sin entrega' : reto.estado}
+                            </span>
+
+                            {reto.evidenciaUrl && (
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <img
+                                  src={reto.evidenciaUrl}
+                                  alt={`Evidencia de ${student.firstName}`}
+                                  style={{
+                                    width: '100%',
+                                    height: '176px',
+                                    objectFit: 'cover',
+                                    borderRadius: 'var(--radius-md)',
+                                    border: '1px solid var(--border)',
+                                    background: 'var(--surface-2)'
+                                  }}
+                                  loading="lazy"
+                                />
+                                <a
+                                  href={reto.evidenciaUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  style={{
+                                    fontSize: '11px',
+                                    color: '#1e40af',
+                                    textDecoration: 'underline',
+                                    cursor: 'pointer'
+                                  }}
+                                >
+                                  Abrir imagen completa
+                                </a>
+                              </div>
+                            )}
+
+                            {reto.comentario && (
+                              <p style={{ fontSize: '12px', color: 'var(--text-secondary)', padding: '8px', background: 'var(--surface-2)', borderRadius: 'var(--radius-sm)' }}>
+                                {reto.comentario}
+                              </p>
+                            )}
+
+                            {reto.estado !== 'sin_entrega' && (
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <textarea
+                                  rows={2}
+                                  value={feedbackByKey[key] ?? reto.feedback ?? ''}
+                                  onChange={(e) => setFeedbackByKey((prev) => ({ ...prev, [key]: e.target.value }))}
+                                  placeholder="Feedback para el estudiante"
+                                  style={{
+                                    padding: '8px 12px',
+                                    border: '1px solid var(--border)',
+                                    borderRadius: 'var(--radius-sm)',
+                                    fontSize: '13px',
+                                    fontFamily: 'inherit',
+                                    resize: 'vertical'
+                                  }}
+                                />
+
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleReview(reto.moduleId, student.uid, 'aprobado')}
+                                    disabled={actionLoadingKey === `aprobado-${key}`}
+                                    style={{
+                                      flex: 1,
+                                      padding: '8px 12px',
+                                      fontSize: '10px',
+                                      textTransform: 'uppercase',
+                                      letterSpacing: '0.08em',
+                                      borderRadius: 'var(--radius-sm)',
+                                      border: '1px solid #86efac',
+                                      color: '#16a34a',
+                                      background: 'transparent',
+                                      cursor: actionLoadingKey === `aprobado-${key}` ? 'not-allowed' : 'pointer',
+                                      opacity: actionLoadingKey === `aprobado-${key}` ? 0.5 : 1,
+                                      transition: 'all 0.2s'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      if (actionLoadingKey !== `aprobado-${key}`) {
+                                        e.target.style.background = '#16a34a'
+                                        e.target.style.color = '#fff'
+                                      }
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.target.style.background = 'transparent'
+                                      e.target.style.color = '#16a34a'
+                                    }}
+                                  >
+                                    Aprobar
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleReview(reto.moduleId, student.uid, 'rechazado')}
+                                    disabled={actionLoadingKey === `rechazado-${key}`}
+                                    style={{
+                                      flex: 1,
+                                      padding: '8px 12px',
+                                      fontSize: '10px',
+                                      textTransform: 'uppercase',
+                                      letterSpacing: '0.08em',
+                                      borderRadius: 'var(--radius-sm)',
+                                      border: '1px solid #fca5a5',
+                                      color: '#dc2626',
+                                      background: 'transparent',
+                                      cursor: actionLoadingKey === `rechazado-${key}` ? 'not-allowed' : 'pointer',
+                                      opacity: actionLoadingKey === `rechazado-${key}` ? 0.5 : 1,
+                                      transition: 'all 0.2s'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      if (actionLoadingKey !== `rechazado-${key}`) {
+                                        e.target.style.background = '#dc2626'
+                                        e.target.style.color = '#fff'
+                                      }
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.target.style.background = 'transparent'
+                                      e.target.style.color = '#dc2626'
+                                    }}
+                                  >
+                                    Rechazar
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          ) : null}
+        </div>
+      </AdminLayout>
+    </>
   )
 }
 

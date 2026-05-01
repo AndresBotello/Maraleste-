@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AdminLayout from '../../components/layouts/AdminLayout'
 import { useAuth } from '../../context/AuthContext'
+import adminSharedStyles from './AdminSharedStyles'
+import globalStyles from './DashboardStyles'
 
 function AdminProfile() {
   const { user, profile, updateProfileData, refreshProfile } = useAuth()
@@ -72,25 +74,29 @@ function AdminProfile() {
   }
 
   return (
-    <AdminLayout activeSection="profile">
-      <div className="space-y-10">
-        <header className="flex flex-col gap-3">
-          <p className="text-xs uppercase tracking-[0.4em] text-gray-500">Perfil</p>
-          <h1 className="text-3xl md:text-4xl font-light text-gray-900">Editar informacion de la cuenta</h1>
-          <p className="text-base text-gray-600 max-w-2xl">
-            Puedes actualizar tu nombre, apellido y correo. El rol es informativo y no se puede modificar.
-          </p>
-        </header>
+    <>
+      <style>{adminSharedStyles + globalStyles}</style>
+      <AdminLayout activeSection="profile">
+        <div className="ad-root db-root">
+          {/* ── Header ── */}
+          <header className="db-header">
+            <div className="db-header-text">
+              <p className="db-eyebrow">Perfil</p>
+              <h1 className="db-title">Editar informacion de la cuenta</h1>
+              <p className="db-subtitle">Puedes actualizar tu nombre, apellido y correo. El rol es informativo y no se puede modificar.</p>
+            </div>
+          </header>
 
-        <section className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] items-start">
-          <aside className="rounded-3xl border border-black/10 bg-white/80 p-8 shadow-lg shadow-black/5 backdrop-blur-sm space-y-5">
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500">Rol actual</p>
-              <p className="mt-2 text-lg font-medium text-black">{roleLabel}</p>
-            </div>
-            <div className="rounded-2xl border border-black/10 bg-black/[0.02] p-4 text-sm text-gray-600">
-              Este dato se administra por permisos del sistema y no esta disponible para edicion desde este formulario.
-            </div>
+          <div style={{ display: 'grid', gap: '32px', gridTemplateColumns: 'minmax(0, 1fr)' }}>
+            {/* ── Sidebar ── */}
+            <aside className="db-card">
+              <div>
+                <p className="db-kpi-label">Rol actual</p>
+                <p style={{ marginTop: '8px', fontSize: '16px', fontWeight: 500, color: 'var(--text-primary)' }}>{roleLabel}</p>
+              </div>
+              <div style={{ marginTop: '16px', padding: '16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', background: 'var(--surface-2)', fontSize: '14px', color: 'var(--text-secondary)' }}>
+                Este dato se administra por permisos del sistema y no esta disponible para edicion desde este formulario.
+              </div>
           </aside>
 
           <section className="rounded-3xl border border-black/10 bg-white p-8 lg:p-10 shadow-xl shadow-black/10">
@@ -162,9 +168,10 @@ function AdminProfile() {
               </div>
             </form>
           </section>
-        </section>
-      </div>
-    </AdminLayout>
+          </div>
+        </div>
+      </AdminLayout>
+    </>
   )
 }
 

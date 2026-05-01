@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import AdminLayout from '../../components/layouts/AdminLayout'
 import { createWorkshop, getWorkshops, deleteWorkshop, updateWorkshop } from '../../services/workshopService'
 import { NIVELES } from '../../data/constants'
+import adminSharedStyles from './AdminSharedStyles'
+import globalStyles from './DashboardStyles'
 
 const CATEGORIAS_TALLER = [
   { id: 'pintura', nombre: 'Pintura' },
@@ -223,18 +225,24 @@ function CreateWorkshops() {
   }
 
   return (
-    <AdminLayout activeSection={activeSection}>
-      <section>
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-light mb-4 tracking-tight text-black">
-            {editingWorkshopId ? 'Editar Taller' : 'Crear Talleres'}
-          </h1>
-          <p className="text-lg text-gray-500 font-light">
-            {editingWorkshopId
-              ? 'Actualiza la información del taller seleccionado'
-              : 'Organiza y gestiona los talleres presenciales y virtuales de Maraleste'}
-          </p>
-        </div>
+    <>
+      <style>{adminSharedStyles + globalStyles}</style>
+      <AdminLayout activeSection={activeSection}>
+        <div className="ad-root db-root">
+          {/* ── Header ── */}
+          <header className="db-header">
+            <div className="db-header-text">
+              <p className="db-eyebrow">Creación de contenido</p>
+              <h1 className="db-title">
+                {editingWorkshopId ? 'Editar Taller' : 'Crear Talleres'}
+              </h1>
+              <p className="db-subtitle">
+                {editingWorkshopId
+                  ? 'Actualiza la información del taller seleccionado'
+                  : 'Organiza y gestiona los talleres presenciales y virtuales de Maraleste'}
+              </p>
+            </div>
+          </header>
 
         {/* Status Messages */}
         {submitStatus && (
@@ -630,8 +638,9 @@ function CreateWorkshops() {
             ))}
           </div>
         </div>
-      </section>
-    </AdminLayout>
+        </div>
+      </AdminLayout>
+    </>
   )
 }
 

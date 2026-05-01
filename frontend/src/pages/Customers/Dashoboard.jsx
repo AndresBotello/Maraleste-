@@ -875,7 +875,7 @@ function CustomerDashboard() {
             className="cd-modal-backdrop absolute inset-0 bg-black/20 backdrop-blur-sm"
             onClick={() => setProfileModalOpen(false)}
           />
-          <aside className="cd-panel-modal absolute right-0 top-0 h-full w-full max-w-sm bg-white/90 backdrop-blur-xl shadow-xl overflow-y-auto">
+          <aside className="cd-panel-modal absolute right-0 top-0 z-10 h-full w-full max-w-sm bg-white/90 backdrop-blur-xl shadow-xl overflow-y-auto">
             <div className="cd-modal-header flex items-center justify-between border-b border-black/10 px-6 py-4 md:py-5 sticky top-0 bg-white/90">
               <div>
                 <p className="cd-eyebrow text-xs uppercase tracking-[0.3em] text-gray-500">Perfil</p>
@@ -927,7 +927,7 @@ function CustomerDashboard() {
             className="cd-modal-backdrop absolute inset-0 bg-black/30 backdrop-blur-sm"
             onClick={() => setNotificationsModalOpen(false)}
           />
-          <section className="cd-center-modal-card relative w-full max-w-3xl rounded-3xl border border-black/10 bg-white shadow-2xl max-h-[70vh] overflow-y-auto">
+          <section className="cd-center-modal-card relative z-10 w-full max-w-3xl rounded-3xl border border-black/10 bg-white shadow-2xl max-h-[70vh] overflow-y-auto">
             <header className="cd-modal-header flex flex-col gap-3 border-b border-black/10 px-4 md:px-6 py-4 md:py-5 md:flex-row md:items-center md:justify-between sticky top-0 bg-white">
               <div>
                 <p className="cd-eyebrow text-[10px] uppercase tracking-[0.3em] text-gray-500">Notificaciones</p>

@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import AdminLayout from '../../components/layouts/AdminLayout'
 import { createArtwork, getArtworks, deleteArtwork, toggleArtworkVisibility } from '../../services/artworkService'
+import adminSharedStyles from './AdminSharedStyles'
+import globalStyles from './DashboardStyles'
 
 const INITIAL_FORM = {
   titulo: '',
@@ -142,20 +144,22 @@ function ManageWorks() {
   }, [imagenPreview])
 
   return (
-    <AdminLayout activeSection={activeSection}>
-      <section>
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-light mb-4 tracking-tight text-black">
-            Gestionar Obras
-          </h1>
-          <p className="text-lg text-gray-500 font-light">
-            Administra las obras que aparecerán en la galería de la página principal
-          </p>
-        </div>
+    <>
+      <style>{adminSharedStyles + globalStyles}</style>
+      <AdminLayout activeSection={activeSection}>
+        <div className="ad-root db-root">
+          {/* ── Header ── */}
+          <header className="db-header">
+            <div className="db-header-text">
+              <p className="db-eyebrow">Gestión de contenido</p>
+              <h1 className="db-title">Gestionar Obras</h1>
+              <p className="db-subtitle">Administra las obras que aparecerán en la galería de la página principal</p>
+            </div>
+          </header>
 
-        {/* Mensaje de estado */}
-        {message.text && (
-          <div
+          {/* Mensaje de estado */}
+          {message.text && (
+            <div
             className={`mb-8 px-6 py-4 rounded-sm text-sm font-light ${
               message.type === 'success'
                 ? 'bg-green-50 text-green-800 border border-green-200'
@@ -519,8 +523,9 @@ function ManageWorks() {
             </div>
           )}
         </div>
-      </section>
-    </AdminLayout>
+        </div>
+      </AdminLayout>
+    </>
   )
 }
 

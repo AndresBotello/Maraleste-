@@ -667,7 +667,7 @@ const customerDashboardStyles = `
     inset: 0;
     background: rgba(0, 0, 0, 0.28);
     backdrop-filter: blur(4px);
-    z-index: 90;
+    z-index: 0;
   }
 
   .cd-center-modal-wrap {
@@ -689,6 +689,7 @@ const customerDashboardStyles = `
     border: 1px solid var(--cd-border);
     background: var(--cd-surface);
     box-shadow: 0 18px 36px rgba(20, 17, 12, 0.2);
+    z-index: 1;
   }
 
   .cd-modal-actions {
@@ -710,7 +711,7 @@ const customerDashboardStyles = `
     right: 0;
     height: 100%;
     width: min(410px, 100%);
-    z-index: 100;
+    z-index: 1;
     background: color-mix(in srgb, var(--cd-surface) 92%, transparent);
     border-left: 1px solid var(--cd-border);
     box-shadow: -8px 0 24px rgba(0, 0, 0, 0.15);
